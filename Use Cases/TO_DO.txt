@@ -1,0 +1,9 @@
+Modifications I will have to do(After discussion with the TA/Professor on obscure concepts):
+
+-Include/Extends 
+-Preconditions vs Alternative flows
+-Use Case Package
+-Domain entities
+-See if the initial diagram makes sense
+
+And Finalize the description of the Play music use case with the information above.
