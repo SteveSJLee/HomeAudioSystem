@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -48,6 +49,7 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JDatePickerImpl albumDatePicker;
 	private JLabel albumDateLabel;
 	private JButton addAlbumButton;
+	private JButton deleteAlbumButton;
 
 	// data elements
 	private String error = null;
@@ -93,6 +95,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		JDatePanelImpl datePanel = new JDatePanelImpl(model,p);
 		albumDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		addAlbumButton = new JButton();
+		deleteAlbumButton = new JButton();
 		albumDateLabel = new JLabel();
 
 		// global settings and listeners
@@ -116,6 +119,12 @@ public final class HomeAudioSystemPage extends JFrame {
 				addAlbumButtonActionPerformed(evt);
 			}
 		});
+		deleteAlbumButton.setText("Delete Album");
+		deleteAlbumButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				deleteAlbumButtonActionPerformed(evt);
+			}
+		});
 
 		// layout
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -136,11 +145,12 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(albumTitleTextField, 200, 200, 400)
 								.addComponent(albumGenreTextField, 200, 200, 400)
 								.addComponent(albumDatePicker)
-								.addComponent(addAlbumButton)))
+								.addComponent(addAlbumButton)
+								.addComponent(deleteAlbumButton)))
 				);
 
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumLabel});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumTitleTextField, albumGenreTextField, addAlbumButton});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumTitleTextField, albumGenreTextField, addAlbumButton, deleteAlbumButton});
 
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -159,6 +169,9 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addComponent(albumDatePicker))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(addAlbumButton))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(deleteAlbumButton))
+						
 				);
 
 		pack();
@@ -191,7 +204,15 @@ public final class HomeAudioSystemPage extends JFrame {
 		// this is needed because the size of the window change depending on whether an error message is shown or not
 		pack();
 	}
-
+	
+	private void deleteAlbumButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		// remove selected album from the list
+		int selectedIndex = albumList.getSelectedIndex();
+		if (selectedIndex != -1) {
+		albumList.removeItemAt(selectedIndex);
+		}
+	}
+	
 	private void addAlbumButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// call the controller
 		HomeAudioSystemController hasc = new HomeAudioSystemController();

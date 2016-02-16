@@ -43,6 +43,7 @@ public class HomeAudioSystemController {
 		has.addAlbum(ab);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
+	
 	public void addToPlaylist(Album album) throws InvalidInputException
 	{
 		
