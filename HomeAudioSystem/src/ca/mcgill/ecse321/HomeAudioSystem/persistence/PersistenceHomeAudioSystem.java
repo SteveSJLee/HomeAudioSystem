@@ -7,8 +7,10 @@ import ca.mcgill.ecse321.HomeAudioSystem.model.HAS;
 
 public class PersistenceHomeAudioSystem {
 
+	private static String filename = "homeaudiosystem.xml";
+
 	private static void initializeXStream() {
-		PersistenceXStream.setFilename("homeaudiosystem.xml");
+		PersistenceXStream.setFilename(filename);
 		PersistenceXStream.setAlias("album", Album.class);
 	}
 	
@@ -23,4 +25,7 @@ public class PersistenceHomeAudioSystem {
 		}
 	}
 
+	public static void setFileName (String name){
+		filename = name;
+	}
 }
