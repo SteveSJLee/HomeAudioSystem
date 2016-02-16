@@ -116,6 +116,7 @@ public class TestPersistence {
 		//				assertEquals(has.getAlbum(0), has.getPlaylist(0).getAlbum());
 
 
+
 	}
 
 }
