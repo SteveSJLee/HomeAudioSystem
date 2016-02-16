@@ -128,7 +128,7 @@ public final class HomeAudioSystemPage extends JFrame {
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
 								.addComponent(albumLabel)
-								.addComponent(albumTitleLabel)
+								.addComponent(albumTitleLabel)	
 								.addComponent(albumGenreLabel)
 								.addComponent(albumDateLabel))
 						.addGroup(layout.createParallelGroup()
@@ -139,8 +139,8 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(addAlbumButton)))
 				);
 
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumLabel});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumTitleTextField, albumGenreTextField, addAlbumButton});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumLabel,});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {addAlbumButton, albumTitleTextField, albumGenreTextField});
 
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -148,10 +148,10 @@ public final class HomeAudioSystemPage extends JFrame {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(albumLabel)
 						.addComponent(albumList))
+						
 				.addGroup(layout.createParallelGroup()
 						.addComponent(albumTitleLabel)
-						.addComponent(albumTitleTextField))
-				.addGroup(layout.createParallelGroup()		
+						.addComponent(albumTitleTextField)
 						.addComponent(albumGenreLabel)
 						.addComponent(albumGenreTextField))
 				.addGroup(layout.createParallelGroup()
@@ -222,6 +222,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		// update visuals
 		refreshData();
 	}
+
 
 
 }

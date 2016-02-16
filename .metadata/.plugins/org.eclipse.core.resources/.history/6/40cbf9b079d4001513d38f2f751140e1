@@ -148,10 +148,10 @@ public final class HomeAudioSystemPage extends JFrame {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(albumLabel)
 						.addComponent(albumList))
+						
 				.addGroup(layout.createParallelGroup()
 						.addComponent(albumTitleLabel)
-						.addComponent(albumTitleTextField))
-				.addGroup(layout.createParallelGroup()		
+						.addComponent(albumTitleTextField)
 						.addComponent(albumGenreLabel)
 						.addComponent(albumGenreTextField))
 				.addGroup(layout.createParallelGroup()
@@ -222,6 +222,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		// update visuals
 		refreshData();
 	}
+
 
 
 }
