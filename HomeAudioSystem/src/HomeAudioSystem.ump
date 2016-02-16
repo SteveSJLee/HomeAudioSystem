@@ -22,7 +22,8 @@ class Artist
 
 class Playlist
 {
-  name;  
+  name;
+  autounique id;  
   * -> * Song songs;  
   * -> * Album albums;
   * -> * Artist artists;

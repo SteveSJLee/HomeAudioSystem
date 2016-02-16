@@ -1,0 +1,52 @@
+package ca.mcgill.ecse321.HomeAudioSystem.persistence;
+
+import static org.junit.Assert.*;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Calendar;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.mcgill.ecse321.HomeAudioSystem.model.Album;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Artist;
+import ca.mcgill.ecse321.HomeAudioSystem.model.HAS;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Song;
+
+public class TestPersistence {
+
+	@Before
+	public void setUp() throws Exception {
+		HAS has = HAS.getInstance();
+		
+		// create Album
+		Calendar c = Calendar.getInstance();
+		c.set(2015, Calendar.FEBRUARY,17);
+		Date releaseDate = new Date(c.getTimeInMillis());
+		Album album = new Album("Goldberg Variations BWV 988", "Classic", releaseDate);
+		
+		// create Artist
+		Artist artist = new Artist("J.S.Bach");
+		
+		// create Song
+		//c.set(2,23);
+		//Time duration = new Time(c.getTimeInMillis());
+		Song song = new Song("Aria", "2:23", 1);
+		
+		// add to playlist 
+		Playlist pl = new Playlist();
+		
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}
