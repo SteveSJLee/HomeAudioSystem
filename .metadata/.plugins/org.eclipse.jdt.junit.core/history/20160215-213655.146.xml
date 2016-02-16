@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="TestHomeAudioSystemController" project="HomeAudioSystem" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="ca.mcgill.ecse321.HomeAudioSystem.controller.TestHomeAudioSystemController" time="0.0">
-    <testcase name="testCreateArtists" classname="ca.mcgill.ecse321.HomeAudioSystem.controller.TestHomeAudioSystemController" time="0.0"/>
-  </testsuite>
-</testrun>
