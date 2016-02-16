@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TestPersistence" project="HomeAudioSystem" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="ca.mcgill.ecse321.HomeAudioSystem.persistence.TestPersistence" time="0.347">
+    <testcase name="test" classname="ca.mcgill.ecse321.HomeAudioSystem.persistence.TestPersistence" time="0.347"/>
+  </testsuite>
+</testrun>

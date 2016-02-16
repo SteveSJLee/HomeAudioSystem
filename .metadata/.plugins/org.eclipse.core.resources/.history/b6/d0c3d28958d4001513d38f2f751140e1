@@ -1,0 +1,81 @@
+package ca.mcgill.ecse321.HomeAudioSystem.controller;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import ca.mcgill.ecse321.HomeAudio.System.persistence.PersistenceXStream;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Album;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Artist;
+import ca.mcgill.ecse321.HomeAudioSystem.model.HAS;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Location;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Playlist;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Song;
+
+public class TestHomeAudioSystemController {
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		PersistenceXStream.setFilename("test"+File.separator+"ca"+File.separator+"mcgill"+File.separator+"ecse321"+File.separator+"HomeAudioSystem"+
+				File.separator+"controller"+File.separator+"data.xml");
+		PersistenceXStream.setAlias("location", Location.class);
+		PersistenceXStream.setAlias("album", Album.class);
+		PersistenceXStream.setAlias("song", Song.class);
+		PersistenceXStream.setAlias("artist", Artist.class);
+		PersistenceXStream.setAlias("playlist", Playlist.class);
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+	}
+
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		HAS has = HAS.getInstance();
+		has.delete();
+	}
+
+	@Test
+	public void testCreateArtists() {
+		HAS has = HAS.getInstance();
+		assertEquals(0, has.getArtists().size());
+		
+		String name = "J.S.Bach";
+		
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
+		try {
+			hasc.createArtist(name);
+		} catch (InvalidInputException e) {
+			// check that no error occurred
+			fail();
+		}
+		
+		checkResultArtist(name, has);
+		
+		HAS has2 = (HAS) PersistenceXStream.loadFromXMLwithXStream();
+		
+		// check file contents
+		checkResultArtist(name, has2);
+	}
+	
+	private void checkResultArtist(String name, HAS has2) {
+		assertEquals(1, has2.getArtists().size());
+		assertEquals(name, has2.getArtist(0).getName());
+		assertEquals(0, has2.getAlbums().size());
+		assertEquals(0, has2.getPlaylists().size());
+		assertEquals(0, has2.getSongs().size());
+		assertEquals(0, has2.getLocations().size());
+		
+	}
+
+}

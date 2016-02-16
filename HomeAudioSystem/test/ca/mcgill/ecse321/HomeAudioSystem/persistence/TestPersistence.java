@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.mcgill.ecse321.HomeAudio.System.persistence.PersistenceXStream;
+import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceXStream;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Album;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Artist;
 import ca.mcgill.ecse321.HomeAudioSystem.model.HAS;

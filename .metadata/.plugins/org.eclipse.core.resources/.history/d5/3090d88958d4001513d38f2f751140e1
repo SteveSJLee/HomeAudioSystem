@@ -1,0 +1,24 @@
+package ca.mcgill.ecse321.HomeAudioSystem.controller;
+
+import ca.mcgill.ecse321.HomeAudio.System.persistence.PersistenceXStream;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Artist;
+import ca.mcgill.ecse321.HomeAudioSystem.model.HAS;
+
+public class HomeAudioSystemController {
+	
+	public HomeAudioSystemController ()
+	{
+	}
+	
+	public void createArtist(String name) throws InvalidInputException
+	{
+		if (name == null || name.trim().length() ==0)
+			throw new InvalidInputException("Participant name cannot be empty!");
+		
+		Artist a  = new Artist(name);
+		HAS has = HAS.getInstance();
+		has.addArtist(a);
+		PersistenceXStream.saveToXMLwithXStream(has);
+	}
+
+}
