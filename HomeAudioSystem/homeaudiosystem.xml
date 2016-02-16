@@ -13,20 +13,8 @@
       <releaseDate id="8">2016-02-17</releaseDate>
       <songs id="9"/>
     </album>
-    <album id="10">
-      <title>1</title>
-      <genre>2</genre>
-      <releaseDate id="11">2016-02-05</releaseDate>
-      <songs id="12"/>
-    </album>
-    <album id="13">
-      <title>1</title>
-      <genre>2</genre>
-      <releaseDate id="14">2016-02-04</releaseDate>
-      <songs id="15"/>
-    </album>
   </albums>
-  <artists id="16"/>
-  <playlists id="17"/>
-  <locations id="18"/>
+  <artists id="10"/>
+  <playlists id="11"/>
+  <locations id="12"/>
 </audiosystem>
