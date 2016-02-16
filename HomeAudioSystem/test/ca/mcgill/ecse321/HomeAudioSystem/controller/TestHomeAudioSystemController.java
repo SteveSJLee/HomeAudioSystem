@@ -40,95 +40,6 @@ public class TestHomeAudioSystemController {
 	}
 
 	@Test
-	public void testAddArtists() {
-		HAS has = HAS.getInstance();
-		assertEquals(0, has.getArtists().size());
-		
-		String name = "J.S.Bach";
-		
-		HomeAudioSystemController hasc = new HomeAudioSystemController();
-		try {
-			hasc.add_Artist(name);
-		} catch (InvalidInputException e) {
-			// check that no error occurred
-			fail();
-		}
-		
-		checkResultArtist(name, has);
-		
-		HAS has2 = (HAS) PersistenceXStream.loadFromXMLwithXStream();
-		
-		// check file contents
-		checkResultArtist(name, has2);
-	}
-	
-	@Test
-	public void testAddArtistNull() {
-		HAS has = HAS.getInstance();
-		assertEquals(0, has.getArtists().size());
-		
-		String name = null;
-		
-		String error = null;
-		HomeAudioSystemController hasc = new HomeAudioSystemController();
-		try {
-			hasc.add_Artist(name);
-		} catch (InvalidInputException e) {
-			error = e.getMessage();	
-		}
-		
-		// check error
-		assertEquals("Artist name cannot be empty!", error);
-		
-		// check no change in memory
-		assertEquals(0, has.getArtists().size());
-	}
-	
-	@Test
-	public void testAddArtistEmpty() {
-		HAS has = HAS.getInstance();
-		assertEquals(0, has.getArtists().size());
-		
-		String name = "";
-		
-		String error = null;
-		HomeAudioSystemController hasc = new HomeAudioSystemController();
-		try {
-			hasc.add_Artist(name);
-		} catch (InvalidInputException e) {
-			error = e.getMessage();	
-		}
-		
-		// check error
-		assertEquals("Artist name cannot be empty!", error);
-		
-		//check no change in memory
-		assertEquals(0, has.getArtists().size());
-	}
-	
-	@Test
-	public void testAddArtistSpaces() {
-		HAS has = HAS.getInstance();
-		assertEquals(0, has.getArtists().size());
-		
-		String name = " ";
-		
-		String error = null;
-		HomeAudioSystemController hasc = new HomeAudioSystemController();
-		try {
-			hasc.add_Artist(name);
-		} catch (InvalidInputException e) {
-			error = e.getMessage();	
-		}
-		
-		// check error
-		assertEquals("Artist name cannot be empty!", error);
-				
-		//check no change in memory
-		assertEquals(0, has.getArtists().size());
-	}
-	
-	@Test
 	public void testAddAlbum() {
 		HAS has = HAS.getInstance();
 		assertEquals(0, has.getAlbums().size());
@@ -231,15 +142,6 @@ public class TestHomeAudioSystemController {
 		
 		// check model in memory
 		assertEquals(0, rm.getAlbums().size());
-	}
-	
-	private void checkResultArtist(String name, HAS has2) {
-		assertEquals(1, has2.getArtists().size());
-		assertEquals(name, has2.getArtist(0).getName());
-		assertEquals(0, has2.getAlbums().size());
-		assertEquals(0, has2.getPlaylists().size());
-		assertEquals(0, has2.getSongs().size());
-		assertEquals(0, has2.getLocations().size());
 	}
 	
 	private void checkResultAlbum(String title, String genre, Date date, HAS has2) {

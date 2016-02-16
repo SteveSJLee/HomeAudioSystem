@@ -14,17 +14,6 @@ public class HomeAudioSystemController {
 	{
 	}
 	
-	public void add_Artist(String name) throws InvalidInputException
-	{
-		if (name == null || name.trim().length() ==0)
-			throw new InvalidInputException("Artist name cannot be empty!");
-		
-		Artist a  = new Artist(name);
-		HAS has = HAS.getInstance();
-		has.addArtist(a);
-		PersistenceXStream.saveToXMLwithXStream(has);
-	}
-
 	public void add_Album(String title, String genre, Date date) throws InvalidInputException
 	{
 		String error = "";
@@ -45,10 +34,6 @@ public class HomeAudioSystemController {
 	}
 	
 	public void delete_Album(String title, String genre, Date date) throws InvalidInputException
-	{
-		
-	}
-	public void addToPlaylist(Album album) throws InvalidInputException
 	{
 		
 	}
