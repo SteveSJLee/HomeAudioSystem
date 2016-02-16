@@ -15,7 +15,7 @@ public class PersistenceHomeAudioSystem {
 		PersistenceXStream.setAlias("audiosystem", HAS.class);
 	}
 	
-	public static void loadEventRegistrationModel() {
+	public static void loadHomeAudioSystemModel() {
 		HAS has = HAS.getInstance();
 		PersistenceHomeAudioSystem.initializeXStream();
 		HAS has2 = (HAS) PersistenceXStream.loadFromXMLwithXStream();

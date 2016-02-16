@@ -44,6 +44,10 @@ public class HomeAudioSystemController {
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 	
+	public void delete_Album(String title, String genre, Date date) throws InvalidInputException
+	{
+		
+	}
 	public void addToPlaylist(Album album) throws InvalidInputException
 	{
 		

@@ -6,7 +6,7 @@ import ca.mcgill.ecse321.HomeAudioSystem.view.HomeAudioSystemPage;
 public class HomeAudioSystem {
 	public static void main(String[] args) {
 		// load model 
-		PersistenceHomeAudioSystem.loadEventRegistrationModel();
+		PersistenceHomeAudioSystem.loadHomeAudioSystemModel();
 		
 		// start UI
 		java.awt.EventQueue.invokeLater(new Runnable() {
