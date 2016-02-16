@@ -7,8 +7,14 @@
       <releaseDate id="5">2016-02-17</releaseDate>
       <songs id="6"/>
     </album>
+    <album id="7">
+      <title>ddd</title>
+      <genre>dd</genre>
+      <releaseDate id="8">2016-02-17</releaseDate>
+      <songs id="9"/>
+    </album>
   </albums>
-  <artists id="7"/>
-  <playlists id="8"/>
-  <locations id="9"/>
+  <artists id="10"/>
+  <playlists id="11"/>
+  <locations id="12"/>
 </audiosystem>

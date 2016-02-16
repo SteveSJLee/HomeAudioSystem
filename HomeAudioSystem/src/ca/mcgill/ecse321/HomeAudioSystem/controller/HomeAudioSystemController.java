@@ -30,7 +30,7 @@ public class HomeAudioSystemController {
 		String error = "";
 		if (title == null || title.trim().length() == 0)
 			error = error + "Album title cannot be empty! ";
-		if (genre == null || title.trim().length() == 0)
+		if (genre == null || genre.trim().length() == 0)
 			error = error + "Album genre cannot be empty! ";
 		if (date == null)
 			error = error + "Album release date cannot be empty! ";
