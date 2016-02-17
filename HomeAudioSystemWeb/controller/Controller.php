@@ -21,10 +21,10 @@ class Controller
 			$error .= "@1Album name cannot be empty!";
 		}
 		if ($genre == null || strlen($genre) == 0){
-			$error .= "2@Album genre cannot be empty!";
+			$error .= "@2Album genre cannot be empty!";
 		}
 		if ($releasedate == null || strlen($releasedate) == 0){
-			$error .= "3@Album must have a release date!";
+			$error .= "@3Album must have a release date!";
 		}
 		
 		if($error = ""){
@@ -33,7 +33,7 @@ class Controller
 			$has = $pm->loadDataFromStore();
 			
 			// 3. Add new participant
-			$album = new Album($album_title, $album_genre, $album_releasedate);
+			$album = new Album($title, $genre, $releasedate);
 			$has->addAlbum($album);
 			
 			// 4. Write all of the data
@@ -41,5 +41,5 @@ class Controller
 		} else {
 			throw new Exception(trim($error));
 		}
-		}
+	}
 }
