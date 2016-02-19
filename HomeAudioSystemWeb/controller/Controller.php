@@ -28,7 +28,7 @@ class Controller
 			$error .= "@3Album must have a release date!1";
 		}
 		
-		if($error = ""){
+		if($error == ""){
 			// 2. Load all data
 			$pm = new PersistenceAudioSystem();
 			$has = $pm->loadDataFromStore();
