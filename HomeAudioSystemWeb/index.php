@@ -9,10 +9,13 @@
 	</head>
 	<body>
 		<?php 
-		require_once 'model/Album.php';
-		require_once 'persistence/PersistenceAudioSystem.php';
-		require_once 'model/HAS.php';
 		
+		require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\persistence\PersistenceAudioSystem.php';
+		require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\model\HAS.php';
+		require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\model\Album.php';
+		
+		
+		//retrieve the data from the model
 		$pm = new PersistenceAudioSystem();
 		$has = $pm->loadDataFromStore();
 		

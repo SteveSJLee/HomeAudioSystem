@@ -10,7 +10,7 @@ class PersistenceAudioSystem {
 	function loadDataFromStore() {
 		if (file_exists($this->filename)) {
 			$str = file_get_contents($this->filename);
-			$rm = unserialize($str);
+			$has = unserialize($str);
 		} else {
 			$has = HAS::getInstance();
 		}

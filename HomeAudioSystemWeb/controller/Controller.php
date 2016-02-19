@@ -1,13 +1,14 @@
 <?php
-require_once '\..\controller\InputValidator.php';
-require_once '\..\model\Album.php';
-require_once '\..\model\HAS.php';
-require_once '\..\persistence\PersistenceAudioSystem.php';
 
+require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\persistence\PersistenceAudioSystem.php';
+require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\model\HAS.php';
+require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\model\Album.php';
+require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\controller\InputValidator.php';
 
 class Controller
 {
-	public function __construct(){	
+	public function __construct()
+	{	
 	}
 	public function createAlbum($album_title, $album_genre, $album_releasedate){
 		//Validate Input
@@ -18,13 +19,13 @@ class Controller
 		$error = "";
 		
 		if ($title == null || strlen($title) == 0){
-			$error .= "@1Album name cannot be empty!";
+			$error .= "@1Album name cannot be empty! ";
 		}
 		if ($genre == null || strlen($genre) == 0){
-			$error .= "@2Album genre cannot be empty!";
+			$error .= "@2Album genre cannot be empty! ";
 		}
 		if ($releasedate == null || strlen($releasedate) == 0){
-			$error .= "@3Album must have a release date!";
+			$error .= "@3Album must have a release date!1";
 		}
 		
 		if($error = ""){
