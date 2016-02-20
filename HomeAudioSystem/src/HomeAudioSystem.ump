@@ -24,7 +24,9 @@ class Playlist
 {
   name;
   autounique id;  
-  * -> * Song songs;
+  * -> * Song songs;  
+  * -> * Album albums;
+  * -> * Artist artists;
 }
 
 class Location

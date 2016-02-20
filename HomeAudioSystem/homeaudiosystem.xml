@@ -13,8 +13,38 @@
       <releaseDate id="8">2016-02-17</releaseDate>
       <songs id="9"/>
     </album>
+    <album id="10">
+      <title>1</title>
+      <genre>2</genre>
+      <releaseDate id="11">2016-02-05</releaseDate>
+      <songs id="12"/>
+    </album>
+    <album id="13">
+      <title>1</title>
+      <genre>2</genre>
+      <releaseDate id="14">2016-02-04</releaseDate>
+      <songs id="15"/>
+    </album>
+    <album id="16">
+      <title>33</title>
+      <genre>33</genre>
+      <releaseDate id="17">2016-02-18</releaseDate>
+      <songs id="18"/>
+    </album>
+    <album id="19">
+      <title>1</title>
+      <genre>1</genre>
+      <releaseDate id="20">2016-02-04</releaseDate>
+      <songs id="21"/>
+    </album>
+    <album id="22">
+      <title>222</title>
+      <genre>22</genre>
+      <releaseDate id="23">2016-02-05</releaseDate>
+      <songs id="24"/>
+    </album>
   </albums>
-  <artists id="10"/>
-  <playlists id="11"/>
-  <locations id="12"/>
+  <artists id="25"/>
+  <playlists id="26"/>
+  <locations id="27"/>
 </audiosystem>

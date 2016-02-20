@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse321.HomeAudioSystem.model;
 
-// line 30 "../../../../../HomeAudioSystem.ump"
+// line 31 "../../../../../HomeAudioSystem.ump"
 public class Location
 {
 
