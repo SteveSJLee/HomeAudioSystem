@@ -18,6 +18,31 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
+    <!-- Display errors if any-->
+    <TextView
+        android:id="@+id/errortodisplay"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent" />
+
+    <!-- Select Album -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/albumspinner_label"/>
+
+        <Spinner
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="end"
+            android:id="@+id/albumspinner"/>
+
+    </LinearLayout>
+
     <!--album title -->
     <EditText
         android:layout_height="wrap_content"

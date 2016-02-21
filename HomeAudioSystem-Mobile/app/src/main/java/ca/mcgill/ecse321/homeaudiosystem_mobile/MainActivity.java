@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.homeaudiosystem_mobile;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,16 +10,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 
-    import ca.mcgill.ecse321.HomeAudioSystem.controller.HomeAudioSystemController;
+import ca.mcgill.ecse321.HomeAudioSystem.controller.HomeAudioSystemController;
     import ca.mcgill.ecse321.HomeAudioSystem.controller.InvalidInputException;
-    import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceHomeAudioSystem;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Album;
+import ca.mcgill.ecse321.HomeAudioSystem.model.HAS;
+import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceHomeAudioSystem;
 
     public class MainActivity extends AppCompatActivity {
 
+        private HashMap<Integer, Album> albums;
         private String error = null;
 
     @Override
@@ -75,13 +83,36 @@ import java.sql.Date;
         tv = (TextView) findViewById(R.id.newalbumgenre_name);
         tv.setText("");
 
+        HAS has = HAS.getInstance();
+
+        // Initialize the data in the album spinner
+        Spinner spinner = (Spinner) findViewById(R.id.albumspinner);
+        ArrayAdapter<CharSequence> albumAdapter = new
+                ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item);
+        albumAdapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+        this.albums = new HashMap<Integer, Album>();
+
+        int i = 0;
+        for(Iterator<Album> albums = has.getAlbums().iterator();
+            albums.hasNext(); i++){
+            Album p = albums.next();
+            albumAdapter.add(p.getTitle());
+            this.albums.put(i, p);
+        }
+        spinner.setAdapter(albumAdapter);
+
+        // show errors if any
+        TextView errorDisplay = (TextView)findViewById(R.id.errortodisplay);
+        errorDisplay.setTextColor(Color.RED);
+        errorDisplay.setText(error);
         // HAS
     }
 
     //Method to add events
     public void addAlbum(View v) {
-        TextView tvName = (TextView) findViewById(R.id.newalbumtitle_name);
-        TextView tvName2 = (TextView) findViewById(R.id.newalbumgenre_name);
+        TextView tvTitle = (TextView) findViewById(R.id.newalbumtitle_name);
+        TextView tvGenre = (TextView) findViewById(R.id.newalbumgenre_name);
 
         TextView tvDate = (TextView) findViewById(R.id.newalbum_date);
         String strDate = tvDate.getText().toString();
@@ -96,8 +127,8 @@ import java.sql.Date;
         error = null;
         //calling create event method
         try {
-            System.out.println(tvName.getText().toString() +"   " + tvName2.getText().toString());
-            pc.add_Album(tvName.getText().toString(), tvName2.getText().toString(), date);
+            System.out.println(tvTitle.getText().toString() + "   " + tvGenre.getText().toString());
+            pc.add_Album(tvTitle.getText().toString(), tvGenre.getText().toString(), date);
         } catch (InvalidInputException e) {
             error = e.getMessage();
         }

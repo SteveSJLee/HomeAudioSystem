@@ -6,4 +6,5 @@
     <string name="newalbumgenre_hint">album genre?</string>
     <string name="newalbum_date_label">Release Date?</string>
     <string name="newalbum_date_first">01-01-2016</string>
+    <string name="albumspinner_label">albumSpinner</string>
 </resources>
