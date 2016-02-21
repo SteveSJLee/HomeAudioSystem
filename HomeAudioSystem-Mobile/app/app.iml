@@ -90,6 +90,7 @@
     <orderEntry type="library" exported="" name="support-v4-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="xstream-1.4.7" level="project" />
     <orderEntry type="library" exported="" name="HomeAudioSystem2" level="project" />
     <orderEntry type="library" exported="" name="HomeAudioSystem" level="project" />
     <orderEntry type="library" exported="" name="HomeAudioSystem3" level="project" />

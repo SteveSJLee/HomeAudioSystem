@@ -40,7 +40,6 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JLabel errorMessage;
 	private JComboBox<String> albumList;
 	private JLabel albumLabel;
-	private JButton addButton;
 
 	private JTextField albumTitleTextField;
 	private JLabel albumTitleLabel;
@@ -49,7 +48,6 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JDatePickerImpl albumDatePicker;
 	private JLabel albumDateLabel;
 	private JButton addAlbumButton;
-	private JButton deleteAlbumButton;
 
 	// data elements
 	private String error = null;
@@ -79,8 +77,6 @@ public final class HomeAudioSystemPage extends JFrame {
 		});
 		albumLabel = new JLabel();
 
-		addButton = new JButton();
-		
 		// elements for album
 		albumTitleTextField = new JTextField();
 		albumTitleLabel = new JLabel();
@@ -95,7 +91,6 @@ public final class HomeAudioSystemPage extends JFrame {
 		JDatePanelImpl datePanel = new JDatePanelImpl(model,p);
 		albumDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		addAlbumButton = new JButton();
-		deleteAlbumButton = new JButton();
 		albumDateLabel = new JLabel();
 
 		// global settings and listeners
@@ -103,12 +98,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		setTitle("HAS - Home Audio System");
 
 		albumLabel.setText("Select Album:");
-		addButton.setText("Add to Playlist");
-		addButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				addButtonActionPerformed(evt);
-			}
-		});
+
 
 		albumTitleLabel.setText("Title:");
 		albumGenreLabel.setText("Genre:");
@@ -117,12 +107,6 @@ public final class HomeAudioSystemPage extends JFrame {
 		addAlbumButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				addAlbumButtonActionPerformed(evt);
-			}
-		});
-		deleteAlbumButton.setText("Delete Album");
-		deleteAlbumButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				deleteAlbumButtonActionPerformed(evt);
 			}
 		});
 
@@ -145,12 +129,11 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(albumTitleTextField, 200, 200, 400)
 								.addComponent(albumGenreTextField, 200, 200, 400)
 								.addComponent(albumDatePicker)
-								.addComponent(addAlbumButton)
-								.addComponent(deleteAlbumButton)))
+								.addComponent(addAlbumButton)))
 				);
 
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumLabel});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumTitleTextField, albumGenreTextField, addAlbumButton, deleteAlbumButton});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumTitleTextField, albumGenreTextField, addAlbumButton});
 
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -169,8 +152,6 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addComponent(albumDatePicker))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(addAlbumButton))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(deleteAlbumButton))
 						
 				);
 
@@ -205,14 +186,6 @@ public final class HomeAudioSystemPage extends JFrame {
 		pack();
 	}
 	
-	private void deleteAlbumButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		// remove selected album from the list
-		int selectedIndex = albumList.getSelectedIndex();
-		if (selectedIndex != -1) {
-		albumList.removeItemAt(selectedIndex);
-		}
-	}
-	
 	private void addAlbumButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// call the controller
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
@@ -221,24 +194,6 @@ public final class HomeAudioSystemPage extends JFrame {
 			hasc.add_Album(albumTitleTextField.getText(), albumGenreTextField.getText(), (java.sql.Date) albumDatePicker.getModel().getValue());
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
-		}
-		// update visuals
-		refreshData();
-	}
-
-	private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		error = "";
-		if (selectedAlbum < 0)
-			error = error + "Album needs to be selected for playlist! ";
-		error = error.trim();
-		if (error.length() == 0) {
-			// call the controller
-			HomeAudioSystemController hasc = new HomeAudioSystemController();
-			try {
-				hasc.addToPlaylist(albums.get(selectedAlbum));
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
 		}
 		// update visuals
 		refreshData();

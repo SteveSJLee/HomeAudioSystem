@@ -1,9 +1,9 @@
 <?php
 
-require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\persistence\PersistenceAudioSystem.php';
-require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\model\HAS.php';
-require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\model\Album.php';
-require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\controller\InputValidator.php';
+require_once 'persistence\PersistenceAudioSystem.php';
+require_once 'model\HAS.php';
+require_once 'model\Album.php';
+require_once 'controller\InputValidator.php';
 
 //2/19/2016
 
