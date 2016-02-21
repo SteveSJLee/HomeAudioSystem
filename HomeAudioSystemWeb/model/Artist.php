@@ -1,6 +1,6 @@
 <?php
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.23.0-f2a13e6 modeling language!*/
+/*This code was generated using the UMPLE 1.23.0-5871cbd modeling language!*/
 
 class Artist
 {
