@@ -39,7 +39,7 @@
 			}
 			?>
 			</span>
-			<p>Release Date? <input type="text" name="album_releasedate"/>
+			<p>Release Date? <input type="date" name="album_releasedate" value="<?php echo date('Y-m-d');?>"/>
 			<span class="error">
 			<?php 
 			if (isset($_SESSION['errorAlbumReleaseDate']) && !empty($_SESSION['errorAlbumReleaseDate'])){
