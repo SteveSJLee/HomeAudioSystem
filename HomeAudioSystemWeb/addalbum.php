@@ -1,5 +1,5 @@
 <?php
-require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\controller\Controller.php';
+require_once 'controller\Controller.php';
 
 
 session_start();
