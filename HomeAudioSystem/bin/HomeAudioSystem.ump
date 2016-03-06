@@ -33,6 +33,10 @@ class Location
 {
   name;
   int volume;
+  boolean isMuted;
+  * -> * Song songs;
+  * -> * Album albums;
+  * -> * Playlist playlists;
 }
 
 class HAS

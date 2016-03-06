@@ -43,8 +43,19 @@
       <releaseDate id="23">2016-02-05</releaseDate>
       <songs id="24"/>
     </album>
+    <album id="25">
+      <title>123</title>
+      <genre>jazz</genre>
+      <releaseDate id="26">2016-02-16</releaseDate>
+      <songs id="27"/>
+    </album>
   </albums>
-  <artists id="25"/>
-  <playlists id="26"/>
-  <locations id="27"/>
+  <artists id="28">
+    <artist id="29">
+      <name>A</name>
+      <songs id="30"/>
+    </artist>
+  </artists>
+  <playlists id="31"/>
+  <locations id="32"/>
 </audiosystem>

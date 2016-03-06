@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.HomeAudioSystem.view;
 
 import java.awt.Color;
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,21 +39,32 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JLabel errorMessage;
 	private JComboBox<String> albumList;
 	private JLabel albumLabel;
+	
+	private JComboBox<Genre> albumGenreTextField;
+	private JLabel albumGenreLabel;
 
 	private JTextField albumTitleTextField;
 	private JLabel albumTitleLabel;
-	private JTextField albumGenreTextField;
-	private JLabel albumGenreLabel;
+//	private JTextField albumGenreTextField;
+//	private JLabel albumGenreLabel;
 	private JDatePickerImpl albumDatePicker;
 	private JLabel albumDateLabel;
 	private JButton addAlbumButton;
-
+	
+	private JComboBox<String> artistList;
+	private JLabel artistLabel;
+	private JTextField artistNameTextField;
+	private JLabel artistNameLabel;
+	private JButton addArtistButton;
+	
 	// data elements
 	private String error = null;
 	private Integer selectedAlbum = -1;
 	private HashMap<Integer, Album> albums;
+	private Integer selectedArtist = -1;
+	private HashMap<Integer, Artist> artists;
 
-	/** Creates new form EventRegistrationPage */
+	/** Creates new form HomeAudioSystemPage */
 	public HomeAudioSystemPage() {
 		initComponents();
 		refreshData();
@@ -77,10 +87,22 @@ public final class HomeAudioSystemPage extends JFrame {
 		});
 		albumLabel = new JLabel();
 
+		// elements for creating artist
+		artistList = new JComboBox<String>(new String[0]);
+		artistList.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				JComboBox<String> cb = (JComboBox<String>) evt.getSource();
+				selectedAlbum = cb.getSelectedIndex();
+			}
+		});
+		artistLabel = new JLabel();
+		
 		// elements for album
 		albumTitleTextField = new JTextField();
 		albumTitleLabel = new JLabel();
-		albumGenreTextField = new JTextField();
+		
+		albumGenreTextField = new JComboBox(Genre.values());
+//		albumGenreTextField = new JTextField();
 		albumGenreLabel = new JLabel();
 
 		SqlDateModel model = new SqlDateModel();
@@ -93,13 +115,17 @@ public final class HomeAudioSystemPage extends JFrame {
 		addAlbumButton = new JButton();
 		albumDateLabel = new JLabel();
 
+		// elements for artist
+		artistNameTextField = new JTextField();
+		artistNameLabel = new JLabel();
+		addArtistButton = new JButton();
+		
 		// global settings and listeners
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("HAS - Home Audio System");
 
 		albumLabel.setText("Select Album:");
-
-
+		
 		albumTitleLabel.setText("Title:");
 		albumGenreLabel.setText("Genre:");
 		albumDateLabel.setText("Release Date:");
@@ -107,6 +133,15 @@ public final class HomeAudioSystemPage extends JFrame {
 		addAlbumButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				addAlbumButtonActionPerformed(evt);
+			}
+		});
+		
+		artistLabel.setText("Artist:");
+		artistNameLabel.setText("Name:");
+		addArtistButton.setText("Add Artist");
+		addArtistButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				addArtistButtonActionPerformed(evt);
 			}
 		});
 
@@ -129,21 +164,33 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(albumTitleTextField, 200, 200, 400)
 								.addComponent(albumGenreTextField, 200, 200, 400)
 								.addComponent(albumDatePicker)
-								.addComponent(addAlbumButton)))
+								.addComponent(addAlbumButton))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(artistLabel)
+								.addComponent(artistNameLabel))			
+						.addGroup(layout.createParallelGroup()
+								.addComponent(artistList)
+								.addComponent(artistNameTextField, 200, 200, 400)
+								.addComponent(addArtistButton)))
 				);
 
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumLabel});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumLabel, artistLabel});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumTitleTextField, albumGenreTextField, addAlbumButton});
-
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {artistNameTextField, addArtistButton});
+				
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
 				.addComponent(errorMessage)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(albumLabel)
-						.addComponent(albumList))
+						.addComponent(albumList)
+						.addComponent(artistLabel)
+						.addComponent(artistList))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(albumTitleLabel)
-						.addComponent(albumTitleTextField))
+						.addComponent(albumTitleTextField)
+						.addComponent(artistNameLabel)
+						.addComponent(artistNameTextField))
 				.addGroup(layout.createParallelGroup()		
 						.addComponent(albumGenreLabel)
 						.addComponent(albumGenreTextField))
@@ -151,7 +198,8 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addComponent(albumDateLabel)
 						.addComponent(albumDatePicker))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(addAlbumButton))
+						.addComponent(addAlbumButton)
+						.addComponent(addArtistButton))
 						
 				);
 
@@ -176,10 +224,25 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 			selectedAlbum = -1;
 			albumList.setSelectedIndex(selectedAlbum);
-			// participant
+			// artist list
+			artists = new HashMap<Integer, Artist>();
+			artistList.removeAllItems();
+			Iterator<Artist> aIt = has.getArtists().iterator();
+			index = 0;
+			while (aIt.hasNext()) {
+				Artist a = aIt.next();
+				artists.put(index, a);
+				artistList.addItem(a.getName());
+				index++;
+			}
+			selectedArtist = -1;
+			artistList.setSelectedIndex(selectedArtist);		
+			// album
 			albumTitleTextField.setText("");
-			albumGenreTextField.setText("");
+//			albumGenreTextField.setText("");
 			albumDatePicker.getModel().setValue(null);
+			// artist
+			artistNameTextField.setText("");
 		}
 
 		// this is needed because the size of the window change depending on whether an error message is shown or not
@@ -191,7 +254,19 @@ public final class HomeAudioSystemPage extends JFrame {
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		error = null;
 		try {
-			hasc.add_Album(albumTitleTextField.getText(), albumGenreTextField.getText(), (java.sql.Date) albumDatePicker.getModel().getValue());
+			hasc.addAlbum(albumTitleTextField.getText(), (String) albumGenreTextField.getSelectedItem(), (java.sql.Date) albumDatePicker.getModel().getValue());
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		// update visuals
+		refreshData();
+	}
+	private void addArtistButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		// call the controller
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
+		error = null;
+		try {
+			hasc.addArtist(artistNameTextField.getText());
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
@@ -200,8 +275,5 @@ public final class HomeAudioSystemPage extends JFrame {
 	}
 
 
+
 }
-
-
-
-

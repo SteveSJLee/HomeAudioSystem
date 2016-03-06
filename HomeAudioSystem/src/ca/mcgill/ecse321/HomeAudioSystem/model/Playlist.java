@@ -9,11 +9,20 @@ public class Playlist
 {
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextId = 1;
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Playlist Attributes
   private String name;
+
+  //Autounique Attributes
+  private int id;
 
   //Playlist Associations
   private List<Song> songs;
@@ -27,6 +36,7 @@ public class Playlist
   public Playlist(String aName)
   {
     name = aName;
+    id = nextId++;
     songs = new ArrayList<Song>();
     albums = new ArrayList<Album>();
     artists = new ArrayList<Artist>();
@@ -47,6 +57,11 @@ public class Playlist
   public String getName()
   {
     return name;
+  }
+
+  public int getId()
+  {
+    return id;
   }
 
   public Song getSong(int index)
@@ -322,6 +337,7 @@ public class Playlist
   {
 	  String outputString = "";
     return super.toString() + "["+
+            "id" + ":" + getId()+ "," +
             "name" + ":" + getName()+ "]"
      + outputString;
   }
