@@ -254,7 +254,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		error = null;
 		try {
-			hasc.addAlbum(albumTitleTextField.getText(), (String) albumGenreTextField.getSelectedItem(), (java.sql.Date) albumDatePicker.getModel().getValue());
+			hasc.addAlbum(albumTitleTextField.getText(), String.valueOf(albumGenreTextField.getSelectedItem()), (java.sql.Date) albumDatePicker.getModel().getValue());
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
