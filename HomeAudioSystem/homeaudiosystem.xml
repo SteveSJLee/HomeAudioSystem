@@ -2,58 +2,10 @@
   <songs id="2"/>
   <albums id="3">
     <album id="4">
-      <title>3</title>
-      <genre>3</genre>
+      <title>Take Five</title>
+      <genre>JAZZ</genre>
       <releaseDate id="5">2016-02-17</releaseDate>
       <songs id="6"/>
-    </album>
-    <album id="7">
-      <title>ddd</title>
-      <genre>dd</genre>
-      <releaseDate id="8">2016-02-17</releaseDate>
-      <songs id="9"/>
-    </album>
-    <album id="10">
-      <title>1</title>
-      <genre>2</genre>
-      <releaseDate id="11">2016-02-05</releaseDate>
-      <songs id="12"/>
-    </album>
-    <album id="13">
-      <title>1</title>
-      <genre>2</genre>
-      <releaseDate id="14">2016-02-04</releaseDate>
-      <songs id="15"/>
-    </album>
-    <album id="16">
-      <title>33</title>
-      <genre>33</genre>
-      <releaseDate id="17">2016-02-18</releaseDate>
-      <songs id="18"/>
-    </album>
-    <album id="19">
-      <title>1</title>
-      <genre>1</genre>
-      <releaseDate id="20">2016-02-04</releaseDate>
-      <songs id="21"/>
-    </album>
-    <album id="22">
-      <title>222</title>
-      <genre>22</genre>
-      <releaseDate id="23">2016-02-05</releaseDate>
-      <songs id="24"/>
-    </album>
-    <album id="25">
-      <title>123</title>
-      <genre>jazz</genre>
-      <releaseDate id="26">2016-02-16</releaseDate>
-      <songs id="27"/>
-    </album>
-    <album id="28">
-      <title>Take Five</title>
-      <genre>Rock</genre>
-      <releaseDate id="29">2016-03-09</releaseDate>
-      <songs id="30"/>
     </album>
   </albums>
   <artists id="31">
