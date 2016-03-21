@@ -1,19 +1,52 @@
 <audiosystem id="1">
-  <songs id="2"/>
-  <albums id="3">
-    <album id="4">
-      <title>Take Five</title>
-      <genre>JAZZ</genre>
-      <releaseDate id="5">2016-02-17</releaseDate>
-      <songs id="6"/>
-    </album>
+  <songs id="2">
+    <song id="3">
+      <title>Take 5</title>
+      <duration>05:30</duration>
+      <positionInAlbum>1</positionInAlbum>
+      <album id="4">
+        <title>Take Five</title>
+        <genre>JAZZ</genre>
+        <releaseDate id="5">2016-02-17</releaseDate>
+        <songs id="6">
+          <song reference="3"/>
+        </songs>
+      </album>
+      <artist id="7">
+        <name>The Dave Brubeck Quartet</name>
+        <songs id="8">
+          <song reference="3"/>
+        </songs>
+      </artist>
+    </song>
+    <song id="9">
+      <title>Aria</title>
+      <duration>02:30</duration>
+      <positionInAlbum>1</positionInAlbum>
+      <album id="10">
+        <title>Goldberg Variations BWV 988</title>
+        <genre>Classical</genre>
+        <releaseDate id="11">2015-02-17</releaseDate>
+        <songs id="12">
+          <song reference="9"/>
+        </songs>
+      </album>
+      <artist id="13">
+        <name>J.S.Bach</name>
+        <songs id="14">
+          <song reference="9"/>
+        </songs>
+      </artist>
+    </song>
+  </songs>
+  <albums id="15">
+    <album reference="4"/>
+    <album reference="10"/>
   </albums>
-  <artists id="31">
-    <artist id="32">
-      <name>A</name>
-      <songs id="33"/>
-    </artist>
+  <artists id="19">
+    <artist reference="7"/>
+    <artist reference="13"/>
   </artists>
-  <playlists id="34"/>
-  <locations id="35"/>
+  <playlists id="22"/>
+  <locations id="23"/>
 </audiosystem>

@@ -29,6 +29,7 @@
   <playlists id="11">
     <playlist id="12">
       <name>playlist</name>
+      <id>1</id>
       <songs id="13"/>
       <albums id="14"/>
       <artists id="15"/>
@@ -38,6 +39,10 @@
     <location id="17">
       <name>Living Room</name>
       <volume>10</volume>
+      <isMuted>false</isMuted>
+      <songs id="18"/>
+      <albums id="19"/>
+      <playlists id="20"/>
     </location>
   </locations>
 </ca.mcgill.ecse321.HomeAudioSystem.model.HAS>

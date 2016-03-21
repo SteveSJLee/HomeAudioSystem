@@ -5,6 +5,7 @@ import java.util.Iterator;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Album;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Artist;
 import ca.mcgill.ecse321.HomeAudioSystem.model.HAS;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Song;
 
 public class PersistenceHomeAudioSystem {
 
@@ -14,6 +15,7 @@ public class PersistenceHomeAudioSystem {
 		PersistenceXStream.setFilename(filename);
 		PersistenceXStream.setAlias("album", Album.class);
 		PersistenceXStream.setAlias("artist", Artist.class);
+		PersistenceXStream.setAlias("song", Song.class);
 		PersistenceXStream.setAlias("audiosystem", HAS.class);
 	}
 	
@@ -28,6 +30,10 @@ public class PersistenceHomeAudioSystem {
 			Iterator<Artist> aIt = has2.getArtists().iterator();
 			while (aIt.hasNext())
 				has.addArtist(aIt.next());
+			Iterator<Song> sIt = has2.getSongs().iterator();
+			while (sIt.hasNext())
+				has.addSong(sIt.next());
+			
 		}
 	}
 
