@@ -80,9 +80,9 @@ public class Artist
     return 0;
   }
 
-  public Song addSong(String aTitle, String aDuration, int aPositionInAlbum, Album aAlbum)
+  public Song addSong(String aTitle, String aDuration, Album aAlbum)
   {
-    return new Song(aTitle, aDuration, aPositionInAlbum, aAlbum, this);
+    return new Song(aTitle, aDuration, aAlbum, this);
   }
 
   public boolean addSong(Song aSong)

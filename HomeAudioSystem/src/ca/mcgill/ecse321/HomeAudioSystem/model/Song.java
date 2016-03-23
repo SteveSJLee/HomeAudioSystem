@@ -24,11 +24,10 @@ public class Song
   // CONSTRUCTOR
   //------------------------
 
-  public Song(String aTitle, String aDuration, int aPositionInAlbum, Album aAlbum, Artist aArtist)
+  public Song(String aTitle, String aDuration, Album aAlbum, Artist aArtist)
   {
     title = aTitle;
     duration = aDuration;
-    positionInAlbum = aPositionInAlbum;
     boolean didAddAlbum = setAlbum(aAlbum);
     if (!didAddAlbum)
     {

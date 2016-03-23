@@ -45,24 +45,29 @@ public class HomeAudioSystemController {
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 	
-	public void addSong(String title, String duration, int positionInAlbum, Album album, Artist artist) throws InvalidInputException
+	public void addSong(String title, String duration, Album album, Artist artist) throws InvalidInputException
 	{
-		if (title == null || title.trim().length() ==0)
-			throw new InvalidInputException("Song title cannot be empty!");
-		if (duration == null || duration.trim().length() ==0)
-			throw new InvalidInputException("Song duration cannot be empty!");
-		if (Integer.toString(positionInAlbum) == null || Integer.toString(positionInAlbum).trim().length() ==0)
-			throw new InvalidInputException("Song position in album cannot be empty!");
-		if (positionInAlbum < 1)
-			throw new InvalidInputException("Song position in album cannot be negative!");
-		if (album == null)
-			throw new InvalidInputException("Song album cannot be empty!");
-		if (artist == null)
-			throw new InvalidInputException("Song artist cannot be empty!");
+		String error = "";
+		if (title == null || title.trim().length() == 0)
+			error = error +"Song title cannot be empty! ";
+		if (duration == null || duration.trim().length() == 0)
+			error = error + "Song duration cannot be empty! ";
+//		if (positionInAlbum < 1)
+//			error = error + "Song position in album cannot be empty! ";
+		if (album == null || album.toString().trim().equals(""))
+			error = error + "Song album cannot be empty! ";
+		if (artist == null || artist.toString().trim().equals(""))
+			error = error + "Song artist cannot be empty! ";
+		error = error.trim();
+		if (error.length() > 0)
+			throw new InvalidInputException(error);
 		
-		Song s = new Song(title, duration, positionInAlbum, album, artist);
+		Song s = new Song(title, duration, album, artist);
 		HAS has = HAS.getInstance();
 		has.addSong(s);
+		album.addSong(s);
+		artist.addSong(s);
+		s.setPositionInAlbum(album.getSongs().indexOf(s) + 1);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 	

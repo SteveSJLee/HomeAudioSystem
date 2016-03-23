@@ -111,9 +111,9 @@ public class Album
     return 0;
   }
 
-  public Song addSong(String aTitle, String aDuration, int aPositionInAlbum, Artist aArtist)
+  public Song addSong(String aTitle, String aDuration, Artist aArtist)
   {
-    return new Song(aTitle, aDuration, aPositionInAlbum, this, aArtist);
+    return new Song(aTitle, aDuration, this, aArtist);
   }
 
   public boolean addSong(Song aSong)

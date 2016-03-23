@@ -10,43 +10,111 @@
         <releaseDate id="5">2016-02-17</releaseDate>
         <songs id="6">
           <song reference="3"/>
+          <song id="7">
+            <title>1</title>
+            <duration>2</duration>
+            <positionInAlbum>3</positionInAlbum>
+            <album reference="4"/>
+            <artist id="8">
+              <name>The Dave Brubeck Quartet</name>
+              <songs id="9">
+                <song reference="3"/>
+                <song reference="7"/>
+                <song id="10">
+                  <title>Take 6</title>
+                  <duration>04:30</duration>
+                  <positionInAlbum>1</positionInAlbum>
+                  <album reference="4"/>
+                  <artist reference="8"/>
+                </song>
+              </songs>
+            </artist>
+          </song>
+          <song reference="10"/>
         </songs>
       </album>
-      <artist id="7">
-        <name>The Dave Brubeck Quartet</name>
-        <songs id="8">
-          <song reference="3"/>
-        </songs>
-      </artist>
+      <artist reference="8"/>
     </song>
-    <song id="9">
+    <song id="11">
       <title>Aria</title>
       <duration>02:30</duration>
       <positionInAlbum>1</positionInAlbum>
-      <album id="10">
+      <album id="12">
         <title>Goldberg Variations BWV 988</title>
         <genre>Classical</genre>
-        <releaseDate id="11">2015-02-17</releaseDate>
-        <songs id="12">
-          <song reference="9"/>
+        <releaseDate id="13">2015-02-17</releaseDate>
+        <songs id="14">
+          <song reference="11"/>
         </songs>
       </album>
-      <artist id="13">
+      <artist id="15">
         <name>J.S.Bach</name>
-        <songs id="14">
-          <song reference="9"/>
+        <songs id="16">
+          <song reference="11"/>
         </songs>
       </artist>
     </song>
+    <song reference="10"/>
+    <song id="17">
+      <title>3</title>
+      <duration>03:20</duration>
+      <positionInAlbum>1</positionInAlbum>
+      <album id="18">
+        <title>1</title>
+        <genre>Rock</genre>
+        <releaseDate id="19">2016-03-11</releaseDate>
+        <songs id="20">
+          <song reference="17"/>
+          <song id="21">
+            <title>test</title>
+            <duration>03:30</duration>
+            <positionInAlbum>2</positionInAlbum>
+            <album reference="18"/>
+            <artist id="22">
+              <name>4</name>
+              <songs id="23">
+                <song reference="21"/>
+              </songs>
+            </artist>
+          </song>
+        </songs>
+      </album>
+      <artist id="24">
+        <name>2</name>
+        <songs id="25">
+          <song reference="17"/>
+          <song id="26">
+            <title>test</title>
+            <duration>30:30</duration>
+            <positionInAlbum>1</positionInAlbum>
+            <album id="27">
+              <title>test</title>
+              <genre>Country</genre>
+              <releaseDate id="28">2016-03-17</releaseDate>
+              <songs id="29">
+                <song reference="26"/>
+              </songs>
+            </album>
+            <artist reference="24"/>
+          </song>
+        </songs>
+      </artist>
+    </song>
+    <song reference="26"/>
+    <song reference="21"/>
   </songs>
-  <albums id="15">
+  <albums id="30">
     <album reference="4"/>
-    <album reference="10"/>
+    <album reference="12"/>
+    <album reference="18"/>
+    <album reference="27"/>
   </albums>
-  <artists id="19">
-    <artist reference="7"/>
-    <artist reference="13"/>
+  <artists id="31">
+    <artist reference="8"/>
+    <artist reference="15"/>
+    <artist reference="24"/>
+    <artist reference="22"/>
   </artists>
-  <playlists id="22"/>
-  <locations id="23"/>
+  <playlists id="32"/>
+  <locations id="33"/>
 </audiosystem>

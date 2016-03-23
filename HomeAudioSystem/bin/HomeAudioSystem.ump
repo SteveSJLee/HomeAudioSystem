@@ -3,7 +3,7 @@ class Song
 {
   title;
   duration;
-  int positionInAlbum;
+  lazy int positionInAlbum;
 }
 
 class Album
@@ -34,9 +34,9 @@ class Location
   name;
   int volume;
   boolean isMuted;
-  * -> * Song songs;
-  * -> * Album albums;
-  * -> * Playlist playlists;
+  1 -> 1 Song songs;
+  1 -> 1 Album albums;
+  1 -> 1 Playlist playlists;
 }
 
 class HAS

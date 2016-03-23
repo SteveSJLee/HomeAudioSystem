@@ -45,8 +45,6 @@ public final class HomeAudioSystemPage extends JFrame {
 
 	private JTextField albumTitleTextField;
 	private JLabel albumTitleLabel;
-//	private JTextField albumGenreTextField;
-//	private JLabel albumGenreLabel;
 	private JDatePickerImpl albumDatePicker;
 	private JLabel albumDateLabel;
 	private JButton addAlbumButton;
@@ -63,8 +61,8 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JLabel songTitleLabel;
 	private JTextField songDurationTextField;
 	private JLabel songDurationLabel;
-	private JTextField songPositionTextField;
-	private JLabel songPositionLabel;
+//	private JTextField songPositionTextField;
+//	private JLabel songPositionLabel;
 	private JButton addSongButton;
 	
 	// data elements
@@ -145,8 +143,8 @@ public final class HomeAudioSystemPage extends JFrame {
 		// elements for song
 		songTitleTextField = new JTextField();
 		songTitleLabel = new JLabel();
-		songPositionTextField = new JTextField();
-		songPositionLabel = new JLabel();
+//		songPositionTextField = new JTextField();
+//		songPositionLabel = new JLabel();
 		songDurationTextField = new JTextField();
 		songDurationLabel = new JLabel();
 		addSongButton = new JButton();
@@ -178,7 +176,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		songLabel.setText("Select Song:");
 		songTitleLabel.setText("Title:");
 		songDurationLabel.setText("Duration");
-		songPositionLabel.setText("Position");
+//		songPositionLabel.setText("Position");
 		addSongButton.setText("Add Song");
 		addSongButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,20 +214,20 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addGroup(layout.createParallelGroup()		
 								.addComponent(songLabel)
 								.addComponent(songTitleLabel)
-								.addComponent(songDurationLabel)
-								.addComponent(songPositionLabel))
+								.addComponent(songDurationLabel))
+//								.addComponent(songPositionLabel))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(songList)
 								.addComponent(songTitleTextField, 200, 200, 400)
 								.addComponent(songDurationTextField, 200, 200, 400)
-								.addComponent(songPositionTextField, 200, 200, 400)
+//								.addComponent(songPositionTextField, 200, 200, 400)
 								.addComponent(addSongButton)))
 				);
 
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumLabel, artistLabel, songLabel});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumTitleTextField, albumGenreTextField, addAlbumButton});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {artistNameTextField, addArtistButton});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {songTitleTextField, songDurationTextField, songPositionTextField, addSongButton});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {songTitleTextField, songDurationTextField, addSongButton});
 				
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -250,8 +248,8 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addComponent(songTitleTextField)
 						.addComponent(songDurationLabel)
 						.addComponent(songDurationTextField)
-						.addComponent(songPositionLabel)
-						.addComponent(songPositionTextField)
+//						.addComponent(songPositionLabel)
+//						.addComponent(songPositionTextField)
 				.addGroup(layout.createParallelGroup()		
 						.addComponent(albumGenreLabel)
 						.addComponent(albumGenreTextField))
@@ -281,7 +279,10 @@ public final class HomeAudioSystemPage extends JFrame {
 			while (abIt.hasNext()) {
 				Album ab = abIt.next();
 				albums.put(index, ab);
-				albumList.addItem(ab.getTitle());
+				if (ab.getSongs().isEmpty())
+					albumList.addItem(ab.getTitle() + " (Empty!)");
+				else 
+					albumList.addItem(ab.getTitle());
 				index++;
 			}
 			selectedAlbum = -1;
@@ -294,7 +295,10 @@ public final class HomeAudioSystemPage extends JFrame {
 			while (aIt.hasNext()) {
 				Artist a = aIt.next();
 				artists.put(index, a);
-				artistList.addItem(a.getName());
+				if (a.getSongs().isEmpty())
+					artistList.addItem(a.getName() + " (Empty!)");
+				else
+					artistList.addItem(a.getName());
 				index++;
 			}
 			selectedArtist = -1;
@@ -320,8 +324,10 @@ public final class HomeAudioSystemPage extends JFrame {
 			artistNameTextField.setText("");
 			// song
 			songTitleTextField.setText("");
-			songDurationTextField.setText("mm:ss");
-			songPositionTextField.setText("");
+			
+			songDurationTextField.setToolTipText("mm:ss");
+			
+//			songPositionTextField.setText("");
 		}
 
 		// this is needed because the size of the window change depending on whether an error message is shown or not
@@ -336,7 +342,7 @@ public final class HomeAudioSystemPage extends JFrame {
 			hasc.addAlbum(albumTitleTextField.getText(), String.valueOf(albumGenreTextField.getSelectedItem()), (java.sql.Date) albumDatePicker.getModel().getValue());
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
-		}
+		} 
 		// update visuals
 		refreshData();
 	}
@@ -357,14 +363,30 @@ public final class HomeAudioSystemPage extends JFrame {
 		HAS has = HAS.getInstance();
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		error = null;
+//		String str = songPositionTextField.getText();
+//		int position = 0;
+//		if(str.trim().equals("")) {
+//			position = 0;
+//		}	
+//		else {
+//			position = Integer.parseInt(str);
+//		}
+
 		try {
-			hasc.addSong(songTitleTextField.getText(), songDurationTextField.getText(), Integer.parseInt(songPositionTextField.getText()), has.getAlbum(albumList.getSelectedIndex()), has.getArtist(artistList.getSelectedIndex()));
+			hasc.addSong(songTitleTextField.getText(), songDurationTextField.getText(), has.getAlbum(albumList.getSelectedIndex()), has.getArtist(artistList.getSelectedIndex()));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
+		} catch (ArrayIndexOutOfBoundsException exception) {
+			if (albumList.getSelectedIndex() == -1) {
+				error = "Song album cannot be empty! ";
+			}
+			if (artistList.getSelectedIndex() == -1) {
+				error = error + "Song artist cannot be empty! ";
+			}
 		}
+		
 		// update visuals
 		refreshData();
 	}
-
 
 }

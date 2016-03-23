@@ -25,7 +25,7 @@ public class TestPersistence {
 		HAS has = HAS.getInstance();
 
 		// create location
-		Location lt = new Location("Living Room", 10, false);
+		Location lt = new Location("Living Room", 10, false, null, null, null);
 
 		// create Album
 		Calendar c = Calendar.getInstance();
@@ -38,8 +38,8 @@ public class TestPersistence {
 
 		// create Song
 
-		String duration = "2:33";
-		Song song = new Song("Aria", duration, 1, album, artist);
+		String duration = "02:33";
+		Song song = new Song("Aria", duration, album, artist);
 
 		// create Playlist 
 		Playlist pl = new Playlist("playlist");
