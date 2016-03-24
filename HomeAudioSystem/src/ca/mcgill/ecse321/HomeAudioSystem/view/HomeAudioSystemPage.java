@@ -25,6 +25,7 @@ import org.jdatepicker.impl.SqlDateModel;
 
 import ca.mcgill.ecse321.HomeAudioSystem.controller.HomeAudioSystemController;
 import ca.mcgill.ecse321.HomeAudioSystem.controller.InvalidInputException;
+import ca.mcgill.ecse321.HomeAudioSystem.controller.Genre;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Album;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Artist;
 import ca.mcgill.ecse321.HomeAudioSystem.model.HAS;
@@ -65,6 +66,12 @@ public final class HomeAudioSystemPage extends JFrame {
 //	private JLabel songPositionLabel;
 	private JButton addSongButton;
 	
+	private JComboBox<String> playlistList;
+	private JLabel playlistLabel;
+	private JTextField playlistNameTextField;
+	private JLabel playlistNameLabel;
+	private JButton addPlaylistButton;
+	
 	// data elements
 	private String error = null;
 	private Integer selectedAlbum = -1;
@@ -73,6 +80,8 @@ public final class HomeAudioSystemPage extends JFrame {
 	private HashMap<Integer, Artist> artists;
 	private Integer selectedSong = -1;
 	private HashMap<Integer, Song> songs;
+	private Integer selectedPlaylist = -1;
+	private HashMap<Integer, Playlist> playlists;
 
 	/** Creates new form HomeAudioSystemPage */
 	public HomeAudioSystemPage() {
@@ -117,12 +126,22 @@ public final class HomeAudioSystemPage extends JFrame {
 		});
 		songLabel = new JLabel();
 
+		// elements for creating playlist
+		playlistList = new JComboBox<String>(new String[0]);
+		playlistList.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				JComboBox<String> cb = (JComboBox<String>) evt.getSource();
+				selectedPlaylist = cb.getSelectedIndex();
+			}
+		});
+		playlistLabel = new JLabel();
+		
 		// elements for album
 		albumTitleTextField = new JTextField();
 		albumTitleLabel = new JLabel();
 		
 		albumGenreTextField = new JComboBox(Genre.values());
-//		albumGenreTextField = new JTextField();
+//		albumGenreTextField = new JComboBox(Genre.value);
 		albumGenreLabel = new JLabel();
 
 		SqlDateModel model = new SqlDateModel();
@@ -148,6 +167,11 @@ public final class HomeAudioSystemPage extends JFrame {
 		songDurationTextField = new JTextField();
 		songDurationLabel = new JLabel();
 		addSongButton = new JButton();
+		
+		// elements for artist
+		playlistNameTextField = new JTextField();
+		playlistNameLabel = new JLabel();
+		addPlaylistButton = new JButton();
 		
 		// global settings and listeners
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -175,8 +199,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		
 		songLabel.setText("Select Song:");
 		songTitleLabel.setText("Title:");
-		songDurationLabel.setText("Duration");
-//		songPositionLabel.setText("Position");
+		songDurationLabel.setText("Duration:");
 		addSongButton.setText("Add Song");
 		addSongButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,6 +207,15 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 		});
 
+		playlistLabel.setText("Select Playlist:");
+		playlistNameLabel.setText("Name:");
+		addPlaylistButton.setText("Add Playlist");
+		addPlaylistButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				addPlaylistButtonActionPerformed(evt);
+			}
+		});
+		
 		// layout
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
@@ -197,13 +229,18 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(albumLabel)
 								.addComponent(albumTitleLabel)
 								.addComponent(albumGenreLabel)
-								.addComponent(albumDateLabel))
+								.addComponent(albumDateLabel)
+								.addComponent(playlistLabel)
+								.addComponent(playlistNameLabel))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(albumList)
 								.addComponent(albumTitleTextField, 200, 200, 400)
 								.addComponent(albumGenreTextField, 200, 200, 400)
 								.addComponent(albumDatePicker)
-								.addComponent(addAlbumButton))
+								.addComponent(addAlbumButton)
+								.addComponent(playlistList)
+								.addComponent(playlistNameTextField, 200, 200, 400)
+								.addComponent(addPlaylistButton))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(artistLabel)
 								.addComponent(artistNameLabel))
@@ -215,20 +252,21 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(songLabel)
 								.addComponent(songTitleLabel)
 								.addComponent(songDurationLabel))
-//								.addComponent(songPositionLabel))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(songList)
 								.addComponent(songTitleTextField, 200, 200, 400)
 								.addComponent(songDurationTextField, 200, 200, 400)
-//								.addComponent(songPositionTextField, 200, 200, 400)
-								.addComponent(addSongButton)))
-				);
+								.addComponent(addSongButton))
+						
+				));
 
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumLabel, artistLabel, songLabel});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumTitleTextField, albumGenreTextField, addAlbumButton});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {artistNameTextField, addArtistButton});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {songTitleTextField, songDurationTextField, addSongButton});
-				
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {playlistLabel});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {playlistNameTextField, addPlaylistButton});
+			
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
 				.addComponent(errorMessage)
@@ -243,13 +281,12 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addComponent(albumTitleLabel)
 						.addComponent(albumTitleTextField)
 						.addComponent(artistNameLabel)
-						.addComponent(artistNameTextField))
+						.addComponent(artistNameTextField)
 						.addComponent(songTitleLabel)
-						.addComponent(songTitleTextField)
+						.addComponent(songTitleTextField))
+				.addGroup(layout.createParallelGroup()
 						.addComponent(songDurationLabel)
-						.addComponent(songDurationTextField)
-//						.addComponent(songPositionLabel)
-//						.addComponent(songPositionTextField)
+						.addComponent(songDurationTextField))
 				.addGroup(layout.createParallelGroup()		
 						.addComponent(albumGenreLabel)
 						.addComponent(albumGenreTextField))
@@ -260,9 +297,16 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addComponent(addAlbumButton)
 						.addComponent(addArtistButton)
 						.addComponent(addSongButton))
-						
+				.addGroup(layout.createParallelGroup()
+						.addComponent(playlistLabel)
+						.addComponent(playlistList))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(playlistNameLabel)
+						.addComponent(playlistNameTextField))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(addPlaylistButton))
+				
 				);
-
 		pack();
 	}
 
@@ -287,6 +331,7 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 			selectedAlbum = -1;
 			albumList.setSelectedIndex(selectedAlbum);
+			
 			// artist list
 			artists = new HashMap<Integer, Artist>();
 			artistList.removeAllItems();
@@ -303,6 +348,7 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 			selectedArtist = -1;
 			artistList.setSelectedIndex(selectedArtist);
+			
 			// song list
 			songs = new HashMap<Integer, Song>();
 			songList.removeAllItems();
@@ -317,6 +363,24 @@ public final class HomeAudioSystemPage extends JFrame {
 			selectedSong = -1;
 			songList.setSelectedIndex(selectedSong);		
 			
+			// playlist list
+			playlists = new HashMap<Integer, Playlist>();
+			playlistList.removeAllItems();
+			Iterator<Playlist> plIt = has.getPlaylists().iterator();
+			index = 0;
+			while (plIt.hasNext()) {
+				Playlist pl = plIt.next();
+				playlists.put(index, pl);
+				if (pl.getSongs().isEmpty())
+					playlistList.addItem(pl.getName() + " (Empty!)");
+				else
+					playlistList.addItem(pl.getName());
+				index++;
+			}
+			selectedPlaylist = -1;
+			playlistList.setSelectedIndex(selectedPlaylist);
+			
+			artistList.setSelectedIndex(selectedArtist);
 			// album
 			albumTitleTextField.setText("");
 			albumDatePicker.getModel().setValue(null);
@@ -324,10 +388,11 @@ public final class HomeAudioSystemPage extends JFrame {
 			artistNameTextField.setText("");
 			// song
 			songTitleTextField.setText("");
-			
+			songDurationTextField.setText("");
 			songDurationTextField.setToolTipText("mm:ss");
-			
-//			songPositionTextField.setText("");
+			// playlist
+			playlistNameTextField.setText("");
+
 		}
 
 		// this is needed because the size of the window change depending on whether an error message is shown or not
@@ -388,5 +453,35 @@ public final class HomeAudioSystemPage extends JFrame {
 		// update visuals
 		refreshData();
 	}
+	
+	private void addPlaylistButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		// call the controller
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
+		error = null;
+		try {
+			hasc.addPlaylist(playlistNameTextField.getText());
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+		// update visuals
+		refreshData();
+	}
+/*	
+	private void addLocationButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		// call the controller
+		HAS has = HAS.getInstance();
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
+		error = null;
+		
+		try {
+			hasc.addLocation(name, volume, isMuted, song, album, playlist);
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		} catch (NumberFormatException e){
+			error = "This is not number";
+		}
 
+	}
+	
+*/	
 }

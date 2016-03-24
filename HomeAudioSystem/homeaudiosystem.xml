@@ -54,67 +54,30 @@
         </songs>
       </artist>
     </song>
-    <song reference="10"/>
-    <song id="17">
-      <title>3</title>
-      <duration>03:20</duration>
-      <positionInAlbum>1</positionInAlbum>
-      <album id="18">
-        <title>1</title>
-        <genre>Rock</genre>
-        <releaseDate id="19">2016-03-11</releaseDate>
-        <songs id="20">
-          <song reference="17"/>
-          <song id="21">
-            <title>test</title>
-            <duration>03:30</duration>
-            <positionInAlbum>2</positionInAlbum>
-            <album reference="18"/>
-            <artist id="22">
-              <name>4</name>
-              <songs id="23">
-                <song reference="21"/>
-              </songs>
-            </artist>
-          </song>
-        </songs>
-      </album>
-      <artist id="24">
-        <name>2</name>
-        <songs id="25">
-          <song reference="17"/>
-          <song id="26">
-            <title>test</title>
-            <duration>30:30</duration>
-            <positionInAlbum>1</positionInAlbum>
-            <album id="27">
-              <title>test</title>
-              <genre>Country</genre>
-              <releaseDate id="28">2016-03-17</releaseDate>
-              <songs id="29">
-                <song reference="26"/>
-              </songs>
-            </album>
-            <artist reference="24"/>
-          </song>
-        </songs>
-      </artist>
-    </song>
-    <song reference="26"/>
-    <song reference="21"/>
   </songs>
   <albums id="30">
     <album reference="4"/>
     <album reference="12"/>
-    <album reference="18"/>
-    <album reference="27"/>
   </albums>
   <artists id="31">
     <artist reference="8"/>
     <artist reference="15"/>
-    <artist reference="24"/>
-    <artist reference="22"/>
   </artists>
-  <playlists id="32"/>
-  <locations id="33"/>
+  <playlists id="32">
+    <playlist id="33">
+      <name>Playlist 1</name>
+      <id>1</id>
+      <songs id="34"/>
+      <albums id="35"/>
+      <artists id="36"/>
+    </playlist>
+    <playlist id="37">
+      <name>Playlist 2</name>
+      <id>2</id>
+      <songs id="38"/>
+      <albums id="39"/>
+      <artists id="40"/>
+    </playlist>
+  </playlists>
+  <locations id="41"/>
 </audiosystem>
