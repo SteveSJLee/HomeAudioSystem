@@ -4,7 +4,7 @@
 package ca.mcgill.ecse321.HomeAudioSystem.model;
 import java.sql.Date;
 
-// line 32 "../../../../../HomeAudioSystem.ump"
+// line 30 "../../../../../HomeAudioSystem.ump"
 public class Location
 {
 

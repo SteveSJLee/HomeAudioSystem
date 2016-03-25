@@ -23,10 +23,8 @@ class Artist
 class Playlist
 {
   name;
-  autounique id;  
+//autounique id;  
   * -> * Song songs;  
-  * -> * Album albums;
-  * -> * Artist artists;
 }
 
 class Location
