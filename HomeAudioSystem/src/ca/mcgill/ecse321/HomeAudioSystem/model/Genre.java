@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.HomeAudioSystem.controller;
+package ca.mcgill.ecse321.HomeAudioSystem.model;
 
 public enum Genre 
 {

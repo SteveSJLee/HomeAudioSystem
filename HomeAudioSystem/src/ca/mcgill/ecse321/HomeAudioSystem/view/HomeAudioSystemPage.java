@@ -25,7 +25,7 @@ import org.jdatepicker.impl.SqlDateModel;
 
 import ca.mcgill.ecse321.HomeAudioSystem.controller.HomeAudioSystemController;
 import ca.mcgill.ecse321.HomeAudioSystem.controller.InvalidInputException;
-import ca.mcgill.ecse321.HomeAudioSystem.controller.Genre;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Genre;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Album;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Artist;
 import ca.mcgill.ecse321.HomeAudioSystem.model.HAS;
