@@ -68,15 +68,11 @@
       <name>Playlist 1</name>
       <id>1</id>
       <songs id="34"/>
-      <albums id="35"/>
-      <artists id="36"/>
     </playlist>
     <playlist id="37">
       <name>Playlist 2</name>
       <id>2</id>
       <songs id="38"/>
-      <albums id="39"/>
-      <artists id="40"/>
     </playlist>
   </playlists>
   <locations id="41"/>
