@@ -23,7 +23,7 @@ class Artist
 class Playlist
 {
   name;
-//autounique id;  
+  //autounique id;  
   * -> * Song songs;  
 }
 
@@ -31,10 +31,10 @@ class Location
 {
   name;
   int volume;
-  boolean isMuted;
-  1 -> 1 Song songs;
-  1 -> 1 Album albums;
-  1 -> 1 Playlist playlists;
+//  boolean isMuted;
+  1 -> * Song songs;
+  1 -> * Album albums;
+  1 -> * Playlist playlists;
 }
 
 class HAS

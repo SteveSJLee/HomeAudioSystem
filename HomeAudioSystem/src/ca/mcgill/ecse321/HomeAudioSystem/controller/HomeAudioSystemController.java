@@ -77,7 +77,8 @@ public class HomeAudioSystemController {
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 
-	public void addPlaylist(String name) throws InvalidInputException {
+	public void addPlaylist(String name) throws InvalidInputException 
+	{
 		String error = "";
 		if (name == null || name.trim().length() == 0)
 			error = error +"Playlist name cannot be empty! ";
@@ -90,23 +91,37 @@ public class HomeAudioSystemController {
 		has.addPlaylist(pl);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
-
-	public void addLocation(String name, int volume, boolean isMuted, Song song, Album album, Playlist playlist) throws InvalidInputException
+	
+	public void addLocation(String name, int volume) throws InvalidInputException
 	{
 		String error = "";
 		if (name == null || name.trim().length() == 0)
 			error = error +"Location name cannot be empty! ";
 		if (String.valueOf(volume) == null) 
 			error = error + "Volume is not set! ";
-		if (isMuted != true & isMuted != false)
-			error = error + "";
 		error = error.trim();
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
-
-		Location l = new Location(name, volume, false, null, null, null);
+		
+		Location l = new Location(name, volume);
 		HAS has =  HAS.getInstance();
 		has.addLocation(l);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
+	
+	public void muteLocation(Location location, int volume)
+	{
+		HAS has =  HAS.getInstance();
+		location.setVolume(volume);
+		PersistenceXStream.saveToXMLwithXStream(has);
+	}
+	
+	public void addSongToPlaylist(Song song, Playlist playlist) 
+	{
+		playlist.addSong(song);
+		HAS has =  HAS.getInstance();
+		has.addPlaylist(playlist);
+		PersistenceXStream.saveToXMLwithXStream(has);
+	}
+
 }
