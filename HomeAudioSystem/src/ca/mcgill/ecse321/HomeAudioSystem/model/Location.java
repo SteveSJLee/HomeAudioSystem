@@ -16,6 +16,7 @@ public class Location
   //Location Attributes
   private String name;
   private int volume;
+  private int beforeMuted;
 
   //Location Associations
   private List<Song> songs;
@@ -26,10 +27,9 @@ public class Location
   // CONSTRUCTOR
   //------------------------
 
-  public Location(String aName, int aVolume)
+  public Location(String aName)
   {
     name = aName;
-    volume = aVolume;
     songs = new ArrayList<Song>();
     albums = new ArrayList<Album>();
     playlists = new ArrayList<Playlist>();
@@ -55,6 +55,14 @@ public class Location
     return wasSet;
   }
 
+  public boolean setBeforeMuted(int aBeforeMuted)
+  {
+    boolean wasSet = false;
+    beforeMuted = aBeforeMuted;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getName()
   {
     return name;
@@ -65,15 +73,17 @@ public class Location
     return volume;
   }
 
+  public int getBeforeMuted()
+  {
+    return beforeMuted;
+  }
+
   public Song getSong(int index)
   {
     Song aSong = songs.get(index);
     return aSong;
   }
 
-  /**
-   * boolean isMuted;
-   */
   public List<Song> getSongs()
   {
     List<Song> newSongs = Collections.unmodifiableList(songs);
@@ -342,7 +352,8 @@ public class Location
 	  String outputString = "";
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
-            "volume" + ":" + getVolume()+ "]"
+            "volume" + ":" + getVolume()+ "," +
+            "beforeMuted" + ":" + getBeforeMuted()+ "]"
      + outputString;
   }
 }

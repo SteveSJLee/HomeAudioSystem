@@ -101,27 +101,31 @@
     <location id="31">
       <name>Living Room</name>
       <volume>0</volume>
+      <beforeMuted>0</beforeMuted>
       <songs id="32"/>
       <albums id="33"/>
       <playlists id="34"/>
     </location>
     <location id="35">
       <name>Bedroom</name>
-      <volume>0</volume>
+      <volume>14</volume>
+      <beforeMuted>0</beforeMuted>
       <songs id="36"/>
       <albums id="37"/>
       <playlists id="38"/>
     </location>
     <location id="39">
       <name>Kitchen</name>
-      <volume>15</volume>
+      <volume>0</volume>
+      <beforeMuted>0</beforeMuted>
       <songs id="40"/>
       <albums id="41"/>
       <playlists id="42"/>
     </location>
     <location id="43">
       <name>Basement</name>
-      <volume>0</volume>
+      <volume>11</volume>
+      <beforeMuted>0</beforeMuted>
       <songs id="44"/>
       <albums id="45"/>
       <playlists id="46"/>

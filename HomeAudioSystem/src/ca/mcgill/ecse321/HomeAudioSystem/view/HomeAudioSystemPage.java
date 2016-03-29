@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.HomeAudioSystem.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -82,6 +84,7 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JLabel locationNameLabel;
 	private JSlider locationVolumeLabel;
 	private JButton muteButton;
+	private JButton unMuteButton;
 	private JButton addLocationButton;
 	static final int VOL_MIN = 0;
 	static final int VOL_MAX = 30;
@@ -189,8 +192,6 @@ public final class HomeAudioSystemPage extends JFrame {
 		// elements for song
 		songTitleTextField = new JTextField();
 		songTitleLabel = new JLabel();
-//		songPositionTextField = new JTextField();
-//		songPositionLabel = new JLabel();
 		songDurationTextField = new JTextField();
 		songDurationLabel = new JLabel();
 		addSongButton = new JButton();
@@ -210,6 +211,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		locationVolumeLabel.setPaintTicks(true);
 		locationVolumeLabel.setPaintLabels(true);
 		muteButton = new JButton();
+		unMuteButton = new JButton();
 		addLocationButton = new JButton();
 		
 		// global settings and listeners
@@ -271,6 +273,12 @@ public final class HomeAudioSystemPage extends JFrame {
 				muteButtonActionPerformed(evt);
 			}
 		});	
+		unMuteButton.setText("Unmute");
+		unMuteButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				unMuteButtonActionPerformed(evt);
+			}
+		});	
 		addLocationButton.setText("Add Location");
 		addLocationButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -317,6 +325,7 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(locationNameTextField, 200, 200, 400)
 								.addComponent(locationVolumeLabel)
 								.addComponent(muteButton)
+								.addComponent(unMuteButton)
 								.addComponent(addLocationButton))					
 						.addGroup(layout.createParallelGroup()		
 								.addComponent(songLabel)
@@ -336,7 +345,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {songTitleTextField, songDurationTextField, addSongButton});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {playlistLabel, locationLabel});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {playlistNameTextField, addPlaylistButton, addSongToPlaylistButton});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {locationNameTextField, locationVolumeLabel, muteButton, addLocationButton});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {locationNameTextField, locationVolumeLabel, muteButton, unMuteButton, addLocationButton});
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -384,6 +393,8 @@ public final class HomeAudioSystemPage extends JFrame {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(addSongToPlaylistButton)
 						.addComponent(muteButton))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(unMuteButton))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(addLocationButton))
 				);
@@ -557,20 +568,40 @@ public final class HomeAudioSystemPage extends JFrame {
 	}
 
 	private void muteButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		
+
 		HAS has = HAS.getInstance();
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
+
+		int volume = has.getLocation(locationList.getSelectedIndex()).getVolume();
+
 		try {
-		hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), 0);
+			hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), 0, volume);
 		} catch (ArrayIndexOutOfBoundsException exception) {
 			if (locationList.getSelectedIndex() == -1) {
 				error = "location cannot be empty! ";
 			}
 		}
-		
+
 		refreshData();
 	}
-	
+
+	private void unMuteButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
+		HAS has = HAS.getInstance();
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
+
+		int volume = has.getLocation(locationList.getSelectedIndex()).getBeforeMuted();
+
+		try {
+			hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), volume, 0);
+		} catch (ArrayIndexOutOfBoundsException exception) {
+			if (locationList.getSelectedIndex() == -1) {
+				error = "location cannot be empty! ";
+			}
+		}
+
+		refreshData();
+	}
 	private void addLocationButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// call the controller
 		

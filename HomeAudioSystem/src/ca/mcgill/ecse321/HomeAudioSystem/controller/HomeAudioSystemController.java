@@ -103,16 +103,18 @@ public class HomeAudioSystemController {
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
 		
-		Location l = new Location(name, volume);
+		Location l = new Location(name);
+		l.setVolume(volume);
 		HAS has =  HAS.getInstance();
 		has.addLocation(l);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 	
-	public void muteLocation(Location location, int volume)
+	public void muteLocation(Location location, int volume, int beforeMuted)
 	{
 		HAS has =  HAS.getInstance();
 		location.setVolume(volume);
+		location.setBeforeMuted(beforeMuted);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 	
