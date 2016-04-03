@@ -54,30 +54,89 @@
         </songs>
       </artist>
     </song>
+    <song id="17">
+      <title>Thriller</title>
+      <duration>5:58</duration>
+      <positionInAlbum>1</positionInAlbum>
+      <album id="18">
+        <title>Thriller</title>
+        <genre>Pop</genre>
+        <releaseDate id="19">1982-11-30</releaseDate>
+        <songs id="20">
+          <song reference="17"/>
+        </songs>
+      </album>
+      <artist id="21">
+        <name>Michael Jackson</name>
+        <songs id="22">
+          <song reference="17"/>
+        </songs>
+      </artist>
+    </song>
   </songs>
-  <albums id="30">
+  <albums id="23">
     <album reference="4"/>
     <album reference="12"/>
+    <album reference="18"/>
   </albums>
-  <artists id="31">
+  <artists id="24">
     <artist reference="8"/>
     <artist reference="15"/>
+    <artist reference="21"/>
   </artists>
-  <playlists id="32">
-    <playlist id="33">
+  <playlists id="25">
+    <playlist id="26">
       <name>Playlist 1</name>
-      <id>1</id>
-      <songs id="34"/>
-      <albums id="35"/>
-      <artists id="36"/>
+      <songs id="27">
+        <song reference="17"/>
+        <song reference="3"/>
+      </songs>
     </playlist>
-    <playlist id="37">
+    <playlist id="28">
       <name>Playlist 2</name>
-      <id>2</id>
-      <songs id="38"/>
-      <albums id="39"/>
-      <artists id="40"/>
+      <songs id="29"/>
     </playlist>
   </playlists>
-  <locations id="41"/>
+  <locations id="30">
+    <location id="31">
+      <name>Living Room</name>
+      <volume>0</volume>
+      <beforeMuted>0</beforeMuted>
+      <songs id="32">
+        <positionInAlbum>0</positionInAlbum>
+      </songs>
+      <albums id="33"/>
+      <playlists id="34"/>
+    </location>
+    <location id="35">
+      <name>Bedroom</name>
+      <volume>14</volume>
+      <beforeMuted>0</beforeMuted>
+      <songs id="36">
+        <positionInAlbum>0</positionInAlbum>
+      </songs>
+      <albums id="37"/>
+      <playlists id="38"/>
+    </location>
+    <location id="39">
+      <name>Kitchen</name>
+      <volume>30</volume>
+      <beforeMuted>0</beforeMuted>
+      <songs id="40">
+        <positionInAlbum>0</positionInAlbum>
+      </songs>
+      <albums id="41"/>
+      <playlists id="42"/>
+    </location>
+    <location id="43">
+      <name>Basement</name>
+      <volume>11</volume>
+      <beforeMuted>0</beforeMuted>
+      <songs id="44">
+        <positionInAlbum>0</positionInAlbum>
+      </songs>
+      <albums id="45"/>
+      <playlists id="46"/>
+    </location>
+  </locations>
 </audiosystem>

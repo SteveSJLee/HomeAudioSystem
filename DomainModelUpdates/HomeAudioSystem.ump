@@ -3,52 +3,38 @@ class Song
 {
   title;
   duration;
-  int positionInAlbum;
+  lazy int positionInAlbum;
 }
 
 class Album
 {
   title;
-  Genre genre;
+  genre;
   Date releaseDate;
   1 -- * Song songs;
-  
-  enum Genre{
-  Rock,
-  HipHop,
-  Pop,
-  Country,
-  Dance,
-  Electronic,
-  Jazz,
-  Classical,
-  House,
-  Others
-}
-  
-  
 }
 
 class Artist
 {
   name;
-  * -- * Song songs;
+  1 -- * Song songs;
 }
 
 class Playlist
 {
-  name;  
-  * -> * Song songs;
+  name;
+  //autounique id;  
+  * -> * Song songs;  
 }
 
 class Location
 {
   name;
-  int volume;
-  boolean isMuted;
-  * -> * Song songs;
-  * -> * Album albums;
-  * -> * Playlist playlists;
+  lazy int volume;
+  lazy int beforeMuted;
+  1 -> * Song songs;
+  1 -> * Album albums;
+  1 -> * Playlist playlists;
 }
 
 class HAS

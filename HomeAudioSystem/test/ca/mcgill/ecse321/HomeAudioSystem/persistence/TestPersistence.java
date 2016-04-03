@@ -25,7 +25,7 @@ public class TestPersistence {
 		HAS has = HAS.getInstance();
 
 		// create location
-		Location lt = new Location("Living Room", 10, false, null, null, null);
+		Location lt = new Location("Living Room", null,null, null);
 
 		// create Album
 		Calendar c = Calendar.getInstance();

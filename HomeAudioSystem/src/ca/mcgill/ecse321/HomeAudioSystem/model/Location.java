@@ -15,7 +15,7 @@ public class Location
   //Location Attributes
   private String name;
   private int volume;
-  private boolean isMuted;
+  private int beforeMuted;
 
   //Location Associations
   private Song songs;
@@ -26,11 +26,9 @@ public class Location
   // CONSTRUCTOR
   //------------------------
 
-  public Location(String aName, int aVolume, boolean aIsMuted, Song aSongs, Album aAlbums, Playlist aPlaylists)
+  public Location(String aName, Song aSongs, Album aAlbums, Playlist aPlaylists)
   {
     name = aName;
-    volume = aVolume;
-    isMuted = aIsMuted;
     if (!setSongs(aSongs))
     {
       throw new RuntimeException("Unable to create Location due to aSongs");
@@ -65,10 +63,10 @@ public class Location
     return wasSet;
   }
 
-  public boolean setIsMuted(boolean aIsMuted)
+  public boolean setBeforeMuted(int aBeforeMuted)
   {
     boolean wasSet = false;
-    isMuted = aIsMuted;
+    beforeMuted = aBeforeMuted;
     wasSet = true;
     return wasSet;
   }
@@ -83,9 +81,9 @@ public class Location
     return volume;
   }
 
-  public boolean getIsMuted()
+  public int getBeforeMuted()
   {
-    return isMuted;
+    return beforeMuted;
   }
 
   public Song getSongs()
@@ -150,7 +148,7 @@ public class Location
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
             "volume" + ":" + getVolume()+ "," +
-            "isMuted" + ":" + getIsMuted()+ "]" + System.getProperties().getProperty("line.separator") +
+            "beforeMuted" + ":" + getBeforeMuted()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "songs = "+(getSongs()!=null?Integer.toHexString(System.identityHashCode(getSongs())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "albums = "+(getAlbums()!=null?Integer.toHexString(System.identityHashCode(getAlbums())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "playlists = "+(getPlaylists()!=null?Integer.toHexString(System.identityHashCode(getPlaylists())):"null")
