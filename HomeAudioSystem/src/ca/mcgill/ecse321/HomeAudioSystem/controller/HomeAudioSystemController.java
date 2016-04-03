@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.HomeAudioSystem.controller;
 
 import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceXStream;
+import ca.mcgill.ecse321.HomeAudioSystem.controller.InvalidInputException;
 
 import java.sql.Date;
 
@@ -53,23 +54,26 @@ public class HomeAudioSystemController {
 
 	public void addSong(String title, String duration, Album album, Artist artist) throws InvalidInputException
 	{
+		HAS has = HAS.getInstance();
+		
 		String error = "";
+		if (album == null)
+			error = error + "Album needs to be selected for adding a Song! ";
+		else if (!has.getAlbums().contains(album))
+			error = error + "Album does not exist! ";
+		if (artist == null)
+			error = error + "Artist needs to be selected for adding a Song! ";
+		else if (!has.getArtists().contains(artist))
+			error = error + "Artist does not exist! ";
 		if (title == null || title.trim().length() == 0)
 			error = error +"Song title cannot be empty! ";
 		if (duration == null || duration.trim().length() == 0)
 			error = error + "Song duration cannot be empty! ";
-		//		if (positionInAlbum < 1)
-		//			error = error + "Song position in album cannot be empty! ";
-		//		if (album == null || album.toString().trim().equals(""))
-		//			error = error + "Song album cannot be empty! ";
-		//		if (artist == null || artist.toString().trim().equals(""))
-		//			error = error + "Song artist cannot be empty! ";
 		error = error.trim();
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
 
 		Song s = new Song(title, duration, album, artist);
-		HAS has = HAS.getInstance();
 		has.addSong(s);
 		album.addSong(s);
 		artist.addSong(s);
@@ -79,6 +83,8 @@ public class HomeAudioSystemController {
 
 	public void addPlaylist(String name) throws InvalidInputException 
 	{
+		HAS has = HAS.getInstance();
+		
 		String error = "";
 		if (name == null || name.trim().length() == 0)
 			error = error +"Playlist name cannot be empty! ";
@@ -87,13 +93,14 @@ public class HomeAudioSystemController {
 			throw new InvalidInputException(error);
 
 		Playlist pl  = new Playlist(name);
-		HAS has = HAS.getInstance();
 		has.addPlaylist(pl);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 	
 	public void addLocation(String name, int volume) throws InvalidInputException
 	{
+		HAS has =  HAS.getInstance();
+		
 		String error = "";
 		if (name == null || name.trim().length() == 0)
 			error = error +"Location name cannot be empty! ";
@@ -103,25 +110,48 @@ public class HomeAudioSystemController {
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
 		
-		Location l = new Location(name);
+		Location l = new Location(name, null, null, null);
 		l.setVolume(volume);
-		HAS has =  HAS.getInstance();
 		has.addLocation(l);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 	
-	public void muteLocation(Location location, int volume, int beforeMuted)
+	public void muteLocation(Location location, int volume, int beforeMuted) throws InvalidInputException
 	{
 		HAS has =  HAS.getInstance();
+		
+		String error = "";
+		if (location == null)
+			error = error + "Location needs to be selected to mute Location ";
+		else if (!has.getLocations().contains(location))
+			error = error + "Location does not exist! ";
+		error = error.trim();
+		if (error.length() > 0)
+			throw new InvalidInputException(error);
+		
 		location.setVolume(volume);
 		location.setBeforeMuted(beforeMuted);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
-	
-	public void addSongToPlaylist(Song song, Playlist playlist) 
+		
+	public void addSongToPlaylist(Song song, Playlist playlist) throws InvalidInputException
 	{
-		playlist.addSong(song);
 		HAS has =  HAS.getInstance();
+
+		String error = "";
+		if (song == null)
+			error = error + "Song needs to be selected for adding Song to Playlist! ";
+		else if (!has.getSongs().contains(song))
+			error = error + "Song does not exist! ";
+		if (playlist == null)
+			error = error + "Playlist needs to be selected for adding Song to Playlist! ";
+		else if (!has.getPlaylists().contains(playlist))
+			error = error + "Playlist does not exist! ";
+		error = error.trim();
+		if (error.length() > 0)
+			throw new InvalidInputException(error);
+		
+		playlist.addSong(song);
 		has.addPlaylist(playlist);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}

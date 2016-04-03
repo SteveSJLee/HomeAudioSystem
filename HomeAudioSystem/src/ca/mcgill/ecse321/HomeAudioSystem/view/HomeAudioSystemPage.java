@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.HomeAudioSystem.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -16,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -45,7 +49,7 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JLabel errorMessage;
 	private JComboBox<String> albumList;
 	private JLabel albumLabel;
-	
+
 	private JComboBox<Genre> albumGenreTextField;
 	private JLabel albumGenreLabel;
 
@@ -54,30 +58,30 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JDatePickerImpl albumDatePicker;
 	private JLabel albumDateLabel;
 	private JButton addAlbumButton;
-	
+
 	private JComboBox<String> artistList;
 	private JLabel artistLabel;
 	private JTextField artistNameTextField;
 	private JLabel artistNameLabel;
 	private JButton addArtistButton;
-	
+
 	private JComboBox<String> songList;
 	private JLabel songLabel;
 	private JTextField songTitleTextField;
 	private JLabel songTitleLabel;
 	private JTextField songDurationTextField;
 	private JLabel songDurationLabel;
-//	private JTextField songPositionTextField;
-//	private JLabel songPositionLabel;
+	//	private JTextField songPositionTextField;
+	//	private JLabel songPositionLabel;
 	private JButton addSongButton;
-	
+
 	private JComboBox<String> playlistList;
 	private JLabel playlistLabel;
 	private JTextField playlistNameTextField;
 	private JLabel playlistNameLabel;
 	private JButton addPlaylistButton;
 	private JButton addSongToPlaylistButton;
-	
+
 	private JComboBox<String> locationList;
 	private JLabel locationLabel;
 	private JTextField locationNameTextField;
@@ -85,11 +89,14 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JSlider locationVolumeLabel;
 	private JButton muteButton;
 	private JButton unMuteButton;
+	private JButton changeVolumeButton;
 	private JButton addLocationButton;
 	static final int VOL_MIN = 0;
 	static final int VOL_MAX = 30;
 	static final int VOL_INIT = 15;
-	
+
+	private JPanel mutePanel;
+
 	// data elements
 	private String error = null;
 	private Integer selectedAlbum = -1;
@@ -135,7 +142,7 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 		});
 		artistLabel = new JLabel();
-		
+
 		// elements for creating song
 		songList = new JComboBox<String>(new String[0]);
 		songList.addActionListener(new java.awt.event.ActionListener() {
@@ -155,8 +162,9 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 		});
 		playlistLabel = new JLabel();
-		
+
 		// elements for creating location
+
 		locationList = new JComboBox<String>(new String[0]);
 		locationList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,12 +173,12 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 		});
 		locationLabel = new JLabel();
-		
-		
+
+
 		// elements for album
 		albumTitleTextField = new JTextField();
 		albumTitleLabel = new JLabel();
-		
+
 		albumGenreTextField = new JComboBox(Genre.values());
 		albumGenreLabel = new JLabel();
 
@@ -188,20 +196,20 @@ public final class HomeAudioSystemPage extends JFrame {
 		artistNameTextField = new JTextField();
 		artistNameLabel = new JLabel();
 		addArtistButton = new JButton();
-		
+
 		// elements for song
 		songTitleTextField = new JTextField();
 		songTitleLabel = new JLabel();
 		songDurationTextField = new JTextField();
 		songDurationLabel = new JLabel();
 		addSongButton = new JButton();
-		
+
 		// elements for playlist
 		playlistNameTextField = new JTextField();
 		playlistNameLabel = new JLabel();
 		addPlaylistButton = new JButton();
 		addSongToPlaylistButton = new JButton();
-		
+
 		// elements for location
 		locationNameTextField = new JTextField();
 		locationNameLabel = new JLabel();
@@ -212,8 +220,14 @@ public final class HomeAudioSystemPage extends JFrame {
 		locationVolumeLabel.setPaintLabels(true);
 		muteButton = new JButton();
 		unMuteButton = new JButton();
+		changeVolumeButton = new JButton();
+		mutePanel = new JPanel();
+		mutePanel.setLayout(new BorderLayout());
+		mutePanel.add(muteButton, BorderLayout.CENTER);
+		mutePanel.add(unMuteButton, BorderLayout.EAST);
+
 		addLocationButton = new JButton();
-		
+
 		// global settings and listeners
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("HAS - Home Audio System");
@@ -228,7 +242,7 @@ public final class HomeAudioSystemPage extends JFrame {
 				addAlbumButtonActionPerformed(evt);
 			}
 		});
-		
+
 		artistLabel.setText("Select Artist:");
 		artistNameLabel.setText("Name:");
 		addArtistButton.setText("Add Artist");
@@ -237,7 +251,7 @@ public final class HomeAudioSystemPage extends JFrame {
 				addArtistButtonActionPerformed(evt);
 			}
 		});
-		
+
 		songLabel.setText("Select Song:");
 		songTitleLabel.setText("Title:");
 		songDurationLabel.setText("Duration:");
@@ -262,21 +276,27 @@ public final class HomeAudioSystemPage extends JFrame {
 				addSongToPlaylistButtonActionPerformed(evt);
 			}
 		});
-		
+
 		locationLabel.setText("Select Location:");
 		locationNameLabel.setText("Name:");
 		Font font = new Font("Volume", Font.ITALIC, 10);
 		locationVolumeLabel.setFont(font);
-		muteButton.setText("Mute");
+		muteButton.setText("    Mute    ");
 		muteButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				muteButtonActionPerformed(evt);
 			}
 		});	
-		unMuteButton.setText("Unmute");
+		unMuteButton.setText("   Unmute   ");
 		unMuteButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				unMuteButtonActionPerformed(evt);
+			}
+		});	
+		changeVolumeButton.setText("Change Volume");
+		changeVolumeButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				changeVolumeActionPerformed(evt);
 			}
 		});	
 		addLocationButton.setText("Add Location");
@@ -285,7 +305,7 @@ public final class HomeAudioSystemPage extends JFrame {
 				addLocationButtonActionPerformed(evt);
 			}
 		});
-		
+
 		// layout
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
@@ -324,8 +344,8 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(locationList)
 								.addComponent(locationNameTextField, 200, 200, 400)
 								.addComponent(locationVolumeLabel)
-								.addComponent(muteButton)
-								.addComponent(unMuteButton)
+								.addComponent(mutePanel, 200, 200, 400)
+								.addComponent(changeVolumeButton)
 								.addComponent(addLocationButton))					
 						.addGroup(layout.createParallelGroup()		
 								.addComponent(songLabel)
@@ -336,8 +356,8 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(songTitleTextField, 200, 200, 400)
 								.addComponent(songDurationTextField, 200, 200, 400)
 								.addComponent(addSongButton))
-						
-				));
+
+						));
 
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumLabel, artistLabel, songLabel});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {albumTitleTextField, albumGenreTextField, addAlbumButton});
@@ -345,8 +365,8 @@ public final class HomeAudioSystemPage extends JFrame {
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {songTitleTextField, songDurationTextField, addSongButton});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {playlistLabel, locationLabel});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {playlistNameTextField, addPlaylistButton, addSongToPlaylistButton});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {locationNameTextField, locationVolumeLabel, muteButton, unMuteButton, addLocationButton});
-		
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {locationNameTextField, locationVolumeLabel, mutePanel, changeVolumeButton, addLocationButton});
+
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
 				.addComponent(errorMessage)
@@ -392,9 +412,9 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addComponent(locationVolumeLabel))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(addSongToPlaylistButton)
-						.addComponent(muteButton))
+						.addComponent(mutePanel))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(unMuteButton))
+						.addComponent(changeVolumeButton))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(addLocationButton))
 				);
@@ -422,7 +442,7 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 			selectedAlbum = -1;
 			albumList.setSelectedIndex(selectedAlbum);
-			
+
 			// artist list
 			artists = new HashMap<Integer, Artist>();
 			artistList.removeAllItems();
@@ -439,7 +459,7 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 			selectedArtist = -1;
 			artistList.setSelectedIndex(selectedArtist);
-			
+
 			// song list
 			songs = new HashMap<Integer, Song>();
 			songList.removeAllItems();
@@ -453,7 +473,7 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 			selectedSong = -1;
 			songList.setSelectedIndex(selectedSong);		
-			
+
 			// playlist list
 			playlists = new HashMap<Integer, Playlist>();
 			playlistList.removeAllItems();
@@ -479,7 +499,11 @@ public final class HomeAudioSystemPage extends JFrame {
 			while (lIt.hasNext()) {
 				Location l = lIt.next();
 				locations.put(index, l);
-				if (l.getSongs().isEmpty())
+				if (l.getSongs() == null)
+					locationList.addItem(l.getName() + " (Empty!)");
+				else if (l.getAlbums() == null)
+					locationList.addItem(l.getName() + " (Empty!)");
+				else if (l.getPlaylists() == null)
 					locationList.addItem(l.getName() + " (Empty!)");
 				else
 					locationList.addItem(l.getName());
@@ -507,7 +531,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		// this is needed because the size of the window change depending on whether an error message is shown or not
 		pack();
 	}
-	
+
 	private void addAlbumButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// call the controller
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
@@ -536,24 +560,25 @@ public final class HomeAudioSystemPage extends JFrame {
 		// call the controller
 		HAS has = HAS.getInstance();
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
-		error = null;
-		try {
-			hasc.addSong(songTitleTextField.getText(), songDurationTextField.getText(), has.getAlbum(albumList.getSelectedIndex()), has.getArtist(artistList.getSelectedIndex()));
-		} catch (InvalidInputException e) {
-			error = e.getMessage();
-		} catch (ArrayIndexOutOfBoundsException exception) {
-			if (albumList.getSelectedIndex() == -1) {
-				error = "Song album cannot be empty! ";
-			}
-			if (artistList.getSelectedIndex() == -1) {
-				error = error + "Song artist cannot be empty! ";
+
+		error = "";
+		if (albumList.getSelectedIndex() < 0) 
+			error = "Song album cannot be empty! ";
+
+		if (artistList.getSelectedIndex() < 0) 
+			error = error + "Song artist cannot be empty! ";
+
+		if (error.length() == 0) {
+			try {
+				hasc.addSong(songTitleTextField.getText(), songDurationTextField.getText(), has.getAlbum(albumList.getSelectedIndex()), has.getArtist(artistList.getSelectedIndex()));
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
 			}
 		}
-		
 		// update visuals
 		refreshData();
 	}
-	
+
 	private void addPlaylistButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// call the controller
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
@@ -572,67 +597,100 @@ public final class HomeAudioSystemPage extends JFrame {
 		HAS has = HAS.getInstance();
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 
-		int volume = has.getLocation(locationList.getSelectedIndex()).getVolume();
+		error = "";
+		if (selectedLocation < 0)
+			error = "location cannot be empty! ";
+		if (error.length() == 0) {
+			int volume = has.getLocation(locationList.getSelectedIndex()).getVolume();
 
-		try {
-			hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), 0, volume);
-		} catch (ArrayIndexOutOfBoundsException exception) {
-			if (locationList.getSelectedIndex() == -1) {
-				error = "location cannot be empty! ";
+			try {
+				hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), 0, volume);
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
 			}
 		}
-
 		refreshData();
 	}
+
+
 
 	private void unMuteButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
 		HAS has = HAS.getInstance();
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 
-		int volume = has.getLocation(locationList.getSelectedIndex()).getBeforeMuted();
+		error = "";
+		if (selectedLocation < 0)
+			error = "location cannot be empty! ";
+		if (error.length() == 0) {
+			int volume = has.getLocation(locationList.getSelectedIndex()).getBeforeMuted();
 
-		try {
-			hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), volume, 0);
-		} catch (ArrayIndexOutOfBoundsException exception) {
-			if (locationList.getSelectedIndex() == -1) {
-				error = "location cannot be empty! ";
+			try {
+				hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), volume, 0);
+			} catch (InvalidInputException e) {
+				if (locationList.getSelectedIndex() == -1) {
+					error = "location cannot be empty! ";
+				}
 			}
 		}
-
 		refreshData();
 	}
+
+	private void changeVolumeActionPerformed(java.awt.event.ActionEvent evt) {
+
+		HAS has = HAS.getInstance();
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
+
+		error = "";
+		if (selectedLocation < 0)
+			error = "location cannot be empty! ";
+
+		if (error.length() == 0) {
+			try {
+				hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), locationVolumeLabel.getValue(), 0);
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
+			}
+		}
+		refreshData();
+	}
+
+
 	private void addLocationButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// call the controller
-		
+
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		error = null;
-		
+
 		try {
 			hasc.addLocation(locationNameTextField.getText(), locationVolumeLabel.getValue());
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
-		} catch (NumberFormatException e){
-			error = "This is not number";
 		}
 		//update visuals
 		refreshData();
 	}
-	
+
 	private void addSongToPlaylistButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		HAS has = HAS.getInstance();
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
-		try {
-			hasc.addSongToPlaylist(has.getSong(songList.getSelectedIndex()), has.getPlaylist(playlistList.getSelectedIndex()));
-		} catch (ArrayIndexOutOfBoundsException exception) {
-			if (playlistList.getSelectedIndex() == -1) {
-				error = "Playlist cannot be empty! ";
+
+		error = "";
+		if (selectedSong < 0)
+			error = error + "Song cannot be empty! ";
+		if (selectedPlaylist < 0)
+			error = "Playlist cannot be empty! ";
+		error = error.trim();
+		if (error.length() == 0) {
+			// call the controller
+
+			try {
+				hasc.addSongToPlaylist(has.getSong(songList.getSelectedIndex()), has.getPlaylist(playlistList.getSelectedIndex()));
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
 			}
-			if (songList.getSelectedIndex() == -1) {
-				error = error + "Song cannot be empty! ";
-			}
+
 		}
-		
 		refreshData();
 	}
 

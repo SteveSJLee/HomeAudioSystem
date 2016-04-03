@@ -2,7 +2,6 @@
 /*This code was generated using the UMPLE 1.22.0.5146 modeling language!*/
 
 package ca.mcgill.ecse321.HomeAudioSystem.model;
-import java.util.*;
 import java.sql.Date;
 
 // line 30 "../../../../../HomeAudioSystem.ump"
@@ -19,20 +18,29 @@ public class Location
   private int beforeMuted;
 
   //Location Associations
-  private List<Song> songs;
-  private List<Album> albums;
-  private List<Playlist> playlists;
+  private Song songs;
+  private Album albums;
+  private Playlist playlists;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Location(String aName)
+  public Location(String aName, Song aSongs, Album aAlbums, Playlist aPlaylists)
   {
     name = aName;
-    songs = new ArrayList<Song>();
-    albums = new ArrayList<Album>();
-    playlists = new ArrayList<Playlist>();
+    if (!setSongs(aSongs))
+    {
+      throw new RuntimeException("Unable to create Location due to aSongs");
+    }
+    if (!setAlbums(aAlbums))
+    {
+      throw new RuntimeException("Unable to create Location due to aAlbums");
+    }
+    if (!setPlaylists(aPlaylists))
+    {
+      throw new RuntimeException("Unable to create Location due to aPlaylists");
+    }
   }
 
   //------------------------
@@ -78,272 +86,59 @@ public class Location
     return beforeMuted;
   }
 
-  public Song getSong(int index)
+  public Song getSongs()
   {
-    Song aSong = songs.get(index);
-    return aSong;
+    return songs;
   }
 
-  public List<Song> getSongs()
+  public Album getAlbums()
   {
-    List<Song> newSongs = Collections.unmodifiableList(songs);
-    return newSongs;
+    return albums;
   }
 
-  public int numberOfSongs()
+  public Playlist getPlaylists()
   {
-    int number = songs.size();
-    return number;
+    return playlists;
   }
 
-  public boolean hasSongs()
+  public boolean setSongs(Song aNewSongs)
   {
-    boolean has = songs.size() > 0;
-    return has;
-  }
-
-  public int indexOfSong(Song aSong)
-  {
-    int index = songs.indexOf(aSong);
-    return index;
-  }
-
-  public Album getAlbum(int index)
-  {
-    Album aAlbum = albums.get(index);
-    return aAlbum;
-  }
-
-  public List<Album> getAlbums()
-  {
-    List<Album> newAlbums = Collections.unmodifiableList(albums);
-    return newAlbums;
-  }
-
-  public int numberOfAlbums()
-  {
-    int number = albums.size();
-    return number;
-  }
-
-  public boolean hasAlbums()
-  {
-    boolean has = albums.size() > 0;
-    return has;
-  }
-
-  public int indexOfAlbum(Album aAlbum)
-  {
-    int index = albums.indexOf(aAlbum);
-    return index;
-  }
-
-  public Playlist getPlaylist(int index)
-  {
-    Playlist aPlaylist = playlists.get(index);
-    return aPlaylist;
-  }
-
-  public List<Playlist> getPlaylists()
-  {
-    List<Playlist> newPlaylists = Collections.unmodifiableList(playlists);
-    return newPlaylists;
-  }
-
-  public int numberOfPlaylists()
-  {
-    int number = playlists.size();
-    return number;
-  }
-
-  public boolean hasPlaylists()
-  {
-    boolean has = playlists.size() > 0;
-    return has;
-  }
-
-  public int indexOfPlaylist(Playlist aPlaylist)
-  {
-    int index = playlists.indexOf(aPlaylist);
-    return index;
-  }
-
-  public static int minimumNumberOfSongs()
-  {
-    return 0;
-  }
-
-  public boolean addSong(Song aSong)
-  {
-    boolean wasAdded = false;
-    if (songs.contains(aSong)) { return false; }
-    songs.add(aSong);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeSong(Song aSong)
-  {
-    boolean wasRemoved = false;
-    if (songs.contains(aSong))
+    boolean wasSet = false;
+    if (aNewSongs != null)
     {
-      songs.remove(aSong);
-      wasRemoved = true;
+      songs = aNewSongs;
+      wasSet = true;
     }
-    return wasRemoved;
+    return wasSet;
   }
 
-  public boolean addSongAt(Song aSong, int index)
-  {  
-    boolean wasAdded = false;
-    if(addSong(aSong))
+  public boolean setAlbums(Album aNewAlbums)
+  {
+    boolean wasSet = false;
+    if (aNewAlbums != null)
     {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfSongs()) { index = numberOfSongs() - 1; }
-      songs.remove(aSong);
-      songs.add(index, aSong);
-      wasAdded = true;
+      albums = aNewAlbums;
+      wasSet = true;
     }
-    return wasAdded;
+    return wasSet;
   }
 
-  public boolean addOrMoveSongAt(Song aSong, int index)
+  public boolean setPlaylists(Playlist aNewPlaylists)
   {
-    boolean wasAdded = false;
-    if(songs.contains(aSong))
+    boolean wasSet = false;
+    if (aNewPlaylists != null)
     {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfSongs()) { index = numberOfSongs() - 1; }
-      songs.remove(aSong);
-      songs.add(index, aSong);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addSongAt(aSong, index);
+      playlists = aNewPlaylists;
+      wasSet = true;
     }
-    return wasAdded;
-  }
-
-  public static int minimumNumberOfAlbums()
-  {
-    return 0;
-  }
-
-  public boolean addAlbum(Album aAlbum)
-  {
-    boolean wasAdded = false;
-    if (albums.contains(aAlbum)) { return false; }
-    albums.add(aAlbum);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeAlbum(Album aAlbum)
-  {
-    boolean wasRemoved = false;
-    if (albums.contains(aAlbum))
-    {
-      albums.remove(aAlbum);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-
-  public boolean addAlbumAt(Album aAlbum, int index)
-  {  
-    boolean wasAdded = false;
-    if(addAlbum(aAlbum))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfAlbums()) { index = numberOfAlbums() - 1; }
-      albums.remove(aAlbum);
-      albums.add(index, aAlbum);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveAlbumAt(Album aAlbum, int index)
-  {
-    boolean wasAdded = false;
-    if(albums.contains(aAlbum))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfAlbums()) { index = numberOfAlbums() - 1; }
-      albums.remove(aAlbum);
-      albums.add(index, aAlbum);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addAlbumAt(aAlbum, index);
-    }
-    return wasAdded;
-  }
-
-  public static int minimumNumberOfPlaylists()
-  {
-    return 0;
-  }
-
-  public boolean addPlaylist(Playlist aPlaylist)
-  {
-    boolean wasAdded = false;
-    if (playlists.contains(aPlaylist)) { return false; }
-    playlists.add(aPlaylist);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removePlaylist(Playlist aPlaylist)
-  {
-    boolean wasRemoved = false;
-    if (playlists.contains(aPlaylist))
-    {
-      playlists.remove(aPlaylist);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-
-  public boolean addPlaylistAt(Playlist aPlaylist, int index)
-  {  
-    boolean wasAdded = false;
-    if(addPlaylist(aPlaylist))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfPlaylists()) { index = numberOfPlaylists() - 1; }
-      playlists.remove(aPlaylist);
-      playlists.add(index, aPlaylist);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMovePlaylistAt(Playlist aPlaylist, int index)
-  {
-    boolean wasAdded = false;
-    if(playlists.contains(aPlaylist))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfPlaylists()) { index = numberOfPlaylists() - 1; }
-      playlists.remove(aPlaylist);
-      playlists.add(index, aPlaylist);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addPlaylistAt(aPlaylist, index);
-    }
-    return wasAdded;
+    return wasSet;
   }
 
   public void delete()
   {
-    songs.clear();
-    albums.clear();
-    playlists.clear();
+    songs = null;
+    albums = null;
+    playlists = null;
   }
 
 
@@ -353,7 +148,10 @@ public class Location
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
             "volume" + ":" + getVolume()+ "," +
-            "beforeMuted" + ":" + getBeforeMuted()+ "]"
+            "beforeMuted" + ":" + getBeforeMuted()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "songs = "+(getSongs()!=null?Integer.toHexString(System.identityHashCode(getSongs())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "albums = "+(getAlbums()!=null?Integer.toHexString(System.identityHashCode(getAlbums())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "playlists = "+(getPlaylists()!=null?Integer.toHexString(System.identityHashCode(getPlaylists())):"null")
      + outputString;
   }
 }

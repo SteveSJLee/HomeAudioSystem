@@ -102,7 +102,9 @@
       <name>Living Room</name>
       <volume>0</volume>
       <beforeMuted>0</beforeMuted>
-      <songs id="32"/>
+      <songs id="32">
+        <positionInAlbum>0</positionInAlbum>
+      </songs>
       <albums id="33"/>
       <playlists id="34"/>
     </location>
@@ -110,15 +112,19 @@
       <name>Bedroom</name>
       <volume>14</volume>
       <beforeMuted>0</beforeMuted>
-      <songs id="36"/>
+      <songs id="36">
+        <positionInAlbum>0</positionInAlbum>
+      </songs>
       <albums id="37"/>
       <playlists id="38"/>
     </location>
     <location id="39">
       <name>Kitchen</name>
-      <volume>0</volume>
+      <volume>30</volume>
       <beforeMuted>0</beforeMuted>
-      <songs id="40"/>
+      <songs id="40">
+        <positionInAlbum>0</positionInAlbum>
+      </songs>
       <albums id="41"/>
       <playlists id="42"/>
     </location>
@@ -126,7 +132,9 @@
       <name>Basement</name>
       <volume>11</volume>
       <beforeMuted>0</beforeMuted>
-      <songs id="44"/>
+      <songs id="44">
+        <positionInAlbum>0</positionInAlbum>
+      </songs>
       <albums id="45"/>
       <playlists id="46"/>
     </location>
