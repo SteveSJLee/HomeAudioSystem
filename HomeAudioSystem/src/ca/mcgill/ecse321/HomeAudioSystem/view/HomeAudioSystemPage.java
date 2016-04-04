@@ -499,11 +499,11 @@ public final class HomeAudioSystemPage extends JFrame {
 			while (lIt.hasNext()) {
 				Location l = lIt.next();
 				locations.put(index, l);
-				if (l.getSongs() == null)
+				if (l.getSong() == null)
 					locationList.addItem(l.getName() + " (Empty!)");
-				else if (l.getAlbums() == null)
+				else if (l.getAlbum() == null)
 					locationList.addItem(l.getName() + " (Empty!)");
-				else if (l.getPlaylists() == null)
+				else if (l.getPlaylist() == null)
 					locationList.addItem(l.getName() + " (Empty!)");
 				else
 					locationList.addItem(l.getName());
@@ -679,7 +679,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		if (selectedSong < 0)
 			error = error + "Song cannot be empty! ";
 		if (selectedPlaylist < 0)
-			error = "Playlist cannot be empty! ";
+			error = error + "Playlist cannot be empty! ";
 		error = error.trim();
 		if (error.length() == 0) {
 			// call the controller

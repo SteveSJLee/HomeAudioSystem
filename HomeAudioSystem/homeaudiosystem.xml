@@ -94,7 +94,9 @@
     </playlist>
     <playlist id="28">
       <name>Playlist 2</name>
-      <songs id="29"/>
+      <songs id="29">
+        <song reference="17"/>
+      </songs>
     </playlist>
   </playlists>
   <locations id="30">
@@ -102,41 +104,41 @@
       <name>Living Room</name>
       <volume>0</volume>
       <beforeMuted>0</beforeMuted>
-      <songs id="32">
+      <song id="32">
         <positionInAlbum>0</positionInAlbum>
-      </songs>
-      <albums id="33"/>
-      <playlists id="34"/>
+      </song>
+      <album id="33"/>
+      <playlist id="34"/>
     </location>
     <location id="35">
       <name>Bedroom</name>
       <volume>14</volume>
       <beforeMuted>0</beforeMuted>
-      <songs id="36">
+      <song id="36">
         <positionInAlbum>0</positionInAlbum>
-      </songs>
-      <albums id="37"/>
-      <playlists id="38"/>
+      </song>
+      <album id="37"/>
+      <playlist id="38"/>
     </location>
     <location id="39">
       <name>Kitchen</name>
       <volume>30</volume>
       <beforeMuted>0</beforeMuted>
-      <songs id="40">
+      <song id="40">
         <positionInAlbum>0</positionInAlbum>
-      </songs>
-      <albums id="41"/>
-      <playlists id="42"/>
+      </song>
+      <album id="41"/>
+      <playlist id="42"/>
     </location>
     <location id="43">
       <name>Basement</name>
       <volume>11</volume>
       <beforeMuted>0</beforeMuted>
-      <songs id="44">
+      <song id="44">
         <positionInAlbum>0</positionInAlbum>
-      </songs>
-      <albums id="45"/>
-      <playlists id="46"/>
+      </song>
+      <album id="45"/>
+      <playlist id="46"/>
     </location>
   </locations>
 </audiosystem>

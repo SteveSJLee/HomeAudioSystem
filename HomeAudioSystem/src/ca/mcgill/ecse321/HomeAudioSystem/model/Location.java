@@ -16,30 +16,32 @@ public class Location
   private String name;
   private int volume;
   private int beforeMuted;
+  private boolean isPlaying;
 
   //Location Associations
-  private Song songs;
-  private Album albums;
-  private Playlist playlists;
+  private Song song;
+  private Album album;
+  private Playlist playlist;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Location(String aName, Song aSongs, Album aAlbums, Playlist aPlaylists)
+  public Location(String aName, Song aSong, Album aAlbum, Playlist aPlaylist)
   {
     name = aName;
-    if (!setSongs(aSongs))
+    isPlaying = false;
+    if (!setSong(aSong))
     {
-      throw new RuntimeException("Unable to create Location due to aSongs");
+      throw new RuntimeException("Unable to create Location due to aSong");
     }
-    if (!setAlbums(aAlbums))
+    if (!setAlbum(aAlbum))
     {
-      throw new RuntimeException("Unable to create Location due to aAlbums");
+      throw new RuntimeException("Unable to create Location due to aAlbum");
     }
-    if (!setPlaylists(aPlaylists))
+    if (!setPlaylist(aPlaylist))
     {
-      throw new RuntimeException("Unable to create Location due to aPlaylists");
+      throw new RuntimeException("Unable to create Location due to aPlaylist");
     }
   }
 
@@ -71,6 +73,14 @@ public class Location
     return wasSet;
   }
 
+  public boolean setIsPlaying(boolean aIsPlaying)
+  {
+    boolean wasSet = false;
+    isPlaying = aIsPlaying;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getName()
   {
     return name;
@@ -86,49 +96,54 @@ public class Location
     return beforeMuted;
   }
 
-  public Song getSongs()
+  public boolean getIsPlaying()
   {
-    return songs;
+    return isPlaying;
   }
 
-  public Album getAlbums()
+  public Song getSong()
   {
-    return albums;
+    return song;
   }
 
-  public Playlist getPlaylists()
+  public Album getAlbum()
   {
-    return playlists;
+    return album;
   }
 
-  public boolean setSongs(Song aNewSongs)
+  public Playlist getPlaylist()
+  {
+    return playlist;
+  }
+
+  public boolean setSong(Song aNewSong)
   {
     boolean wasSet = false;
-    if (aNewSongs != null)
+    if (aNewSong != null)
     {
-      songs = aNewSongs;
+      song = aNewSong;
       wasSet = true;
     }
     return wasSet;
   }
 
-  public boolean setAlbums(Album aNewAlbums)
+  public boolean setAlbum(Album aNewAlbum)
   {
     boolean wasSet = false;
-    if (aNewAlbums != null)
+    if (aNewAlbum != null)
     {
-      albums = aNewAlbums;
+      album = aNewAlbum;
       wasSet = true;
     }
     return wasSet;
   }
 
-  public boolean setPlaylists(Playlist aNewPlaylists)
+  public boolean setPlaylist(Playlist aNewPlaylist)
   {
     boolean wasSet = false;
-    if (aNewPlaylists != null)
+    if (aNewPlaylist != null)
     {
-      playlists = aNewPlaylists;
+      playlist = aNewPlaylist;
       wasSet = true;
     }
     return wasSet;
@@ -136,9 +151,9 @@ public class Location
 
   public void delete()
   {
-    songs = null;
-    albums = null;
-    playlists = null;
+    song = null;
+    album = null;
+    playlist = null;
   }
 
 
@@ -148,10 +163,11 @@ public class Location
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
             "volume" + ":" + getVolume()+ "," +
-            "beforeMuted" + ":" + getBeforeMuted()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "songs = "+(getSongs()!=null?Integer.toHexString(System.identityHashCode(getSongs())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "albums = "+(getAlbums()!=null?Integer.toHexString(System.identityHashCode(getAlbums())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "playlists = "+(getPlaylists()!=null?Integer.toHexString(System.identityHashCode(getPlaylists())):"null")
+            "beforeMuted" + ":" + getBeforeMuted()+ "," +
+            "isPlaying" + ":" + getIsPlaying()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "song = "+(getSong()!=null?Integer.toHexString(System.identityHashCode(getSong())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "album = "+(getAlbum()!=null?Integer.toHexString(System.identityHashCode(getAlbum())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "playlist = "+(getPlaylist()!=null?Integer.toHexString(System.identityHashCode(getPlaylist())):"null")
      + outputString;
   }
 }

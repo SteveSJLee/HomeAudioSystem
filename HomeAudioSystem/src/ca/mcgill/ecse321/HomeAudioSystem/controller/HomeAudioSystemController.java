@@ -55,7 +55,7 @@ public class HomeAudioSystemController {
 	public void addSong(String title, String duration, Album album, Artist artist) throws InvalidInputException
 	{
 		HAS has = HAS.getInstance();
-		
+
 		String error = "";
 		if (album == null)
 			error = error + "Album needs to be selected for adding a Song! ";
@@ -84,7 +84,7 @@ public class HomeAudioSystemController {
 	public void addPlaylist(String name) throws InvalidInputException 
 	{
 		HAS has = HAS.getInstance();
-		
+
 		String error = "";
 		if (name == null || name.trim().length() == 0)
 			error = error +"Playlist name cannot be empty! ";
@@ -96,11 +96,11 @@ public class HomeAudioSystemController {
 		has.addPlaylist(pl);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
-	
+
 	public void addLocation(String name, int volume) throws InvalidInputException
 	{
 		HAS has =  HAS.getInstance();
-		
+
 		String error = "";
 		if (name == null || name.trim().length() == 0)
 			error = error +"Location name cannot be empty! ";
@@ -109,17 +109,17 @@ public class HomeAudioSystemController {
 		error = error.trim();
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
-		
+
 		Location l = new Location(name, null, null, null);
 		l.setVolume(volume);
 		has.addLocation(l);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
-	
+
 	public void muteLocation(Location location, int volume, int beforeMuted) throws InvalidInputException
 	{
 		HAS has =  HAS.getInstance();
-		
+
 		String error = "";
 		if (location == null)
 			error = error + "Location needs to be selected to mute Location ";
@@ -128,12 +128,12 @@ public class HomeAudioSystemController {
 		error = error.trim();
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
-		
+
 		location.setVolume(volume);
 		location.setBeforeMuted(beforeMuted);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
-		
+
 	public void addSongToPlaylist(Song song, Playlist playlist) throws InvalidInputException
 	{
 		HAS has =  HAS.getInstance();
@@ -150,10 +150,108 @@ public class HomeAudioSystemController {
 		error = error.trim();
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
-		
+
 		playlist.addSong(song);
-		has.addPlaylist(playlist);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 
+	public void assignSongToLocation(Song song, Location location) throws InvalidInputException
+	{
+		HAS has = HAS.getInstance();
+
+		String error = "";
+		if (song == null)
+			error = error + "Song needs to be selected for assigning Song to Location! ";
+		else if (!has.getSongs().contains(song))
+			error = error + "Song does not exist! ";
+		if (location == null)
+			error = error + "Location needs to be selected for assigning Song to Location! ";
+		else if (!has.getLocations().contains(location))
+			error = error + "Location does not exist! ";
+		error = error.trim();
+		if (error.length() > 0)
+			throw new InvalidInputException(error);
+
+		location.delete();
+		location.setSong(song);
+		PersistenceXStream.saveToXMLwithXStream(has);		
+	}
+
+	public void assignAlbumToLocation(Album album, Location location) throws InvalidInputException
+	{
+		HAS has = HAS.getInstance();
+
+		String error = "";
+		if (album == null)
+			error = error + "Album needs to be selected for assigning album to Location! ";
+		else if (!has.getAlbums().contains(album))
+			error = error + "Album does not exist! ";
+		if (location == null)
+			error = error + "Location needs to be selected for assigning album to Location! ";
+		else if (!has.getLocations().contains(location))
+			error = error + "Location does not exist! ";
+		error = error.trim();
+		if (error.length() > 0)
+			throw new InvalidInputException(error);
+
+		location.delete();
+		location.setAlbum(album);
+		PersistenceXStream.saveToXMLwithXStream(has);	
+	}
+
+	public void assignPlaylistToLocation(Playlist playlist, Location location) throws InvalidInputException
+	{
+		HAS has = HAS.getInstance();
+
+		String error = "";
+		if (playlist == null)
+			error = error + "Playlist needs to be selected for assigning playlist to Location! ";
+		else if (!has.getPlaylists().contains(playlist))
+			error = error + "Playlist does not exist! ";
+		if (location == null)
+			error = error + "Location needs to be selected for assigning playlist to Location! ";
+		else if (!has.getLocations().contains(location))
+			error = error + "Location does not exist! ";
+		error = error.trim();
+		if (error.length() > 0)
+			throw new InvalidInputException(error);
+
+		location.delete();
+		location.setPlaylist(playlist);
+		PersistenceXStream.saveToXMLwithXStream(has);
+	}
+	
+	public void play() throws InvalidInputException
+	{
+		HAS has = HAS.getInstance();
+
+		for (int i = 0; i < has.getLocations().size(); i++) {
+			// album
+			if (has.getLocation(i).getAlbum() != null) {
+				if (!(has.getLocation(i).getIsPlaying())) {
+					has.getLocation(i).setIsPlaying(true);
+					// activate timer 
+				}
+			}
+			
+			// song
+			else if (has.getLocation(i).getSong() != null) {
+				if (!(has.getLocation(i).getIsPlaying())) {
+					has.getLocation(i).setIsPlaying(true);
+					// activate timer 
+				}
+			}
+			// playlist
+			else if (has.getLocation(i).getPlaylist() != null) {
+				if (!(has.getLocation(i).getIsPlaying())) {
+					has.getLocation(i).setIsPlaying(true);
+					// activate timer 
+				}
+			}
+		
+		}
+		
+		
+
+	}
 }
