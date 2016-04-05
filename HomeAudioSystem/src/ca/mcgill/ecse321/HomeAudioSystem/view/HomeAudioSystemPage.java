@@ -107,6 +107,7 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JButton assignPlaylistButton;
 
 	private JButton playButton;
+	private JButton pauseButton;
 
 	private JLabel statusLabel;
 	private JPanel statusPanel;
@@ -250,6 +251,7 @@ public final class HomeAudioSystemPage extends JFrame {
 
 		// element for play
 		playButton = new JButton();
+		pauseButton = new JButton();
 
 		// element for status
 		statusPanel = new JPanel();
@@ -292,7 +294,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		songLabel.setText("Select Song:");
 		songTitleLabel.setText("Title:");
 		songDurationLabel.setText("Duration:");
-		addSongButton.setText("Add Song to Album");
+		addSongButton.setText("Add Song");
 		addSongButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				addSongButtonActionPerformed(evt);
@@ -362,12 +364,19 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 		});
 
-		playButton.setText("Play");
+		playButton.setText("Play All");
 		playButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				playButtonActionPerformed(evt);
 			}
 		});
+		pauseButton.setText("Play / Pause");
+		pauseButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				playPauseButtonActionPerformed(evt);
+			}
+		});
+
 		statusLabel.setText("");
 		statusLabel.setForeground(Color.BLUE);
 
@@ -398,7 +407,8 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(playlistNameTextField, 200, 200, 400)
 								.addComponent(addPlaylistButton)
 								.addComponent(addSongToPlaylistButton)
-								.addComponent(playButton))
+								.addComponent(playButton)
+								.addComponent(pauseButton))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(artistLabel)
 								.addComponent(artistNameLabel)
@@ -434,7 +444,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {artistNameTextField, addArtistButton});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {songTitleTextField, songDurationTextField, addSongButton, assignSongButton, assignAlbumButton, assignPlaylistButton});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {playlistLabel, locationLabel});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {playlistNameTextField, addPlaylistButton, addSongToPlaylistButton, playButton});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {playlistNameTextField, addPlaylistButton, addSongToPlaylistButton, playButton, pauseButton});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {locationNameTextField, locationVolumeLabel, mutePanel, changeVolumeButton, addLocationButton});
 
 		layout.setVerticalGroup(
@@ -485,16 +495,62 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addComponent(mutePanel)
 						.addComponent(assignSongButton))
 				.addGroup(layout.createParallelGroup()
+						.addComponent(playButton)
 						.addComponent(changeVolumeButton)
 						.addComponent(assignAlbumButton))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(playButton)
+						.addComponent(pauseButton)
 						.addComponent(addLocationButton)
 						.addComponent(assignPlaylistButton))
 				.addComponent(statusPanel)
 				);
 		pack();
 	}
+
+	private void updateStatus() {
+
+		HAS has = HAS.getInstance();
+
+		String msg = "";
+		String stt = "";
+		for (int i = 0; i < has.getLocations().size(); i++) {
+			if (has.getLocation(i).getIsPlaying()) {
+				if (has.getLocation(i).getSong() != null) {
+					msg = msg + "\nPlaying song " + "\"" +  has.getLocation(i).getSong().getTitle() + "\" at the " + has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume() + " | Time Left: " + has.getLocation(i).getTime();
+				}
+				if (has.getLocation(i).getAlbum() != null) {
+					msg = msg + "\nPlaying Album " + "\"" +  has.getLocation(i).getAlbum().getTitle() + "\" at the " + has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume() + " | Time Left: " + has.getLocation(i).getTime();
+				}
+				if (has.getLocation(i).getPlaylist() != null) {
+					msg = msg + "\nPlaying Playlist " + "\"" +  has.getLocation(i).getPlaylist().getName() + "\" at the " + has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume() + " | Time Left: " + has.getLocation(i).getTime();
+				}
+				if (has.getLocation(i).getSong() == null && has.getLocation(i).getAlbum() == null && has.getLocation(i).getPlaylist() == null) {
+					stt = stt+ "\nNo music is not assigned to the Location: " + has.getLocation(i).getName();
+				}
+				message(msg);
+				messageStatus(stt);
+			}
+
+			else if (!has.getLocation(i).getIsPlaying()) {
+				if (has.getLocation(i).getSong() != null) {
+					msg = msg + "\nPaused song " + "\"" +  has.getLocation(i).getSong().getTitle() + "\" at the " + has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume()  + " | Time Left: " + has.getLocation(i).getTime();
+				}
+				if (has.getLocation(i).getAlbum() != null) {
+					msg = msg + "\nPaused Album " + "\"" +  has.getLocation(i).getAlbum().getTitle() + "\" at the " + has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume()  + " | Time Left: " + has.getLocation(i).getTime();
+				}
+				if (has.getLocation(i).getPlaylist() != null) {
+					msg = msg + "\nPaused Playlist " + "\"" +  has.getLocation(i).getPlaylist().getName() + "\" at the " + has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume()  + " | Time Left: " + has.getLocation(i).getTime();
+				}
+				if (has.getLocation(i).getSong() == null && has.getLocation(i).getAlbum() == null && has.getLocation(i).getPlaylist() == null) {
+					stt = stt+ "\nNo music is not assigned to the Location: " + has.getLocation(i).getName();
+				}
+				message(msg);
+				messageStatus(stt);
+			}
+
+		}
+	}
+
 
 	private void refreshData() {
 		HAS has = HAS.getInstance();
@@ -589,6 +645,8 @@ public final class HomeAudioSystemPage extends JFrame {
 			selectedLocation = -1;
 			locationList.setSelectedIndex(selectedLocation);
 
+			updateStatus();
+
 			// album
 			albumTitleTextField.setText("");
 			albumDatePicker.getModel().setValue(null);
@@ -644,7 +702,7 @@ public final class HomeAudioSystemPage extends JFrame {
 
 		if (artistList.getSelectedIndex() < 0) 
 			error = error + "Song artist cannot be empty! ";
-
+		
 		if (error.length() == 0) {
 			try {
 				hasc.addSong(songTitleTextField.getText(), songDurationTextField.getText(), has.getAlbum(albumList.getSelectedIndex()), has.getArtist(artistList.getSelectedIndex()));
@@ -681,7 +739,7 @@ public final class HomeAudioSystemPage extends JFrame {
 			int volume = has.getLocation(locationList.getSelectedIndex()).getVolume();
 
 			try {
-				hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), 0, volume);
+				hasc.changeVolumeLocation(has.getLocation(locationList.getSelectedIndex()), 0, volume);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -703,7 +761,7 @@ public final class HomeAudioSystemPage extends JFrame {
 			int volume = has.getLocation(locationList.getSelectedIndex()).getBeforeMuted();
 
 			try {
-				hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), volume, 0);
+				hasc.changeVolumeLocation(has.getLocation(locationList.getSelectedIndex()), volume, 0);
 			} catch (InvalidInputException e) {
 				if (locationList.getSelectedIndex() == -1) {
 					error = "location cannot be empty! ";
@@ -724,7 +782,7 @@ public final class HomeAudioSystemPage extends JFrame {
 
 		if (error.length() == 0) {
 			try {
-				hasc.muteLocation(has.getLocation(locationList.getSelectedIndex()), locationVolumeLabel.getValue(), 0);
+				hasc.changeVolumeLocation(has.getLocation(locationList.getSelectedIndex()), locationVolumeLabel.getValue(), 0);
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -843,26 +901,6 @@ public final class HomeAudioSystemPage extends JFrame {
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
-
-		String msg = "Now Playing . . . ";
-		String stt = "";
-		for (int i = 0; i < has.getLocations().size(); i++) {
-			if (has.getLocation(i).getSong() != null) {
-				msg = msg + "\nPlaying song " + "\"" +  has.getLocation(i).getSong().getTitle() + "\" at " + has.getLocation(i).getName();
-			}
-			if (has.getLocation(i).getAlbum() != null) {
-				msg = msg + "\nPlaying Album " + "\"" +  has.getLocation(i).getAlbum().getTitle() + "\" at " + has.getLocation(i).getName();
-			}
-			if (has.getLocation(i).getPlaylist() != null) {
-				msg = msg + "\nPlaying Playlist " + "\"" +  has.getLocation(i).getPlaylist().getName() + "\" at " + has.getLocation(i).getName();
-			}
-			if (has.getLocation(i).getSong() == null && has.getLocation(i).getAlbum() == null && has.getLocation(i).getPlaylist() == null) {
-				stt = stt+ "\nSong, Album and Playlist is not assigned to the Location: " + has.getLocation(i).getName();
-			}
-			message(msg);
-			messageStatus(stt);
-		}
-
 		refreshData();
 	}
 	void message(String msg) {
@@ -870,7 +908,40 @@ public final class HomeAudioSystemPage extends JFrame {
 	}
 	void messageStatus(String msg) {
 		statusLabel.setText(msg);
-		
-	}
 
+	}
+	private void playPauseButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		HAS has = HAS.getInstance();
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
+
+		error = "";
+		if (has.getSongs().isEmpty())
+			error = error + "Song is Empty! ";
+		if (has.getAlbums().isEmpty())
+			error = error + "Album is Empty! ";
+		if (has.getPlaylists().isEmpty())
+			error = error + "Playlist is Empty! ";
+		if (selectedLocation < 0)
+			error = error + "Location cannot be empty! ";
+		error = error.trim();
+
+		if (error.length() == 0) {
+			if (has.getLocation(locationList.getSelectedIndex()).getIsPlaying()) {
+				try {
+					hasc.playPause(has.getLocation(locationList.getSelectedIndex()), false);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+				}
+			}
+			else if (!(has.getLocation(locationList.getSelectedIndex()).getIsPlaying())) {
+				try {
+					hasc.playPause(has.getLocation(locationList.getSelectedIndex()), true);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+				}
+			}
+		}
+
+		refreshData();
+	}
 }

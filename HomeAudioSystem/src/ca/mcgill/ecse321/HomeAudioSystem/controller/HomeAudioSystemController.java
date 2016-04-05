@@ -69,16 +69,34 @@ public class HomeAudioSystemController {
 			error = error +"Song title cannot be empty! ";
 		if (duration == null || duration.trim().length() == 0)
 			error = error + "Song duration cannot be empty! ";
+		if (duration.length() !=5)
+			error = error + "Duration format is not correct! ";
 		error = error.trim();
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
 
-		Song s = new Song(title, duration, album, artist);
-		has.addSong(s);
-		album.addSong(s);
-		artist.addSong(s);
-		s.setPositionInAlbum(album.getSongs().indexOf(s) + 1);
-		PersistenceXStream.saveToXMLwithXStream(has);
+		try {
+			Integer.parseInt(duration.substring(0,2));
+			int a = Integer.parseInt(duration.substring(3,5));
+			
+			if (a>59) {
+				error = error + "Seconds cannot pass 60s! ";
+			}
+			else {
+				Song s = new Song(title, duration, album, artist);
+				has.addSong(s);
+				album.addSong(s);
+				artist.addSong(s);
+				s.setPositionInAlbum(album.getSongs().indexOf(s) + 1);
+				PersistenceXStream.saveToXMLwithXStream(has);
+			}
+		} catch (NumberFormatException n){
+			error = error + "This is not a number! ";
+			error = error.trim();
+			if (error.length() > 0)
+				throw new InvalidInputException(error);
+		}
+
 	}
 
 	public void addPlaylist(String name) throws InvalidInputException 
@@ -117,7 +135,7 @@ public class HomeAudioSystemController {
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 
-	public void muteLocation(Location location, int volume, int beforeMuted) throws InvalidInputException
+	public void changeVolumeLocation(Location location, int volume, int beforeMuted) throws InvalidInputException
 	{
 		HAS has =  HAS.getInstance();
 
@@ -130,9 +148,11 @@ public class HomeAudioSystemController {
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
 
-		location.setVolume(volume);
-		location.setBeforeMuted(beforeMuted);
-		PersistenceXStream.saveToXMLwithXStream(has);
+		if (volume != beforeMuted) {
+			location.setVolume(volume);
+			location.setBeforeMuted(beforeMuted);
+			PersistenceXStream.saveToXMLwithXStream(has);
+		}
 	}
 
 	public void addSongToPlaylist(Song song, Playlist playlist) throws InvalidInputException
@@ -173,8 +193,18 @@ public class HomeAudioSystemController {
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
 
+		// activate timer 
+
 		location.delete();
-		location.setSong(song);
+		location.setSong(song);		
+		location.setIsPlaying(false);
+
+		int timer = 0;
+		timer =  Integer.parseInt(location.getSong().getDuration().substring(0, 2))*60 
+				+ Integer.parseInt(location.getSong().getDuration().substring(3, 5)); 
+
+		location.setTime(timer);
+
 		PersistenceXStream.saveToXMLwithXStream(has);		
 	}
 
@@ -185,6 +215,8 @@ public class HomeAudioSystemController {
 		String error = "";
 		if (album == null)
 			error = error + "Album needs to be selected for assigning album to Location! ";
+		else if (album.getSongs().isEmpty())
+			error = error + "Album is empty! ";
 		else if (!has.getAlbums().contains(album))
 			error = error + "Album does not exist! ";
 		if (location == null)
@@ -197,6 +229,14 @@ public class HomeAudioSystemController {
 
 		location.delete();
 		location.setAlbum(album);
+		location.setIsPlaying(false);
+		int timer = 0;
+		for (int i = 0; i < location.getAlbum().numberOfSongs(); i ++) {
+			timer += Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(0, 2))*60 
+					+ Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(3, 5)); 
+		}
+		location.setTime(timer);
+
 		PersistenceXStream.saveToXMLwithXStream(has);	
 	}
 
@@ -207,6 +247,8 @@ public class HomeAudioSystemController {
 		String error = "";
 		if (playlist == null)
 			error = error + "Playlist needs to be selected for assigning playlist to Location! ";
+		else if (playlist.getSongs().isEmpty())
+			error = error + "Playlist is Empty! ";
 		else if (!has.getPlaylists().contains(playlist))
 			error = error + "Playlist does not exist! ";
 		if (location == null)
@@ -219,25 +261,25 @@ public class HomeAudioSystemController {
 
 		location.delete();
 		location.setPlaylist(playlist);
+		location.setIsPlaying(false);
+		int timer = 0;
+		for (int i = 0; i < location.getPlaylist().getSongs().size(); i ++) {
+			timer += Integer.parseInt(location.getPlaylist().getSong(i).getDuration().substring(0, 2))*60 
+					+ Integer.parseInt(location.getPlaylist().getSong(i).getDuration().substring(3, 5)); 
+		}
+		location.setTime(timer);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 
 	public void play() throws InvalidInputException
 	{
 		HAS has = HAS.getInstance();
-
 		for (int i = 0; i < has.getLocations().size(); i++) {
 			// song
 			if (has.getLocation(i).getSong() != null) {
 				if (!(has.getLocation(i).getIsPlaying())) {
 					has.getLocation(i).setIsPlaying(true);
-					// activate timer 
-					int timer = has.getLocation(i).getSong().getDuration().charAt(0)*600
-							+  has.getLocation(i).getSong().getDuration().charAt(1)*60
-							+ has.getLocation(i).getSong().getDuration().charAt(3)*10
-							+ has.getLocation(i).getSong().getDuration().charAt(4);
-					has.getLocation(i).setTime(timer);
-					
+
 					PersistenceXStream.saveToXMLwithXStream(has);
 				}
 			}
@@ -258,8 +300,23 @@ public class HomeAudioSystemController {
 				}
 			}
 		}
+	}
 
+	public void playPause(Location location, boolean playing) throws InvalidInputException
+	{
+		HAS has = HAS.getInstance();
+		String error = "";
+		if (location == null)
+			error = error + "Location needs to be selected to pause! ";
+		else if (!has.getLocations().contains(location))
+			error = error + "Location does not exist! ";
+		error = error.trim();
+		if (error.length() > 0)
+			throw new InvalidInputException(error);
 
+		location.setIsPlaying(playing);
+		PersistenceXStream.saveToXMLwithXStream(has);
 
 	}
+
 }
