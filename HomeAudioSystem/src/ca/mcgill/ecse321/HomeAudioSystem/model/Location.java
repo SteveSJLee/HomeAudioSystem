@@ -17,6 +17,7 @@ public class Location
   private int volume;
   private int beforeMuted;
   private boolean isPlaying;
+  private int time;
 
   //Location Associations
   private Song song;
@@ -27,22 +28,9 @@ public class Location
   // CONSTRUCTOR
   //------------------------
 
-  public Location(String aName, Song aSong, Album aAlbum, Playlist aPlaylist)
+  public Location(String aName)
   {
     name = aName;
-    isPlaying = false;
-    if (!setSong(aSong))
-    {
-      throw new RuntimeException("Unable to create Location due to aSong");
-    }
-    if (!setAlbum(aAlbum))
-    {
-      throw new RuntimeException("Unable to create Location due to aAlbum");
-    }
-    if (!setPlaylist(aPlaylist))
-    {
-      throw new RuntimeException("Unable to create Location due to aPlaylist");
-    }
   }
 
   //------------------------
@@ -81,6 +69,14 @@ public class Location
     return wasSet;
   }
 
+  public boolean setTime(int aTime)
+  {
+    boolean wasSet = false;
+    time = aTime;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getName()
   {
     return name;
@@ -101,9 +97,20 @@ public class Location
     return isPlaying;
   }
 
+  public int getTime()
+  {
+    return time;
+  }
+
   public Song getSong()
   {
     return song;
+  }
+
+  public boolean hasSong()
+  {
+    boolean has = song != null;
+    return has;
   }
 
   public Album getAlbum()
@@ -111,41 +118,44 @@ public class Location
     return album;
   }
 
+  public boolean hasAlbum()
+  {
+    boolean has = album != null;
+    return has;
+  }
+
   public Playlist getPlaylist()
   {
     return playlist;
   }
 
+  public boolean hasPlaylist()
+  {
+    boolean has = playlist != null;
+    return has;
+  }
+
   public boolean setSong(Song aNewSong)
   {
     boolean wasSet = false;
-    if (aNewSong != null)
-    {
-      song = aNewSong;
-      wasSet = true;
-    }
+    song = aNewSong;
+    wasSet = true;
     return wasSet;
   }
 
   public boolean setAlbum(Album aNewAlbum)
   {
     boolean wasSet = false;
-    if (aNewAlbum != null)
-    {
-      album = aNewAlbum;
-      wasSet = true;
-    }
+    album = aNewAlbum;
+    wasSet = true;
     return wasSet;
   }
 
   public boolean setPlaylist(Playlist aNewPlaylist)
   {
     boolean wasSet = false;
-    if (aNewPlaylist != null)
-    {
-      playlist = aNewPlaylist;
-      wasSet = true;
-    }
+    playlist = aNewPlaylist;
+    wasSet = true;
     return wasSet;
   }
 
@@ -164,7 +174,8 @@ public class Location
             "name" + ":" + getName()+ "," +
             "volume" + ":" + getVolume()+ "," +
             "beforeMuted" + ":" + getBeforeMuted()+ "," +
-            "isPlaying" + ":" + getIsPlaying()+ "]" + System.getProperties().getProperty("line.separator") +
+            "isPlaying" + ":" + getIsPlaying()+ "," +
+            "time" + ":" + getTime()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "song = "+(getSong()!=null?Integer.toHexString(System.identityHashCode(getSong())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "album = "+(getAlbum()!=null?Integer.toHexString(System.identityHashCode(getAlbum())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "playlist = "+(getPlaylist()!=null?Integer.toHexString(System.identityHashCode(getPlaylist())):"null")

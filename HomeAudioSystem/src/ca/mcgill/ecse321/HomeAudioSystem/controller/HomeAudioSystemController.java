@@ -110,8 +110,9 @@ public class HomeAudioSystemController {
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
 
-		Location l = new Location(name, null, null, null);
+		Location l = new Location(name);
 		l.setVolume(volume);
+		l.setIsPlaying(false);
 		has.addLocation(l);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
@@ -220,25 +221,32 @@ public class HomeAudioSystemController {
 		location.setPlaylist(playlist);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
-	
+
 	public void play() throws InvalidInputException
 	{
 		HAS has = HAS.getInstance();
 
 		for (int i = 0; i < has.getLocations().size(); i++) {
-			// album
-			if (has.getLocation(i).getAlbum() != null) {
+			// song
+			if (has.getLocation(i).getSong() != null) {
 				if (!(has.getLocation(i).getIsPlaying())) {
 					has.getLocation(i).setIsPlaying(true);
 					// activate timer 
+					int timer = has.getLocation(i).getSong().getDuration().charAt(0)*600
+							+  has.getLocation(i).getSong().getDuration().charAt(1)*60
+							+ has.getLocation(i).getSong().getDuration().charAt(3)*10
+							+ has.getLocation(i).getSong().getDuration().charAt(4);
+					has.getLocation(i).setTime(timer);
+					
+					PersistenceXStream.saveToXMLwithXStream(has);
 				}
 			}
-			
-			// song
-			else if (has.getLocation(i).getSong() != null) {
+			// album
+			else if (has.getLocation(i).getAlbum() != null) {
 				if (!(has.getLocation(i).getIsPlaying())) {
 					has.getLocation(i).setIsPlaying(true);
 					// activate timer 
+					PersistenceXStream.saveToXMLwithXStream(has);
 				}
 			}
 			// playlist
@@ -246,12 +254,12 @@ public class HomeAudioSystemController {
 				if (!(has.getLocation(i).getIsPlaying())) {
 					has.getLocation(i).setIsPlaying(true);
 					// activate timer 
+					PersistenceXStream.saveToXMLwithXStream(has);
 				}
 			}
-		
 		}
-		
-		
+
+
 
 	}
 }

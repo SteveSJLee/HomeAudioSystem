@@ -104,41 +104,35 @@
       <name>Living Room</name>
       <volume>0</volume>
       <beforeMuted>0</beforeMuted>
-      <song id="32">
-        <positionInAlbum>0</positionInAlbum>
-      </song>
-      <album id="33"/>
-      <playlist id="34"/>
+      <isPlaying>true</isPlaying>
+      <song reference="3"/>
     </location>
-    <location id="35">
+    <location id="32">
       <name>Bedroom</name>
       <volume>14</volume>
       <beforeMuted>0</beforeMuted>
-      <song id="36">
-        <positionInAlbum>0</positionInAlbum>
-      </song>
-      <album id="37"/>
-      <playlist id="38"/>
+      <isPlaying>true</isPlaying>
+      <song reference="3"/>
     </location>
-    <location id="39">
+    <location id="33">
       <name>Kitchen</name>
       <volume>30</volume>
       <beforeMuted>0</beforeMuted>
-      <song id="40">
-        <positionInAlbum>0</positionInAlbum>
-      </song>
-      <album id="41"/>
-      <playlist id="42"/>
+      <isPlaying>true</isPlaying>
+      <song reference="17"/>
     </location>
-    <location id="43">
+    <location id="34">
       <name>Basement</name>
       <volume>11</volume>
       <beforeMuted>0</beforeMuted>
-      <song id="44">
-        <positionInAlbum>0</positionInAlbum>
-      </song>
-      <album id="45"/>
-      <playlist id="46"/>
+      <isPlaying>true</isPlaying>
+      <playlist reference="28"/>
+    </location>
+    <location id="35">
+      <name>Bedroom2</name>
+      <volume>15</volume>
+      <beforeMuted>0</beforeMuted>
+      <isPlaying>false</isPlaying>
     </location>
   </locations>
 </audiosystem>
