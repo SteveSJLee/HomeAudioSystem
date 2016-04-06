@@ -73,102 +73,78 @@
         </songs>
       </artist>
     </song>
-    <song id="23">
-      <title>TESTing</title>
-      <duration>34:01</duration>
-      <positionInAlbum>1</positionInAlbum>
-      <album id="24">
-        <title>TEST</title>
-        <genre>Rock</genre>
-        <releaseDate id="25">2016-04-07</releaseDate>
-        <songs id="26">
-          <song reference="23"/>
-          <song id="27">
-            <title>testing1</title>
-            <duration>12:33</duration>
-            <positionInAlbum>2</positionInAlbum>
-            <album reference="24"/>
-            <artist id="28">
-              <name>Tester</name>
-              <songs id="29">
-                <song reference="23"/>
-                <song reference="27"/>
-              </songs>
-            </artist>
-          </song>
-        </songs>
-      </album>
-      <artist reference="28"/>
-    </song>
-    <song reference="27"/>
   </songs>
-  <albums id="30">
+  <albums id="23">
     <album reference="4"/>
     <album reference="12"/>
     <album reference="18"/>
-    <album reference="24"/>
   </albums>
-  <artists id="31">
+  <artists id="24">
     <artist reference="8"/>
     <artist reference="15"/>
     <artist reference="21"/>
-    <artist reference="28"/>
   </artists>
-  <playlists id="32">
-    <playlist id="33">
+  <playlists id="25">
+    <playlist id="26">
       <name>Playlist 1</name>
-      <songs id="34">
+      <songs id="27">
         <song reference="17"/>
         <song reference="3"/>
       </songs>
     </playlist>
-    <playlist id="35">
+    <playlist id="28">
       <name>Playlist 2</name>
-      <songs id="36">
+      <songs id="29">
         <song reference="17"/>
       </songs>
     </playlist>
-    <playlist id="37">
-      <name>Playlist3</name>
-      <songs id="38"/>
-    </playlist>
   </playlists>
-  <locations id="39">
-    <location id="40">
+  <locations id="30">
+    <location id="31">
       <name>Living Room</name>
       <volume>21</volume>
       <beforeMuted>0</beforeMuted>
-      <isPlaying>true</isPlaying>
+      <isPlaying>false</isPlaying>
       <time>688</time>
-      <playlist reference="33"/>
     </location>
-    <location id="41">
+    <location id="32">
       <name>Bedroom</name>
-      <volume>14</volume>
+      <volume>13</volume>
       <beforeMuted>0</beforeMuted>
-      <isPlaying>true</isPlaying>
-      <time>358</time>
-      <song reference="3"/>
+      <isPlaying>false</isPlaying>
+      <time>688</time>
     </location>
-    <location id="42">
+    <location id="33">
       <name>Kitchen</name>
       <volume>30</volume>
       <beforeMuted>0</beforeMuted>
       <isPlaying>false</isPlaying>
       <time>150</time>
-      <song reference="11"/>
     </location>
-    <location id="43">
+    <location id="34">
       <name>Basement</name>
       <volume>11</volume>
       <beforeMuted>0</beforeMuted>
-      <isPlaying>false</isPlaying>
+      <isPlaying>true</isPlaying>
       <time>150</time>
-      <song reference="17"/>
     </location>
-    <location id="44">
+    <location id="35">
       <name>Bedroom2</name>
       <volume>15</volume>
+      <beforeMuted>0</beforeMuted>
+      <isPlaying>false</isPlaying>
+      <time>150</time>
+    </location>
+    <location id="36">
+      <name>Bedroom3</name>
+      <volume>15</volume>
+      <beforeMuted>0</beforeMuted>
+      <isPlaying>true</isPlaying>
+      <time>0</time>
+    </location>
+    <location id="37">
+      <name>Dining Room</name>
+      <volume>18</volume>
       <beforeMuted>0</beforeMuted>
       <isPlaying>false</isPlaying>
       <time>0</time>

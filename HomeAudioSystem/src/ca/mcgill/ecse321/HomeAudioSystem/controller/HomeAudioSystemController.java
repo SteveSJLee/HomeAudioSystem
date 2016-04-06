@@ -78,7 +78,7 @@ public class HomeAudioSystemController {
 		try {
 			Integer.parseInt(duration.substring(0,2));
 			int a = Integer.parseInt(duration.substring(3,5));
-			
+
 			if (a>59) {
 				error = error + "Seconds cannot pass 60s! ";
 			}
@@ -96,7 +96,6 @@ public class HomeAudioSystemController {
 			if (error.length() > 0)
 				throw new InvalidInputException(error);
 		}
-
 	}
 
 	public void addPlaylist(String name) throws InvalidInputException 
@@ -201,7 +200,7 @@ public class HomeAudioSystemController {
 
 		int timer = 0;
 		timer =  Integer.parseInt(location.getSong().getDuration().substring(0, 2))*60 
-				+ Integer.parseInt(location.getSong().getDuration().substring(3, 5)); 
+				+ Integer.parseInt(location.getSong().getDuration().substring(3)); 
 
 		location.setTime(timer);
 
@@ -233,7 +232,7 @@ public class HomeAudioSystemController {
 		int timer = 0;
 		for (int i = 0; i < location.getAlbum().numberOfSongs(); i ++) {
 			timer += Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(0, 2))*60 
-					+ Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(3, 5)); 
+					+ Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(3)); 
 		}
 		location.setTime(timer);
 
@@ -265,38 +264,57 @@ public class HomeAudioSystemController {
 		int timer = 0;
 		for (int i = 0; i < location.getPlaylist().getSongs().size(); i ++) {
 			timer += Integer.parseInt(location.getPlaylist().getSong(i).getDuration().substring(0, 2))*60 
-					+ Integer.parseInt(location.getPlaylist().getSong(i).getDuration().substring(3, 5)); 
+					+ Integer.parseInt(location.getPlaylist().getSong(i).getDuration().substring(3)); 
 		}
 		location.setTime(timer);
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 
-	public void play() throws InvalidInputException
+	public void playPauseAll() 
 	{
 		HAS has = HAS.getInstance();
 		for (int i = 0; i < has.getLocations().size(); i++) {
-			// song
-			if (has.getLocation(i).getSong() != null) {
-				if (!(has.getLocation(i).getIsPlaying())) {
+			if (has.getLocation(i).getIsPlaying() == false) {
+				// song
+				if (has.getLocation(i).getSong() != null) {
 					has.getLocation(i).setIsPlaying(true);
 
 					PersistenceXStream.saveToXMLwithXStream(has);
 				}
-			}
-			// album
-			else if (has.getLocation(i).getAlbum() != null) {
-				if (!(has.getLocation(i).getIsPlaying())) {
+				// album
+				else if (has.getLocation(i).getAlbum() != null) {
+					has.getLocation(i).setIsPlaying(true);
+					// activate timer 
+					PersistenceXStream.saveToXMLwithXStream(has);
+				}
+				// playlist
+				else if (has.getLocation(i).getPlaylist() != null) {
 					has.getLocation(i).setIsPlaying(true);
 					// activate timer 
 					PersistenceXStream.saveToXMLwithXStream(has);
 				}
 			}
-			// playlist
-			else if (has.getLocation(i).getPlaylist() != null) {
-				if (!(has.getLocation(i).getIsPlaying())) {
-					has.getLocation(i).setIsPlaying(true);
+
+			else if (has.getLocation(i).getIsPlaying() == true) {
+				// song
+				if (has.getLocation(i).getSong() != null) {
+					has.getLocation(i).setIsPlaying(false);
+
+					PersistenceXStream.saveToXMLwithXStream(has);
+				}
+				// album
+				else if (has.getLocation(i).getAlbum() != null) {
+					has.getLocation(i).setIsPlaying(false);
 					// activate timer 
 					PersistenceXStream.saveToXMLwithXStream(has);
+				}
+				// playlist
+				else if (has.getLocation(i).getPlaylist() != null) {
+
+					has.getLocation(i).setIsPlaying(false);
+					// activate timer 
+					PersistenceXStream.saveToXMLwithXStream(has);
+
 				}
 			}
 		}
@@ -317,6 +335,33 @@ public class HomeAudioSystemController {
 		location.setIsPlaying(playing);
 		PersistenceXStream.saveToXMLwithXStream(has);
 
+	}
+	
+	public void clearLocation(Location location) throws InvalidInputException 
+	{
+		HAS has = HAS.getInstance();
+		String error = "";
+		
+		if (location == null)
+			error = error + "Location needs to be selected for assigning Song to Location! ";
+		else if (!has.getLocations().contains(location))
+			error = error + "Location does not exist! ";
+		error = error.trim();
+		if (error.length() > 0)
+			throw new InvalidInputException(error);
+		
+		location.delete();
+		
+		PersistenceXStream.saveToXMLwithXStream(has);
+	}
+
+	public void clearAllLocation() {
+		HAS has = HAS.getInstance();
+		for (int i = 0; i < has.getLocations().size(); i++) {
+			has.getLocation(i).delete();
+		}
+
+		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 
 }

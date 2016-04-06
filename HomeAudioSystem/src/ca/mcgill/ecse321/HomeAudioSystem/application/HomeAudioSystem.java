@@ -11,7 +11,7 @@ public class HomeAudioSystem {
 		// start UI
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new HomeAudioSystemPage().setVisible(true);
+				new HomeAudioSystemPage().setVisible(true);				
 			}
 		});
 	}
