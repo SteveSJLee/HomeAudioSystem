@@ -30,4 +30,5 @@
     <string name="newlocation_button">Add Location</string>
     <string name="genrespinner_label">Genre?</string>
     <string name="newsongduration_hint">duration of song?</string>
+    <string name="unmutelocation_button">Unmute Location</string>
 </resources>

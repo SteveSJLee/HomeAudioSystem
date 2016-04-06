@@ -31,6 +31,13 @@
         android:layout_height="wrap_content"
         android:layout_width="fill_parent" />
 
+    <!-- Display locations infos -->
+    <TextView
+        android:id="@+id/locationinfotodisplay"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent" />
+
+
     <!-- Select Album -->
     <LinearLayout
 
@@ -125,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="end"
-            android:id="@+id/locationpinner"/>
+            android:id="@+id/locationspinner"/>
 
     </LinearLayout>
 
@@ -340,7 +347,7 @@
     <EditText
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:id="@+id/newlocationtname_name"
+        android:id="@+id/newlocationname_name"
         android:hint="@string/newlocationname_hint"/>
 
     <!--Add Location button -->
@@ -378,7 +385,15 @@
         android:layout_width="wrap_content"
         android:text="@string/mutelocation_button"
         android:layout_gravity="end"
-        android:onClick="MuteLocation"/>
+        android:onClick="muteLocation"/>
+
+    <!--Unmute Location button -->
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/unmutelocation_button"
+        android:layout_gravity="end"
+        android:onClick="unmuteLocation"/>
 
     </LinearLayout>
     </ScrollView>

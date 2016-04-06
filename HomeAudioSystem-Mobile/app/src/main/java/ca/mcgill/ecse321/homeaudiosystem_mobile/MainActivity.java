@@ -7,10 +7,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -18,12 +23,13 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import ca.mcgill.ecse321.HomeAudioSystem.controller.Genre;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Genre;
 import ca.mcgill.ecse321.HomeAudioSystem.controller.HomeAudioSystemController;
     import ca.mcgill.ecse321.HomeAudioSystem.controller.InvalidInputException;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Album;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Artist;
 import ca.mcgill.ecse321.HomeAudioSystem.model.HAS;
+import ca.mcgill.ecse321.HomeAudioSystem.model.Location;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Playlist;
 import ca.mcgill.ecse321.HomeAudioSystem.model.Song;
 import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceHomeAudioSystem;
@@ -34,7 +40,9 @@ import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceHomeAudioSystem;
         private HashMap<Integer, Artist> artists;
         private HashMap<Integer, Song> songs;
         private HashMap<Integer, Playlist> playlists;
+        private HashMap<Integer, Location> locations;
         private String error = null;
+        private String locationInfo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +92,8 @@ import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceHomeAudioSystem;
         return super.onOptionsItemSelected(item);
     }
 
+
+
     private void refreshData(){
         // Erase all the text fields
         TextView albumTitle = (TextView) findViewById(R.id.newalbumtitle_name);
@@ -96,6 +106,8 @@ import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceHomeAudioSystem;
         songDuration.setText("");
         TextView playlistName = (TextView) findViewById(R.id.newplaylistname_name);
         playlistName.setText("");
+        TextView locationName = (TextView) findViewById(R.id.newlocationname_name);
+        locationName.setText("");
 
         HAS has = HAS.getInstance();
 
@@ -177,6 +189,32 @@ import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceHomeAudioSystem;
         }
         playlistSpinner.setAdapter(playlistAdapter);
 
+
+// Initialize the data in the location spinner
+        Spinner locationSpinner = (Spinner) findViewById(R.id.locationspinner);
+        ArrayAdapter<CharSequence> locationAdapter = new
+                ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item);
+        locationAdapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+        this.locations = new HashMap<Integer, Location>();
+
+        i = 0;
+        for(Iterator<Location> locations = has.getLocations().iterator();
+            locations.hasNext(); i++){
+            Location p = locations.next();
+            if (p.getSong() != null)
+                locationAdapter.add(p.getName() + " (songAssigned)");
+            else if (p.getAlbum() != null)
+                locationAdapter.add(p.getName() + " (AlbumAssigned!)");
+            else if (p.getPlaylist() != null)
+                locationAdapter.add(p.getName() + " (PlaylistAssigned!)");
+            else
+                locationAdapter.add(p.getName() + "(Empty!) ");
+            this.locations.put(i, p);
+        }
+        locationSpinner.setAdapter(locationAdapter);
+
+
         // Initialize the data in the genre album spinner
         Spinner genreSpinner = (Spinner) findViewById(R.id.genrespinner);
         genreSpinner.setAdapter(new ArrayAdapter<Genre>(this, android.R.layout.simple_list_item_1, Genre.values()));
@@ -186,6 +224,20 @@ import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceHomeAudioSystem;
         errorDisplay.setTextColor(Color.RED);
         errorDisplay.setText(error);
         // HAS
+
+
+
+        //display song info
+        locationInfo = "";
+        for (int w=0; w<has.getLocations().size();w++){
+            locationInfo += has.getLocation(w).getName() + "   " + has.getLocation(w).getVolume()
+                    + "   " + has.getLocation(w).getIsPlaying() +  "\n";
+        }
+
+        TextView locationDisplay = (TextView)findViewById(R.id.locationinfotodisplay);
+        locationDisplay.setTextColor(Color.GREEN);
+        locationDisplay.setText(locationInfo);
+
     }
 
     //Method to add albums
@@ -237,25 +289,30 @@ import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceHomeAudioSystem;
         TextView tvSongTitle = (TextView) findViewById(R.id.newsongtitle_name);
         TextView tvSongDuration = (TextView) findViewById(R.id.newsongduration_name);
 
-        //extract value of participantspinner
+        //extract value of albumspinner
         Spinner albumSpinner=(Spinner) findViewById(R.id.albumspinner);
         int albumSelected = albumSpinner.getSelectedItemPosition();
 
-        //extract value of eventspinner
+        //extract value of artistspinner
         Spinner artistSpinner = (Spinner) findViewById(R.id.artistspinner);
         int artistSelected = artistSpinner.getSelectedItemPosition();
 
-        HomeAudioSystemController pc = new HomeAudioSystemController();
-        error = null;
+        error = "";
+        if (albumSelected < 0)
+            error = error + "Album needs to be selected to add a new song! ";
+        if (artistSelected < 0)
+            error = error + "Artist needs to be selected to add a new song! ";
+        error = error.trim();
         //calling create song method
-        try {
-
-            pc.addSong(tvSongTitle.getText().toString(), tvSongDuration.getText().toString(),
-                    albums.get(albumSelected), artists.get(artistSelected));
-        } catch (InvalidInputException e) {
-            error = e.getMessage();
+        if (error.length() == 0) {
+            HomeAudioSystemController pc = new HomeAudioSystemController();
+            try {
+                pc.addSong(tvSongTitle.getText().toString(), tvSongDuration.getText().toString(),
+                        albums.get(albumSelected), artists.get(artistSelected));
+            } catch (InvalidInputException e) {
+                error = e.getMessage();
+            }
         }
-
         refreshData();
     }
 
@@ -271,9 +328,214 @@ import ca.mcgill.ecse321.HomeAudioSystem.persistence.PersistenceHomeAudioSystem;
         } catch (InvalidInputException e) {
             error = e.getMessage();
         }
-
         refreshData();
     }
+
+    public void addLocation(View v) {
+        TextView tvLocationName = (TextView) findViewById(R.id.newlocationname_name);
+
+        HomeAudioSystemController pc = new HomeAudioSystemController();
+        error = null;
+        //calling create playlist method
+        try {
+            pc.addLocation(tvLocationName.getText().toString(), 5);
+        } catch (InvalidInputException e) {
+            error = e.getMessage();
+        }
+        refreshData();
+    }
+
+    public void addSongToPlaylist(View w){
+        //extract value of songpinner
+        Spinner songSpinner=(Spinner) findViewById(R.id.songspinner);
+        int songSelected = songSpinner.getSelectedItemPosition();
+
+        //extract value of playlistspinner
+        Spinner playlistSpinner = (Spinner) findViewById(R.id.playlistspinner);
+        int playlistSelected = playlistSpinner.getSelectedItemPosition();
+
+        error = "";
+        if (songSelected < 0)
+            error = "Song needs to be selected to add a song to a playlist! ";
+        if (playlistSelected < 0)
+            error = error + "playlist needs to be selected to song to a playlist! ";
+        error = error.trim();
+        //calling create song method
+        if (error.length() == 0) {
+            HomeAudioSystemController pc = new HomeAudioSystemController();
+            try {
+                pc.addSongToPlaylist(songs.get(songSelected), playlists.get(playlistSelected));
+            } catch (InvalidInputException e) {
+                error = e.getMessage();
+            }
+        }
+        refreshData();
+    }
+
+    public void assignSongToLocation(View w){
+        //extract value of songpinner
+        Spinner songSpinner=(Spinner) findViewById(R.id.songspinner);
+        int songSelected = songSpinner.getSelectedItemPosition();
+
+        //extract value of locationspinner
+        Spinner locationSpinner = (Spinner) findViewById(R.id.locationspinner);
+        int locationSelected = locationSpinner.getSelectedItemPosition();
+
+        error = "";
+        if (songSelected < 0)
+            error = "Song needs to be selected to assign a song to a location! ";
+        if (locationSelected < 0)
+            error = error + "Location needs to be selected to assign a song to a location! ";
+        error = error.trim();
+        //calling assignSongToLocation method
+        if (error.length() == 0) {
+            HomeAudioSystemController pc = new HomeAudioSystemController();
+            try {
+                pc.assignSongToLocation(songs.get(songSelected), locations.get(locationSelected));
+            } catch (InvalidInputException e) {
+                error = e.getMessage();
+            }
+        }
+        refreshData();
+    }
+
+    public void assignAlbumToLocation(View w){
+        //extract value of albumpinner
+        Spinner albumSpinner=(Spinner) findViewById(R.id.albumspinner);
+        int albumSelected = albumSpinner.getSelectedItemPosition();
+
+        //extract value of locationspinner
+        Spinner locationSpinner = (Spinner) findViewById(R.id.locationspinner);
+        int locationSelected = locationSpinner.getSelectedItemPosition();
+
+        error = "";
+        if (albumSelected < 0)
+            error = "Album needs to be selected to assign an album to a location! ";
+        if (locationSelected < 0)
+            error = error + "Location needs to be selected to assign an album to a location! ";
+        error = error.trim();
+        //calling assignAlbumToLocation method
+        if (error.length() == 0) {
+            HomeAudioSystemController pc = new HomeAudioSystemController();
+            try {
+                pc.assignAlbumToLocation(albums.get(albumSelected), locations.get(locationSelected));
+            } catch (InvalidInputException e) {
+                error = e.getMessage();
+            }
+        }
+        refreshData();
+    }
+
+    public void assignPlaylistToLocation(View w){
+        //extract value of playlistpinner
+        Spinner playlistSpinner=(Spinner) findViewById(R.id.playlistspinner);
+        int playlistSelected = playlistSpinner.getSelectedItemPosition();
+
+        //extract value of locationspinner
+        Spinner locationSpinner = (Spinner) findViewById(R.id.locationspinner);
+        int locationSelected = locationSpinner.getSelectedItemPosition();
+
+        error = "";
+        if (playlistSelected < 0)
+            error = "Playlist needs to be selected to assign a playlist to a location! ";
+        if (locationSelected < 0)
+            error = error + "Location needs to be selected to assign a playlist to a location! ";
+        error = error.trim();
+        //calling assignAlbumToLocation method
+        if (error.length() == 0) {
+            HomeAudioSystemController pc = new HomeAudioSystemController();
+            try {
+                pc.assignPlaylistToLocation(playlists.get(playlistSelected), locations.get(locationSelected));
+            } catch (InvalidInputException e) {
+                error = e.getMessage();
+            }
+        }
+        refreshData();
+    }
+
+    public void playMusicInAssignedLocations(View w){
+        HomeAudioSystemController pc = new HomeAudioSystemController();
+        try {
+            pc.play();
+        } catch (InvalidInputException e) {
+            error = e.getMessage();
+        }
+        refreshData();
+    }
+
+
+    public void changeVolumeOfLocation(View w){
+        //extract value of locationspinner
+        Spinner locationSpinner = (Spinner) findViewById(R.id.locationspinner);
+        int locationSelected = locationSpinner.getSelectedItemPosition();
+
+        error = "";
+        if (locationSelected < 0)
+            error = "Location needs to be selected to change its volume! ";
+        error = error.trim();
+
+        //calling assignAlbumToLocation method
+        if (error.length() == 0) {
+            HomeAudioSystemController pc = new HomeAudioSystemController();
+            try {
+                pc.changeVolumeLocation(locations.get(locationSelected), 11, 0);
+            } catch (InvalidInputException e) {
+                error = e.getMessage();
+            }
+        }
+        refreshData();
+    }
+
+    public void muteLocation(View w){
+        //extract value of locationspinner
+        Spinner locationSpinner = (Spinner) findViewById(R.id.locationspinner);
+        int locationSelected = locationSpinner.getSelectedItemPosition();
+
+        error = "";
+        if (locationSelected < 0)
+            error = "Location needs to be selected to be muted! ";
+        error = error.trim();
+
+        //calling assignAlbumToLocation method
+        if (error.length() == 0) {
+            HAS has = HAS.getInstance();
+            HomeAudioSystemController pc = new HomeAudioSystemController();
+            int volume = has.getLocation(locationSelected).getVolume();
+            try {
+                pc.changeVolumeLocation(locations.get(locationSelected), 0,volume);
+            } catch (InvalidInputException e) {
+                error = e.getMessage();
+            }
+        }
+        refreshData();
+    }
+
+    public void unmuteLocation(View w){
+        //extract value of locationspinner
+        Spinner locationSpinner = (Spinner) findViewById(R.id.locationspinner);
+        int locationSelected = locationSpinner.getSelectedItemPosition();
+
+        error = "";
+        if (locationSelected < 0)
+            error = "Location needs to be selected to be unmuted! ";
+        error = error.trim();
+
+        //calling assignAlbumToLocation method
+        if (error.length() == 0) {
+            HAS has = HAS.getInstance();
+            HomeAudioSystemController pc = new HomeAudioSystemController();
+            int volume = has.getLocation(locationSelected).getBeforeMuted();
+            try {
+                pc.changeVolumeLocation(locations.get(locationSelected), volume,0);
+            } catch (InvalidInputException e) {
+                error = e.getMessage();
+            }
+        }
+        refreshData();
+    }
+
+
+
 
     public void showDatePickerDialog(View v) {
         TextView tf = (TextView) v;
