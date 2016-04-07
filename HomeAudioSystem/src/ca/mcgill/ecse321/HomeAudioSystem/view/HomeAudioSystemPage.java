@@ -397,6 +397,14 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 		});
 
+		
+//		// display information about the selected item
+//		songList.addActionListener(new java.awt.event.ActionListener () {
+//			public void actionPerformed(java.awt.event.ActionEvent evt) {
+//				displayInfo(evt);
+//			}
+//		});
+
 
 		// layout
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -906,7 +914,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		error = "";
 		if (selectedPlaylist < 0)
-			error = error + "Song cannot be empty! ";
+			error = error + "Playlist cannot be empty! ";
 		if (selectedLocation < 0)
 			error = error + "Location cannot be empty! ";
 		error = error.trim();
@@ -1004,5 +1012,14 @@ public final class HomeAudioSystemPage extends JFrame {
 		}
 		refreshData();
 	}
+
+//	private void displayInfo(java.awt.event.ActionEvent evt) {
+//		HAS has = HAS.getInstance();
+//
+//		if (selectedSong > -1) {
+//			songTitleTextField.setText(has.getSong(songList.getSelectedIndex()).getTitle());
+//			songDurationTextField.setText(has.getSong(songList.getSelectedIndex()).getDuration());;
+//		}
+//	}
 
 }

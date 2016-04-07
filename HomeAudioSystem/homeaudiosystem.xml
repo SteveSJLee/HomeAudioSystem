@@ -105,14 +105,16 @@
       <volume>21</volume>
       <beforeMuted>0</beforeMuted>
       <isPlaying>false</isPlaying>
-      <time>688</time>
+      <time>150</time>
+      <album reference="12"/>
     </location>
     <location id="32">
       <name>Bedroom</name>
       <volume>13</volume>
       <beforeMuted>0</beforeMuted>
       <isPlaying>false</isPlaying>
-      <time>688</time>
+      <time>150</time>
+      <album reference="12"/>
     </location>
     <location id="33">
       <name>Kitchen</name>
@@ -120,27 +122,31 @@
       <beforeMuted>0</beforeMuted>
       <isPlaying>false</isPlaying>
       <time>150</time>
+      <album reference="12"/>
     </location>
     <location id="34">
       <name>Basement</name>
       <volume>11</volume>
       <beforeMuted>0</beforeMuted>
-      <isPlaying>true</isPlaying>
-      <time>150</time>
+      <isPlaying>false</isPlaying>
+      <time>358</time>
+      <playlist reference="28"/>
     </location>
     <location id="35">
       <name>Bedroom2</name>
       <volume>15</volume>
       <beforeMuted>0</beforeMuted>
       <isPlaying>false</isPlaying>
-      <time>150</time>
+      <time>330</time>
+      <album reference="4"/>
     </location>
     <location id="36">
       <name>Bedroom3</name>
       <volume>15</volume>
       <beforeMuted>0</beforeMuted>
-      <isPlaying>true</isPlaying>
-      <time>0</time>
+      <isPlaying>false</isPlaying>
+      <time>330</time>
+      <album reference="4"/>
     </location>
     <location id="37">
       <name>Dining Room</name>

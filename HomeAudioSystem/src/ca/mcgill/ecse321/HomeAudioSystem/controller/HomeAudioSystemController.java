@@ -230,13 +230,17 @@ public class HomeAudioSystemController {
 		location.setAlbum(album);
 		location.setIsPlaying(false);
 		int timer = 0;
-		for (int i = 0; i < location.getAlbum().numberOfSongs(); i ++) {
+		try {
+		for (int i = 0; i < location.getAlbum().getSongs().size(); i ++) {
 			timer += Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(0, 2))*60 
 					+ Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(3)); 
 		}
+		}
+		catch  (StringIndexOutOfBoundsException e){
+		 System.out.println("not working");;
+		}
 		location.setTime(timer);
-
-		PersistenceXStream.saveToXMLwithXStream(has);	
+		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 
 	public void assignPlaylistToLocation(Playlist playlist, Location location) throws InvalidInputException
@@ -336,12 +340,12 @@ public class HomeAudioSystemController {
 		PersistenceXStream.saveToXMLwithXStream(has);
 
 	}
-	
+
 	public void clearLocation(Location location) throws InvalidInputException 
 	{
 		HAS has = HAS.getInstance();
 		String error = "";
-		
+
 		if (location == null)
 			error = error + "Location needs to be selected for assigning Song to Location! ";
 		else if (!has.getLocations().contains(location))
@@ -349,9 +353,9 @@ public class HomeAudioSystemController {
 		error = error.trim();
 		if (error.length() > 0)
 			throw new InvalidInputException(error);
-		
+
 		location.delete();
-		
+
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 
