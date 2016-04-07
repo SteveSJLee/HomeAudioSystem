@@ -99,7 +99,9 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JButton assignAlbumButton;
 	private JButton assignPlaylistButton;
 
+	private JPanel playPauseAllPanel;
 	private JButton playAllButton;
+	private JButton pauseAllButton;
 	private JButton pauseButton;
 
 	private JLabel statusLabel;
@@ -250,6 +252,11 @@ public final class HomeAudioSystemPage extends JFrame {
 
 		// element for play
 		playAllButton = new JButton();
+		pauseAllButton = new JButton();
+		playPauseAllPanel = new JPanel();
+		playPauseAllPanel.setLayout(new BorderLayout());
+		playPauseAllPanel.add(playAllButton, BorderLayout.WEST);
+		playPauseAllPanel.add(pauseAllButton, BorderLayout.EAST);
 		pauseButton = new JButton();
 
 		gapPanel = new JPanel();
@@ -369,12 +376,19 @@ public final class HomeAudioSystemPage extends JFrame {
 				assignPlaylistButtonActionPerformed(evt);
 			}
 		});
-		playAllButton.setText("Play All");
+		playAllButton.setText("    Play All    ");
 		playAllButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				playPauseAllButtonActionPerformed(evt);
+				playAllButtonActionPerformed(evt);
 			}
 		});
+		pauseAllButton.setText("   Pause All  ");
+		pauseAllButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				pauseAllButtonActionPerformed(evt);
+			}
+		});
+
 		pauseButton.setText("Play / Pause");
 		pauseButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -433,7 +447,7 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(playlistNameTextField, 200, 200, 400)
 								.addComponent(addPlaylistButton)
 								.addComponent(addSongToPlaylistButton)
-								.addComponent(playAllButton)
+								.addComponent(playPauseAllPanel)
 								.addComponent(pauseButton))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(artistLabel)
@@ -472,7 +486,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { artistNameTextField, addArtistButton });
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { songTitleTextField, songDurationTextField, addSongButton, clearLocationButton, clearAllLocationButton, assignSongButton, assignAlbumButton, assignPlaylistButton });
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { playlistLabel, locationLabel, locationVolumeLabel });
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { playlistNameTextField, addPlaylistButton, addSongToPlaylistButton, playAllButton, pauseButton });
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { playlistNameTextField, addPlaylistButton, addSongToPlaylistButton, playPauseAllPanel, pauseButton });
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { locationNameTextField,locationVolumeSlider, mutePanel, changeVolumeButton, addLocationButton });
 
 		layout.setVerticalGroup(layout.createSequentialGroup()
@@ -527,7 +541,7 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addComponent(mutePanel)
 						.addComponent(assignSongButton))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(playAllButton)
+						.addComponent(playPauseAllPanel)
 						.addComponent(changeVolumeButton)
 						.addComponent(assignAlbumButton))
 				.addGroup(layout.createParallelGroup()
@@ -929,7 +943,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		refreshData();
 	}
 
-	private void playPauseAllButtonActionPerformed(java.awt.event.ActionEvent evt) {
+	private void playAllButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		HAS has = HAS.getInstance();
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 
@@ -939,13 +953,26 @@ public final class HomeAudioSystemPage extends JFrame {
 		error = error.trim();
 
 		if (error.length() == 0) {
-			if (playAllButton.getText() == "Play All") {
+			if (playAllButton.getText().contains("Play All")) {
 				hasc.playPauseAll(true);
-				playAllButton.setText("Pause All");
 			}
-			else if (playAllButton.getText() == "Pause All"){
+		}
+		refreshData();
+	}
+
+	private void pauseAllButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		HAS has = HAS.getInstance();
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
+
+		error = "";
+		if (has.getLocations().isEmpty())
+			error = error + "Location is not created in HAS! ";
+		error = error.trim();
+
+		if (error.length() == 0) {
+			if (pauseAllButton.getText().contains("Pause All")){
 				hasc.playPauseAll(false);
-				playAllButton.setText("Play All");
+
 			}
 		}
 		refreshData();
