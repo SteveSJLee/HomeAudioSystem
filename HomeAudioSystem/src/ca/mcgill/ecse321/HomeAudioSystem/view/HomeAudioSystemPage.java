@@ -757,15 +757,35 @@ public final class HomeAudioSystemPage extends JFrame {
 		HAS has = HAS.getInstance();
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		error = "";
+		
+		int albumIntex = albumList.getSelectedIndex();
+		int artistIndex = artistList.getSelectedIndex();
 
-		if (albumList.getSelectedIndex() < 0)
-			error = "Song album cannot be empty! ";
-		if (artistList.getSelectedIndex() < 0)
-			error = error + "Song artist cannot be empty! ";
+//		if (albumIntex < 0)
+//			error = "Song album cannot be empty! ";
+//		if (artistIndex < 0)
+//			error = error + "Song artist cannot be empty! ";
+			
 		if (error.length() == 0) {
 			try {
-				hasc.addSong(songTitleTextField.getText(), songDurationTextField.getText(),
-						has.getAlbum(albumList.getSelectedIndex()), has.getArtist(artistList.getSelectedIndex()));
+				if(albumIntex<0){
+					if (artistIndex<0){
+						hasc.addSong(songTitleTextField.getText(), songDurationTextField.getText(),
+										null, null);
+					}
+					else{ 
+						hasc.addSong(songTitleTextField.getText(), songDurationTextField.getText(),
+										null, has.getArtist(artistIndex));
+					}
+				}
+				else if (artistIndex<0){
+					hasc.addSong(songTitleTextField.getText(), songDurationTextField.getText(),
+										has.getAlbum(albumIntex), null);
+				}
+				else{
+					hasc.addSong(songTitleTextField.getText(), songDurationTextField.getText(),
+							has.getAlbum(albumIntex), has.getArtist(artistIndex));
+				}				
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
