@@ -231,13 +231,13 @@ public class HomeAudioSystemController {
 		location.setIsPlaying(false);
 		int timer = 0;
 		try {
-		for (int i = 0; i < location.getAlbum().getSongs().size(); i ++) {
-			timer += Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(0, 2))*60 
-					+ Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(3)); 
-		}
+			for (int i = 0; i < location.getAlbum().getSongs().size(); i ++) {
+				timer += Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(0, 2))*60 
+						+ Integer.parseInt(location.getAlbum().getSong(i).getDuration().substring(3)); 
+			}
 		}
 		catch  (StringIndexOutOfBoundsException e){
-		 System.out.println("not working");;
+			System.out.println("not working");;
 		}
 		location.setTime(timer);
 		PersistenceXStream.saveToXMLwithXStream(has);
@@ -274,54 +274,30 @@ public class HomeAudioSystemController {
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 
-	public void playPauseAll() 
+	public void playPauseAll(boolean playing) 
 	{
+
 		HAS has = HAS.getInstance();
 		for (int i = 0; i < has.getLocations().size(); i++) {
-			if (has.getLocation(i).getIsPlaying() == false) {
-				// song
-				if (has.getLocation(i).getSong() != null) {
-					has.getLocation(i).setIsPlaying(true);
+			if (has.getLocation(i).getSong() != null) {
+				has.getLocation(i).setIsPlaying(playing);
 
-					PersistenceXStream.saveToXMLwithXStream(has);
-				}
-				// album
-				else if (has.getLocation(i).getAlbum() != null) {
-					has.getLocation(i).setIsPlaying(true);
-					// activate timer 
-					PersistenceXStream.saveToXMLwithXStream(has);
-				}
-				// playlist
-				else if (has.getLocation(i).getPlaylist() != null) {
-					has.getLocation(i).setIsPlaying(true);
-					// activate timer 
-					PersistenceXStream.saveToXMLwithXStream(has);
-				}
+				PersistenceXStream.saveToXMLwithXStream(has);
 			}
-
-			else if (has.getLocation(i).getIsPlaying() == true) {
-				// song
-				if (has.getLocation(i).getSong() != null) {
-					has.getLocation(i).setIsPlaying(false);
-
-					PersistenceXStream.saveToXMLwithXStream(has);
-				}
-				// album
-				else if (has.getLocation(i).getAlbum() != null) {
-					has.getLocation(i).setIsPlaying(false);
-					// activate timer 
-					PersistenceXStream.saveToXMLwithXStream(has);
-				}
-				// playlist
-				else if (has.getLocation(i).getPlaylist() != null) {
-
-					has.getLocation(i).setIsPlaying(false);
-					// activate timer 
-					PersistenceXStream.saveToXMLwithXStream(has);
-
-				}
+			// album
+			else if (has.getLocation(i).getAlbum() != null) {
+				has.getLocation(i).setIsPlaying(playing);
+				// activate timer 
+				PersistenceXStream.saveToXMLwithXStream(has);
+			}
+			// playlist
+			else if (has.getLocation(i).getPlaylist() != null) {
+				has.getLocation(i).setIsPlaying(playing);
+				// activate timer 
+				PersistenceXStream.saveToXMLwithXStream(has);
 			}
 		}
+
 	}
 
 	public void playPause(Location location, boolean playing) throws InvalidInputException

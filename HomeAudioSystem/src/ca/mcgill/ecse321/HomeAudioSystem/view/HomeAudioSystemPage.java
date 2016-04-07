@@ -99,7 +99,7 @@ public final class HomeAudioSystemPage extends JFrame {
 	private JButton assignAlbumButton;
 	private JButton assignPlaylistButton;
 
-	private JButton playButton;
+	private JButton playAllButton;
 	private JButton pauseButton;
 
 	private JLabel statusLabel;
@@ -249,7 +249,7 @@ public final class HomeAudioSystemPage extends JFrame {
 
 
 		// element for play
-		playButton = new JButton();
+		playAllButton = new JButton();
 		pauseButton = new JButton();
 
 		gapPanel = new JPanel();
@@ -369,8 +369,8 @@ public final class HomeAudioSystemPage extends JFrame {
 				assignPlaylistButtonActionPerformed(evt);
 			}
 		});
-		playButton.setText("Play / Pause All");
-		playButton.addActionListener(new java.awt.event.ActionListener() {
+		playAllButton.setText("Play All");
+		playAllButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				playPauseAllButtonActionPerformed(evt);
 			}
@@ -397,13 +397,13 @@ public final class HomeAudioSystemPage extends JFrame {
 			}
 		});
 
-		
-//		// display information about the selected item
-//		songList.addActionListener(new java.awt.event.ActionListener () {
-//			public void actionPerformed(java.awt.event.ActionEvent evt) {
-//				displayInfo(evt);
-//			}
-//		});
+
+		//		// display information about the selected item
+		//		songList.addActionListener(new java.awt.event.ActionListener () {
+		//			public void actionPerformed(java.awt.event.ActionEvent evt) {
+		//				displayInfo(evt);
+		//			}
+		//		});
 
 
 		// layout
@@ -433,7 +433,7 @@ public final class HomeAudioSystemPage extends JFrame {
 								.addComponent(playlistNameTextField, 200, 200, 400)
 								.addComponent(addPlaylistButton)
 								.addComponent(addSongToPlaylistButton)
-								.addComponent(playButton)
+								.addComponent(playAllButton)
 								.addComponent(pauseButton))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(artistLabel)
@@ -472,7 +472,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { artistNameTextField, addArtistButton });
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { songTitleTextField, songDurationTextField, addSongButton, clearLocationButton, clearAllLocationButton, assignSongButton, assignAlbumButton, assignPlaylistButton });
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { playlistLabel, locationLabel, locationVolumeLabel });
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { playlistNameTextField, addPlaylistButton, addSongToPlaylistButton, playButton, pauseButton });
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { playlistNameTextField, addPlaylistButton, addSongToPlaylistButton, playAllButton, pauseButton });
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { locationNameTextField,locationVolumeSlider, mutePanel, changeVolumeButton, addLocationButton });
 
 		layout.setVerticalGroup(layout.createSequentialGroup()
@@ -527,7 +527,7 @@ public final class HomeAudioSystemPage extends JFrame {
 						.addComponent(mutePanel)
 						.addComponent(assignSongButton))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(playButton)
+						.addComponent(playAllButton)
 						.addComponent(changeVolumeButton)
 						.addComponent(assignAlbumButton))
 				.addGroup(layout.createParallelGroup()
@@ -939,9 +939,15 @@ public final class HomeAudioSystemPage extends JFrame {
 		error = error.trim();
 
 		if (error.length() == 0) {
-			hasc.playPauseAll();
+			if (playAllButton.getText() == "Play All") {
+				hasc.playPauseAll(true);
+				playAllButton.setText("Pause All");
+			}
+			else if (playAllButton.getText() == "Pause All"){
+				hasc.playPauseAll(false);
+				playAllButton.setText("Play All");
+			}
 		}
-
 		refreshData();
 	}
 
@@ -1013,13 +1019,13 @@ public final class HomeAudioSystemPage extends JFrame {
 		refreshData();
 	}
 
-//	private void displayInfo(java.awt.event.ActionEvent evt) {
-//		HAS has = HAS.getInstance();
-//
-//		if (selectedSong > -1) {
-//			songTitleTextField.setText(has.getSong(songList.getSelectedIndex()).getTitle());
-//			songDurationTextField.setText(has.getSong(songList.getSelectedIndex()).getDuration());;
-//		}
-//	}
+	//	private void displayInfo(java.awt.event.ActionEvent evt) {
+	//		HAS has = HAS.getInstance();
+	//
+	//		if (selectedSong > -1) {
+	//			songTitleTextField.setText(has.getSong(songList.getSelectedIndex()).getTitle());
+	//			songDurationTextField.setText(has.getSong(songList.getSelectedIndex()).getDuration());;
+	//		}
+	//	}
 
 }
