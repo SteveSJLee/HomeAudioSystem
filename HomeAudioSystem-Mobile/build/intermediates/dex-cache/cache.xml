@@ -1,12 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
+<items version="2" />
 
-    <item
-        jar="C:\Users\oscarivan\AndroidStudioProjects\HomeAudioSystem-Mobile\app\libs\HomeAudioSystem.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="0bc01b1c849b1b7d35cdbe5f85115d59e34b0093">
-        <dex dex="C:\Users\oscarivan\AndroidStudioProjects\HomeAudioSystem-Mobile\app\build\intermediates\pre-dexed\debug\HomeAudioSystem_5819e83100c5a67afc79521dc0449beab05982d9.jar" />
-    </item>
-
-</items>

@@ -31,6 +31,13 @@
         android:layout_height="wrap_content"
         android:layout_width="fill_parent" />
 
+
+    <!-- Display locations infos -->
+    <TextView
+        android:id="@+id/HASstatusHeaderdisplay"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent" />
+
     <!-- Display locations infos -->
     <TextView
         android:id="@+id/locationinfotodisplay"
@@ -38,82 +45,98 @@
         android:layout_width="fill_parent" />
 
 
-    <!-- Select Album -->
     <LinearLayout
 
         android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/albumspinner_label"/>
+        <!-- Select Album -->
+        <LinearLayout
 
-        <Spinner
+            android:orientation="horizontal"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="end"
-            android:id="@+id/albumspinner"/>
+            android:layout_width="wrap_content">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/albumspinner_label"/>
+
+            <Spinner
+                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:layout_gravity="end"
+                android:id="@+id/albumspinner"/>
+
+        </LinearLayout>
+
+
+        <!--Select Artist-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/artistspinner_label"/>
+
+            <Spinner
+                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:layout_gravity="end"
+                android:id="@+id/artistspinner"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-
-    <!--Select Artist-->
     <LinearLayout
+
         android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
-        <TextView
+        <!--Select Song-->
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/artistspinner_label"/>
+            android:layout_width="wrap_content">
 
-        <Spinner
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/songspinner_label"/>
+
+            <Spinner
+                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:layout_gravity="end"
+                android:id="@+id/songspinner"/>
+
+        </LinearLayout>
+
+
+        <!--Select Playlist-->
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="end"
-            android:id="@+id/artistspinner"/>
+            android:layout_width="wrap_content">
 
-    </LinearLayout>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/playlistspinner_label"/>
 
-    <!--Select Song-->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+            <Spinner
+                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:layout_gravity="end"
+                android:id="@+id/playlistspinner"/>
 
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/songspinner_label"/>
-
-        <Spinner
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="end"
-            android:id="@+id/songspinner"/>
-
-    </LinearLayout>
-
-
-    <!--Select Playlist-->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/playlistspinner_label"/>
-
-        <Spinner
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="end"
-            android:id="@+id/playlistspinner"/>
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -180,6 +203,48 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
+        <!--Play music in locations with assigned music button -->
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/playmusicinassignedlocations_button"
+            android:layout_gravity="end"
+            android:onClick="playAllLocations"/>
+
+        <!--Pause music in all locations button -->
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/pausealllocations_button"
+            android:layout_gravity="end"
+            android:onClick="pauseAll"/>
+
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/playpause_button"
+            android:layout_gravity="end"
+            android:onClick="playPauseLocation"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <!--Clear all music from all locations button -->
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/clearlocation_button"
+            android:layout_gravity="end"
+            android:onClick="clearLocation"/>
+
+
         <!--Clear all music from all locations button -->
         <Button
             android:layout_height="wrap_content"
@@ -187,16 +252,6 @@
             android:text="@string/clearalllocations_button"
             android:layout_gravity="end"
             android:onClick="clearAllLocations"/>
-
-
-        <!--Play music in locations with assigned music button -->
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/playmusicinassignedlocations_button"
-            android:layout_gravity="end"
-            android:onClick="playMusicInAssignedLocations"/>
-
 
     </LinearLayout>
 

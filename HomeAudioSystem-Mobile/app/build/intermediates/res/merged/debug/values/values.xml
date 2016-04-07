@@ -281,6 +281,7 @@
     <string name="changevolumeoflocation_button">Change Volume</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
     <string name="clearalllocations_button">Clear All Locations</string>
+    <string name="clearlocation_button">Clear</string>
     <string name="genrespinner_label">Genre?</string>
     <string name="locationspinner_label">Location?</string>
     <string name="mutelocation_button">Mute Location</string>
@@ -299,8 +300,10 @@
     <string name="newsongduration_hint">duration of song?</string>
     <string name="newsongtitle_hint">title of song?</string>
     <string name="newvolume_hint">new volume?</string>
+    <string name="pausealllocations_button">Pause All</string>
     <string name="playlistspinner_label">Playlist?</string>
-    <string name="playmusicinassignedlocations_button">Play</string>
+    <string name="playmusicinassignedlocations_button">Play All</string>
+    <string name="playpause_button">play/pause</string>
     <string name="songspinner_label">Song?</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="unmutelocation_button">Unmute Location</string>

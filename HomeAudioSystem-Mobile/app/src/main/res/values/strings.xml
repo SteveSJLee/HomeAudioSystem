@@ -22,7 +22,7 @@
     <string name="assignalbumtolocation_button">Assign Album To Location</string>
     <string name="assignplaylisttolocation_button">Assign Playlist To Location</string>
     <string name="clearalllocations_button">Clear All Locations</string>
-    <string name="playmusicinassignedlocations_button">Play</string>
+    <string name="playmusicinassignedlocations_button">Play All</string>
     <string name="newvolume_hint">new volume?</string>
     <string name="changevolumeoflocation_button">Change Volume</string>
     <string name="mutelocation_button">Mute Location</string>
@@ -31,4 +31,7 @@
     <string name="genrespinner_label">Genre?</string>
     <string name="newsongduration_hint">duration of song?</string>
     <string name="unmutelocation_button">Unmute Location</string>
+    <string name="playpause_button">play/pause</string>
+    <string name="pausealllocations_button">Pause All</string>
+    <string name="clearlocation_button">Clear</string>
 </resources>
