@@ -404,7 +404,7 @@ public final class HomeAudioSystemPage extends JFrame {
 				clearLocationButtonActionPerformed(evt);
 			}
 		});
-		clearAllLocationButton.setText("Clear All Location");
+		clearAllLocationButton.setText("Clear All Locations");
 		clearAllLocationButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				clearAllLocationButtonActionPerformed(evt);
@@ -554,25 +554,26 @@ public final class HomeAudioSystemPage extends JFrame {
 
 	private void updateStatus() {
 		HAS has = HAS.getInstance();
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
 
 		String msg = "";
-		String stt = "\nNo music is not assigned to the Location: ";
+		String stt = "\nNo music is assigned to the Location: ";
 		for (int i = 0; i < has.getLocations().size(); i++) {
 			if (has.getLocation(i).getIsPlaying()) {
 				if (has.getLocation(i).getSong() != null) {
 					msg = msg + "\nPlaying song: " + "\"" + has.getLocation(i).getSong().getTitle() + "\" at the "
 							+ has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume()
-							+ " | Total Duration: " + has.getLocation(i).getTime() + "s";
+							+ " | Total Duration: " + hasc.convertSecondsToTime(has.getLocation(i).getTime());
 				}
 				if (has.getLocation(i).getAlbum() != null) {
 					msg = msg + "\nPlaying album: " + "\"" + has.getLocation(i).getAlbum().getTitle() + "\" at the "
 							+ has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume()
-							+ " | Total Duration: " + has.getLocation(i).getTime() + "s";
+							+ " | Total Duration: " + hasc.convertSecondsToTime(has.getLocation(i).getTime());
 				}
 				if (has.getLocation(i).getPlaylist() != null) {
 					msg = msg + "\nPlaying playlist: " + "\"" + has.getLocation(i).getPlaylist().getName() + "\" at the "
 							+ has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume()
-							+ " | Total Duration: " + has.getLocation(i).getTime() + "s";
+							+ " | Total Duration: " + hasc.convertSecondsToTime(has.getLocation(i).getTime());
 				}
 				if (has.getLocation(i).getSong() == null && has.getLocation(i).getAlbum() == null
 						&& has.getLocation(i).getPlaylist() == null) {
@@ -586,17 +587,17 @@ public final class HomeAudioSystemPage extends JFrame {
 				if (has.getLocation(i).getSong() != null) {
 					msg = msg + "\nPaused song: " + "\"" + has.getLocation(i).getSong().getTitle() + "\" at the "
 							+ has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume()
-							+ " | Total Duration: " + has.getLocation(i).getTime() + "s";
+							+ " | Total Duration: " + hasc.convertSecondsToTime(has.getLocation(i).getTime());
 				}
 				if (has.getLocation(i).getAlbum() != null) {
 					msg = msg + "\nPaused album: " + "\"" + has.getLocation(i).getAlbum().getTitle() + "\" at the "
 							+ has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume()
-							+ " | Total Duration: " + has.getLocation(i).getTime() + "s";
+							+ " | Total Duration: " + hasc.convertSecondsToTime(has.getLocation(i).getTime());
 				}
 				if (has.getLocation(i).getPlaylist() != null) {
 					msg = msg + "\nPaused playlist: " + "\"" + has.getLocation(i).getPlaylist().getName() + "\" at the "
 							+ has.getLocation(i).getName() + " | Volume: " + has.getLocation(i).getVolume()
-							+ " | Total Duration: " + has.getLocation(i).getTime() + "s";
+							+ " | Total Duration: " + hasc.convertSecondsToTime(has.getLocation(i).getTime());
 				}
 				if (has.getLocation(i).getSong() == null && has.getLocation(i).getAlbum() == null
 						&& has.getLocation(i).getPlaylist() == null) {

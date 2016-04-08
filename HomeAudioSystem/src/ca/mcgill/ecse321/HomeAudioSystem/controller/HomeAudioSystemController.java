@@ -410,5 +410,26 @@ public class HomeAudioSystemController {
 
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
+	
+	public String convertSecondsToTime (int number){
+		int min =0;
+		int sec =0;
+		String minutes = "";
+		String seconds = "";
+		
+		min = number/60;
+		sec = number%60;
+		
+		if(min<10)
+			minutes = "0" + min;
+		else 
+			minutes = "" + min;
+		if(sec<10)
+			seconds = "0" + sec;
+		else
+			seconds = "" + sec;
+		
+		return minutes + ":" + seconds;
+	}
 
 }
