@@ -32,9 +32,11 @@ class Location
   name;
   lazy int volume;
   lazy int beforeMuted;
-  1 -> 1 Song songs;
-  1 -> 1 Album albums;
-  1 -> 1 Playlist playlists;
+  lazy boolean isPlaying;;
+  lazy int time;
+  1 -> 0..1 Song song;
+  1 -> 0..1 Album album;
+  1 -> 0..1 Playlist playlist;
 }
 
 class HAS
