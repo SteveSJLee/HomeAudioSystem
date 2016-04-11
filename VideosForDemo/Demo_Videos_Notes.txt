@@ -9,7 +9,7 @@ Java (4min15sec)
 	 
 	Java 2: Playlists and locations (~30sec)
 		- Create Playlist + assign a song to it --> Show persistence
-		- Create three locations
+		- Create one locations
 		
 	Java 3: Playing music (~1min45sec)
 		- Assign song/album/artist to the three locations
