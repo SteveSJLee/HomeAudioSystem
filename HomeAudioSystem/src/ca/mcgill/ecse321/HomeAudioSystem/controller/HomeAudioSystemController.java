@@ -29,9 +29,9 @@ public class HomeAudioSystemController {
 		String error = "";
 		if (title == null || title.trim().length() == 0)
 			error = error + "Album title cannot be empty! ";
-		if (genre == null)
+		if (genre == null || genre.trim().length() == 0)
 			error = error + "Album genre cannot be empty! ";
-		if (date == null)
+		if (date == null || date.toString().trim().length() == 0)
 			error = error + "Album release date cannot be empty! ";
 		error = error.trim();
 		if (error.length() > 0)
@@ -67,7 +67,7 @@ public class HomeAudioSystemController {
 			error = error +"Song title cannot be empty! ";
 		if (duration == null || duration.trim().length() == 0)
 			error = error + "Song duration cannot be empty! ";
-		if (duration.length() !=5)
+		else if (duration.length() !=5)
 			error = error + "Duration format is not correct! ";
 		error = error.trim();
 		if (error.length() > 0)

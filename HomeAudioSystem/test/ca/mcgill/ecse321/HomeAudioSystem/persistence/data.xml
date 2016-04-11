@@ -2,8 +2,8 @@
   <songs id="2">
     <song id="3">
       <title>Aria</title>
-      <duration>2:33</duration>
-      <positionInAlbum>1</positionInAlbum>
+      <duration>02:33</duration>
+      <positionInAlbum>0</positionInAlbum>
       <album id="4">
         <title>Goldberg Variations BWV 988</title>
         <genre>Classic</genre>
@@ -29,20 +29,16 @@
   <playlists id="11">
     <playlist id="12">
       <name>playlist</name>
-      <id>1</id>
       <songs id="13"/>
-      <albums id="14"/>
-      <artists id="15"/>
     </playlist>
   </playlists>
-  <locations id="16">
-    <location id="17">
+  <locations id="14">
+    <location id="15">
       <name>Living Room</name>
-      <volume>10</volume>
-      <isMuted>false</isMuted>
-      <songs id="18"/>
-      <albums id="19"/>
-      <playlists id="20"/>
+      <volume>0</volume>
+      <beforeMuted>0</beforeMuted>
+      <isPlaying>false</isPlaying>
+      <time>0</time>
     </location>
   </locations>
 </ca.mcgill.ecse321.HomeAudioSystem.model.HAS>
