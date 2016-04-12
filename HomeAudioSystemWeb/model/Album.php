@@ -1,6 +1,6 @@
 <?php
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.23.0-5871cbd modeling language!*/
+/*This code was generated using the UMPLE 1.24.0-3f7df50 modeling language!*/
 
 class Album
 {
@@ -118,9 +118,9 @@ class Album
     return 0;
   }
 
-  public function addSongVia($aTitle, $aDuration, $aPositionInAlbum, $aArtist)
+  public function addSongVia($aTitle, $aDuration, $aArtist)
   {
-    return new Song($aTitle, $aDuration, $aPositionInAlbum, $this, $aArtist);
+    return new Song($aTitle, $aDuration, $this, $aArtist);
   }
 
   public function addSong($aSong)

@@ -1,6 +1,6 @@
 <?php
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.23.0-5871cbd modeling language!*/
+/*This code was generated using the UMPLE 1.24.0-3f7df50 modeling language!*/
 
 class HAS
 {
