@@ -91,7 +91,7 @@ public class TestPersistence {
 		//check Location
 		assertEquals(1, has.getLocations().size());
 		assertEquals("Living Room", has.getLocation(0).getName());
-		assertEquals(10, has.getLocation(0).getVolume());
+		assertEquals(0, has.getLocation(0).getVolume());
 
 		// check Artist
 		assertEquals(1, has.getArtists().size());
