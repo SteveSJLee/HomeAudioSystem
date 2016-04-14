@@ -5,14 +5,16 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="HomeAudioSystem">
     <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../eclipse/java-mars/eclipse/"/>
+    <!-- The next line should be modified with the path of your computer-->
+  	<property name="ECLIPSE_HOME" value="../../../../Eclipse Luna x64 java/" />
     <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
     <property name="source" value="1.7"/>
     <path id="JUnit 4.libraryclasspath">
-        <pathelement location="../../.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
-        <pathelement location="../../.p2/pool/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+    	<!-- The next tow lines should be modified with the path of your computer-->
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
     </path>
     <path id="HomeAudioSystem.classpath">
         <pathelement location="bin"/>
@@ -22,6 +24,8 @@
         <pathelement location="lib/xpp3_min-1.1.4c.jar"/>
         <pathelement location="lib/xstream-1.4.7.jar"/>
     </path>
+    
+  	<!-- The init target has been generated-->	
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
@@ -35,10 +39,16 @@
             </fileset>
         </copy>
     </target>
+              	
+    <!-- Clean targer erases bin and junit folders-->          	
     <target name="clean">
         <delete dir="bin"/>
+    	<delete dir="junit" />
     </target>
     <target depends="clean" name="cleanall"/>
+    
+              	
+   	<!-- The build target has been generated-->
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
@@ -63,41 +73,72 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="AllTests">
+              	
+  	<!-- The exportjar target has been written manually -->
+	<!-- modified version of the one given in the tutorials-->
+	<target name="exportjar" depends="build" description="Create a jar for the project">
+		<mkdir dir="bin/jar" />
+		<jar destfile="bin/jar/HomeAudioSystem.jar" basedir="bin">
+			<manifest>
+				<attribute name="Main-Class" value="application.CompApp" />
+			</manifest>
+		</jar>
+	</target>
+    
+              	
+    <!-- The following targets are for testing -->
+    <target name="AllTests" depends="build">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="ca.mcgill.ecse321.HomeAudioSystem.AllTests" todir="${junit.output.dir}"/>
             <classpath refid="HomeAudioSystem.classpath"/>
         </junit>
-    </target>
-    <target name="New_configuration">
-        <java classname="ca.mcgill.ecse321.HomeAudioSystem.application.HomeAudioSystem" failonerror="true" fork="yes">
-            <classpath refid="HomeAudioSystem.classpath"/>
-        </java>
-    </target>
-    <target name="TestHomeAudioSystemController">
+    	
+    	<junitreport todir="${junit.output.dir}">
+    				<fileset dir="${junit.output.dir}">
+    					<include name="TEST-*.xml" />
+    				</fileset>
+    				<report format="frames" todir="${junit.output.dir}" />
+    			</junitreport>
+    </target>    
+              	
+    <target name="TestHomeAudioSystemController" depends="build">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="ca.mcgill.ecse321.HomeAudioSystem.controller.TestHomeAudioSystemController" todir="${junit.output.dir}"/>
             <classpath refid="HomeAudioSystem.classpath"/>
         </junit>
+    	
+    	<junitreport todir="${junit.output.dir}">
+    				<fileset dir="${junit.output.dir}">
+    					<include name="TEST-*.xml" />
+    				</fileset>
+    				<report format="frames" todir="${junit.output.dir}" />
+    			</junitreport>
     </target>
-    <target name="TestPersistence">
+              	
+    <target name="TestPersistence" depends="build">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="ca.mcgill.ecse321.HomeAudioSystem.persistence.TestPersistence" todir="${junit.output.dir}"/>
             <classpath refid="HomeAudioSystem.classpath"/>
         </junit>
+    	
+    	<junitreport todir="${junit.output.dir}">
+    				<fileset dir="${junit.output.dir}">
+    					<include name="TEST-*.xml" />
+    				</fileset>
+    				<report format="frames" todir="${junit.output.dir}" />
+    			</junitreport>
     </target>
-    <target name="junitreport">
-        <junitreport todir="${junit.output.dir}">
-            <fileset dir="${junit.output.dir}">
-                <include name="TEST-*.xml"/>
-            </fileset>
-            <report format="frames" todir="${junit.output.dir}"/>
-        </junitreport>
-    </target>
+              	
+  	<!-- Target to run application-->
+  	    <target name="RunHAS-java" depends="build">
+  	        <java classname="ca.mcgill.ecse321.HomeAudioSystem.application.HomeAudioSystem" failonerror="true" fork="yes">
+  	            <classpath refid="HomeAudioSystem.classpath"/>
+  	        </java>
+  	    </target>
 </project>
