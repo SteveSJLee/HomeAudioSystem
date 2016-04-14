@@ -1,8 +1,16 @@
 <?php
 
+/*
 require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\persistence\PersistenceAudioSystem.php';
 require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\model\HAS.php';
 require_once 'C:\xampp\htdocs\HomeAudioSystemWeb\model\Album.php';
+*/
+
+// /*
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\persistence\PersistenceAudioSystem.php';
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\HAS.php';
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Album.php';
+// */
 
 class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 {

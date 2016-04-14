@@ -773,17 +773,11 @@ public class TestHomeAudioSystemController {
 		assertEquals(0, has.getPlaylists().size());
 		assertEquals(0, has.getSongs().size());
 
-		String title = "Jumpman";
-		String duration = "03:30";
-
-		String name = "My Fav Playlist";
-
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		try {
-			hasc.addPlaylist(name);
-			hasc.addSong(title, duration, album, artist);
-			playlist = has.getPlaylist(0);
-			song = has.getSong(0);
+			
+			has.addPlaylist(playlist);
+			has.addSong(song);
 
 			hasc.addSongToPlaylist(song, playlist);
 		} catch (InvalidInputException e) {
@@ -808,7 +802,7 @@ public class TestHomeAudioSystemController {
 
 		song = null;
 		playlist = null;
-		
+
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		String error = null;
 		try {
@@ -845,21 +839,13 @@ public class TestHomeAudioSystemController {
 		assertEquals(0, has.getLocations().size());
 		assertEquals(0, has.getSongs().size());
 
-		String title = "Jumpman";
-		String duration = "03:30";
-
-		String name = "Kitchen";
-		int volume = 25;
-		
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		try {
-			hasc.addLocation(name, volume);
-			hasc.addSong(title, duration, album, artist);
-			location = has.getLocation(0);
-			song = has.getSong(0);
+			has.addLocation(location);
+			has.addSong(song);
 
 			hasc.assignSongToLocation(song, location);
-			} catch (InvalidInputException e) {
+		} catch (InvalidInputException e) {
 			// check that no error occurred
 			fail();
 		}
@@ -872,7 +858,7 @@ public class TestHomeAudioSystemController {
 		// check file contents
 		checkResultAssignSongToLocation(song, location, has2);		
 	}
-	
+
 	@Test
 	public void testAssignSongNullToLocationNull(){
 		HAS has = HAS.getInstance();
@@ -881,7 +867,7 @@ public class TestHomeAudioSystemController {
 
 		song = null;
 		location = null;
-		
+
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		String error = null;
 		try {
@@ -893,7 +879,7 @@ public class TestHomeAudioSystemController {
 		// check error
 		assertEquals("Song needs to be selected for assigning Song to Location! Location needs to be selected for assigning Song to Location!", error);	
 	}
-	
+
 	@Test
 	public void testAssignWrongSongToWrongLocation(){
 		HAS has = HAS.getInstance();
@@ -911,32 +897,21 @@ public class TestHomeAudioSystemController {
 		// check error
 		assertEquals("Song does not exist! Location does not exist!", error);	
 	}
-	
+
 	@Test
 	public void testAssignAlbumToLocation(){
 		HAS has = HAS.getInstance();
 		assertEquals(0, has.getLocations().size());
 		assertEquals(0, has.getAlbums().size());
 
-		String title = "Goldberg Variations BWV 988";
-		String genre = "Classic";
-		Calendar c = Calendar.getInstance();
-		c.set(2015, Calendar.FEBRUARY,17);
-		Date date = new Date(c.getTimeInMillis());
-
-		String name = "Kitchen";
-		int volume = 25;
-		
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		try {
-			hasc.addLocation(name, volume);
-			hasc.addAlbum(title, genre, date);
-			location = has.getLocation(0);
-			album = has.getAlbum(0);
+			has.addLocation(location);
+			has.addAlbum(album);
 			album.addSong(song);
-			
+
 			hasc.assignAlbumToLocation(album, location);
-			} catch (InvalidInputException e) {
+		} catch (InvalidInputException e) {
 			// check that no error occurred
 			fail();
 		}
@@ -949,7 +924,7 @@ public class TestHomeAudioSystemController {
 		// check file contents
 		checkResultAssignAlbumToLocation(album, location, has2);		
 	}
-	
+
 	@Test
 	public void testAssignAlbumEmptyToLocation(){
 		HAS has = HAS.getInstance();
@@ -964,15 +939,15 @@ public class TestHomeAudioSystemController {
 
 		String name = "Kitchen";
 		int volume = 25;
-		
+
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		String error = null;
 		try {
-			hasc.addLocation(name, volume);
-			hasc.addAlbum(title, genre, date);
-			location = has.getLocation(0);
-			album = has.getAlbum(0);
+			has.addLocation(location);
 			
+			hasc.addAlbum(title, genre, date);
+			album = has.getAlbum(0);
+
 			hasc.assignAlbumToLocation(album, location);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();	
@@ -981,7 +956,7 @@ public class TestHomeAudioSystemController {
 		// check error
 		assertEquals("Album is empty!", error);	
 	}
-	
+
 	@Test
 	public void testAssignAlbumNullToLocationNull(){
 		HAS has = HAS.getInstance();
@@ -990,7 +965,7 @@ public class TestHomeAudioSystemController {
 
 		album = null;
 		location = null;
-		
+
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		String error = null;
 		try {
@@ -1002,7 +977,7 @@ public class TestHomeAudioSystemController {
 		// check error
 		assertEquals("Album needs to be selected for assigning album to Location! Location needs to be selected for assigning album to Location!", error);	
 	}
-	
+
 	@Test
 	public void testAssignWrongAlbumToWrongLocation(){
 		HAS has = HAS.getInstance();
@@ -1010,7 +985,7 @@ public class TestHomeAudioSystemController {
 		assertEquals(0, has.getAlbums().size());
 
 		album.addSong(song);
-		
+
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		String error = null;
 		try {
@@ -1022,28 +997,21 @@ public class TestHomeAudioSystemController {
 		// check error
 		assertEquals("Album does not exist! Location does not exist!", error);	
 	}
-	
+
 	@Test
 	public void testAssignPlaylistToLocation(){
 		HAS has = HAS.getInstance();
 		assertEquals(0, has.getLocations().size());
 		assertEquals(0, has.getSongs().size());
 
-		String namePlaylist = "Fav Playlist";
-
-		String name = "My Fav Playlist";
-		int volume = 25;
-		
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		try {
-			hasc.addLocation(name, volume);
-			hasc.addPlaylist(namePlaylist);
-			location = has.getLocation(0);
-			playlist = has.getPlaylist(0);
+			has.addPlaylist(playlist);
+			has.addLocation(location);
 			playlist.addSong(song);
 
 			hasc.assignPlaylistToLocation(playlist, location);
-			} catch (InvalidInputException e) {
+		} catch (InvalidInputException e) {
 			// check that no error occurred
 			fail();
 		}
@@ -1056,26 +1024,19 @@ public class TestHomeAudioSystemController {
 		// check file contents
 		checkResultAssignPlaylistToLocation(playlist, location, has2);		
 	}
-	
+
 	@Test
 	public void testAssignPlaylistEmptyToLocation(){
 		HAS has = HAS.getInstance();
 		assertEquals(0, has.getLocations().size());
 		assertEquals(0, has.getAlbums().size());
-
-		String playlistName = "Fav Playlist";
-
-		String name = "Kitchen";
-		int volume = 25;
 		
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		String error = null;
 		try {
-			hasc.addLocation(name, volume);
-			hasc.addPlaylist(playlistName);
-			location = has.getLocation(0);
-			playlist = has.getPlaylist(0);
-			
+			has.addLocation(location);
+			has.addPlaylist(playlist);
+
 			hasc.assignPlaylistToLocation(playlist, location);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();	
@@ -1084,7 +1045,7 @@ public class TestHomeAudioSystemController {
 		// check error
 		assertEquals("Playlist is Empty!", error);	
 	}
-	
+
 	@Test
 	public void testAssignPlaylistNullToLocationNull(){
 		HAS has = HAS.getInstance();
@@ -1093,7 +1054,7 @@ public class TestHomeAudioSystemController {
 
 		playlist = null;
 		location = null;
-		
+
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		String error = null;
 		try {
@@ -1105,7 +1066,7 @@ public class TestHomeAudioSystemController {
 		// check error
 		assertEquals("Playlist needs to be selected for assigning playlist to Location! Location needs to be selected for assigning playlist to Location!", error);	
 	}
-	
+
 	@Test
 	public void testAssignWrongPlaylistToWrongLocation(){
 		HAS has = HAS.getInstance();
@@ -1113,7 +1074,7 @@ public class TestHomeAudioSystemController {
 		assertEquals(0, has.getLocations().size());
 
 		playlist.addSong(song);
-		
+
 		HomeAudioSystemController hasc = new HomeAudioSystemController();
 		String error = null;
 		try {
@@ -1125,7 +1086,79 @@ public class TestHomeAudioSystemController {
 		// check error
 		assertEquals("Playlist does not exist! Location does not exist!", error);	
 	}
-	
+
+	@Test 
+	public void testClearLocation(){
+		HAS has = HAS.getInstance();
+		assertEquals(0, has.getLocations().size());
+
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
+		try {
+			has.addLocation(location);
+			has.addSong(song);
+			has.addAlbum(album);
+			has.addPlaylist(playlist);
+			
+			hasc.addSongToPlaylist(song, playlist);
+			
+			hasc.assignSongToLocation(song, location);
+			hasc.assignAlbumToLocation(album, location);
+			hasc.assignPlaylistToLocation(playlist, location);
+			hasc.clearLocation(location);
+		} catch (InvalidInputException e) {
+			// check that no error occurred
+			fail();
+		}
+
+		// check model in memory
+		assertEquals(null, has.getLocation(0).getSong());
+		assertEquals(null, has.getLocation(0).getAlbum());
+		assertEquals(null, has.getLocation(0).getPlaylist());
+		
+		HAS has2 = (HAS) PersistenceXStream.loadFromXMLwithXStream();
+
+		// check file contents
+		assertEquals(null, has2.getLocation(0).getSong());
+		assertEquals(null, has2.getLocation(0).getAlbum());
+		assertEquals(null, has2.getLocation(0).getPlaylist());
+	}
+
+	@Test 
+	public void testClearAllLocations(){
+		HAS has = HAS.getInstance();
+		assertEquals(0, has.getLocations().size());
+
+		HomeAudioSystemController hasc = new HomeAudioSystemController();
+		try {
+			has.addLocation(location);
+			has.addSong(song);
+			has.addAlbum(album);
+			has.addPlaylist(playlist);
+			
+			hasc.addSongToPlaylist(song, playlist);
+			
+			hasc.assignSongToLocation(song, location);
+			hasc.assignAlbumToLocation(album, location);
+			hasc.assignPlaylistToLocation(playlist, location);
+			hasc.clearAllLocations();
+		} catch (InvalidInputException e) {
+			// check that no error occurred
+			fail();
+		}
+
+		// check model in memory
+		assertEquals(null, has.getLocation(0).getSong());
+		assertEquals(null, has.getLocation(0).getAlbum());
+		assertEquals(null, has.getLocation(0).getPlaylist());
+		
+		HAS has2 = (HAS) PersistenceXStream.loadFromXMLwithXStream();
+
+		// check file contents
+		assertEquals(null, has2.getLocation(0).getSong());
+		assertEquals(null, has2.getLocation(0).getAlbum());
+		assertEquals(null, has2.getLocation(0).getPlaylist());
+	}
+
 
 	private void checkResultArtist(String name, HAS has2) {
 		assertEquals(1, has2.getArtists().size());
@@ -1184,21 +1217,21 @@ public class TestHomeAudioSystemController {
 		assertEquals(song.getTitle(), has2.getSong(0).getTitle());	
 		assertEquals(song.getTitle(), playlist.getSong(0).getTitle());
 	}
-	
+
 	private void checkResultAssignSongToLocation(Song song, Location location, HAS has2) {
 		assertEquals(1, has2.getLocations().size());
 		assertEquals(1, has2.getSongs().size());
 		assertEquals(song.getTitle(), has2.getLocation(0).getSong().getTitle());	
 		assertEquals(song.getTitle(), location.getSong().getTitle());
 	}
-	
+
 	private void checkResultAssignAlbumToLocation(Album album, Location location, HAS has2) {
 		assertEquals(1, has2.getLocations().size());
 		assertEquals(1, has2.getAlbums().size());
 		assertEquals(album.getTitle(), has2.getLocation(0).getAlbum().getTitle());	
 		assertEquals(album.getTitle(), location.getAlbum().getTitle());
 	}
-	
+
 	private void checkResultAssignPlaylistToLocation(Playlist playlist, Location location, HAS has2) {
 		assertEquals(1, has2.getLocations().size());
 		assertEquals(1, has2.getPlaylists().size());

@@ -402,7 +402,7 @@ public class HomeAudioSystemController {
 		PersistenceXStream.saveToXMLwithXStream(has);
 	}
 
-	public void clearAllLocation() {
+	public void clearAllLocations() {
 		HAS has = HAS.getInstance();
 		for (int i = 0; i < has.getLocations().size(); i++) {
 			has.getLocation(i).delete();

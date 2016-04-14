@@ -1062,7 +1062,7 @@ public final class HomeAudioSystemPage extends JFrame {
 		error = error.trim();
 
 		if (error.length() == 0) {
-			hasc.clearAllLocation();
+			hasc.clearAllLocations();
 		}
 		refreshData();
 	}

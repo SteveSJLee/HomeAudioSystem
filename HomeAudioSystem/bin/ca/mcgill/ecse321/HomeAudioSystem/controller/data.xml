@@ -2,8 +2,8 @@
   <songs id="2"/>
   <albums id="3">
     <album id="4">
-      <title>Goldberg Variations BWV 988</title>
-      <genre>Classic</genre>
+      <title>Get Rich or Die tryin</title>
+      <genre>Hip Hop</genre>
       <releaseDate id="5">2015-02-17</releaseDate>
       <songs id="6">
         <song id="7">
@@ -26,7 +26,7 @@
   <locations id="12">
     <location id="13">
       <name>Kitchen</name>
-      <volume>25</volume>
+      <volume>0</volume>
       <beforeMuted>0</beforeMuted>
       <isPlaying>false</isPlaying>
       <time>214</time>

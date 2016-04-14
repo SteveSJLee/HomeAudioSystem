@@ -1,5 +1,6 @@
 <?php
 
+ /*
 require_once 'persistence/PersistenceAudioSystem.php';
 require_once 'model/HAS.php';
 require_once 'model/Album.php';
@@ -8,6 +9,18 @@ require_once 'model/Playlist.php';
 require_once 'model/Location.php';
 require_once 'model/Song.php';
 require_once 'controller/InputValidator.php';
+ */
+
+// /*
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\persistence\PersistenceAudioSystem.php';
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\HAS.php';
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Album.php';
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Artist.php';
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Playlist.php';
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Location.php';
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Song.php';
+require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\controller\InputValidator.php';
+// */
 
 //2/19/2016
 
@@ -31,7 +44,12 @@ class Controller
 			$error .= "Album genre cannot be empty! ";
 		}
 		if ($releasedate == null || strlen($releasedate) == 0){
-			$error .= "Album must have a release date!1";
+			$error .= "Album must have a release date! ";
+		}
+		elseif (strtotime($album_releasedate) == false){
+			$error .= "Album must have a release date specified correctly (YYYY-MM-DD)! ";
+		} else {
+			$album_releasedate = date('Y-m-d', strtotime($album_releasedate));
 		}
 		
 		if($error == ""){
@@ -88,6 +106,9 @@ class Controller
 		}
 		if ($duration == null || strlen($duration) == 0){
 			$error .= "Song duration cannot be empty! ";
+		}
+		elseif (strlen($duration)!=5){
+			$error .= "Song duration must follow the format ##:## ! ";
 		}
 		if ($album == null || strlen($album) == 0){
 			$error .= "Song album must be selected! ";
@@ -150,6 +171,9 @@ class Controller
 		if ($volume == null || strlen($volume) == 0){
 			$error .= "Location volume cannot be empty! ";
 		}
+		elseif (!ctype_digit($location_volume)){
+			$error .= "Location volument must be an Integer! ";
+		}
 	
 		if($error == ""){
 			// 2. Load all data
@@ -178,13 +202,13 @@ class Controller
 	
 		$error = "";
 		if($location == null){
-			$error .= "Location must be selected!";
+			$error .= "Location must be selected! ";
 		}
-		if(in_array($location, $has->getLocations()));{
-			$error .= "Location does not exist!";
+		elseif(in_array($location, $has->getLocations()));{
+			$error .= "Location does not exist! ";
 		}
 		if (strval($volume) == null){
-			$error .= "Location volume cannot be empty!";
+			$error .= "Location volume cannot be empty! ";
 		}
 		
 	
@@ -210,16 +234,16 @@ class Controller
 	
 	
 		if($song == null){
-			$error .= "Song must be selected!";
-		}
-		/*if(!in_array($song, $has->getSongs()));{
-			$error .= "Song does not exist!";
+			$error .= "Song must be selected! ";
+		}/*
+		elseif(!in_array($song, $has->getSongs()));{
+			$error .= "Song does not exist! ";
 		}*/
 		if($playlist == null){
-			$error .= "Playlist must be selected!";
+			$error .= "Playlist must be selected! ";
 		}/*
-		if(!in_array($playlist, $has->getPlaylists()));{
-			$error .= "Playlist does not exist!";
+		elseif(!in_array($playlist, $has->getPlaylists()));{
+			$error .= "Playlist does not exist! ";
 		}*/
 	
 		if($error == ""){
@@ -242,16 +266,16 @@ class Controller
 		$songs = $has->getSongs();
 	
 		if($song == null){
-			$error .= "Song must be selected!";
+			$error .= "Song must be selected! ";
 		}
-		if(!in_array($song, $has->getSongs())){
-			$error .= "Song does not exist!";
+		elseif(!in_array($song, $has->getSongs())){
+			$error .= "Song does not exist! ";
 		}
 		if($location == null){
-			$error .= "Location must be selected!";
+			$error .= "Location must be selected! ";
 		}
-		if(!in_array($location, $has->getLocations())){
-			$error .= "Location does not exist!";
+		elseif(!in_array($location, $has->getLocations())){
+			$error .= "Location does not exist! ";
 		}
 	
 		if($error == ""){
@@ -271,20 +295,20 @@ class Controller
 	
 		$error = "";
 		
-		$album=$has->getALbum_index($album_index);
+		$album=$has->getAlbum_index($album_index);
 		$location=$has->getLocation_index($location_index);
 	
 		if($album == null){
-			$error .= "Album must be selected!";
+			$error .= "Album must be selected! ";
 		}
-		if(!in_array($album, $has->getAlbums())){
-			$error .= "Album does not exist!";
+		elseif(!in_array($album, $has->getAlbums())){
+			$error .= "Album does not exist! ";
 		}
 		if($location == null){
-			$error .= "Location must be selected!";
+			$error .= "Location must be selected! ";
 		}
-		if(!in_array($location, $has->getLocations())){
-			$error .= "Location does not exist!";
+		elseif(!in_array($location, $has->getLocations())){
+			$error .= "Location does not exist! ";
 		}
 	
 		if($error == ""){
@@ -308,16 +332,16 @@ class Controller
 		$location=$has->getLocation_index($location_index);
 	
 		if($playlist == null){
-			$error .= "Song must be selected!";
+			$error .= "Playlist must be selected! ";
 		}
-		if(!in_array($playlist, $has->getPlaylists())){
-			$error .= "Song does not exist!";
+		elseif(!in_array($playlist, $has->getPlaylists())){
+			$error .= "Playlist does not exist! ";
 		}
 		if($location == null){
-			$error .= "Location must be selected!";
+			$error .= "Location must be selected! ";
 		}
-		if(!in_array($location, $has->getLocations())){
-			$error .= "Location does not exist!";
+		elseif(!in_array($location, $has->getLocations())){
+			$error .= "Location does not exist! ";
 		}
 	
 		if($error == ""){
