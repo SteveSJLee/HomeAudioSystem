@@ -23,12 +23,14 @@
 		$has = $pm->loadDataFromStore();
 		
 		session_start();
+		$error;
+			
 		
 		
 		?>
 		<p><span class="error">
 			<?php 
-				echo $_SESSION["error"];
+			echo $_SESSION['error'];
 			?>
 		</span></p>
 		
@@ -141,8 +143,9 @@
   			</select></p>
 			<p>Album: <select name="album_index">
   				<?php
+  				
   				for($i=0;$i<$has->numberOfAlbums();$i++){
-  					$name=$has->getAlbum_index($i)->getTitle();	
+  					$name=$has->getAlbum_index($i)->getTitle();
   					echo "<option value='$i'>$name</option>";
   				}
   				?>
@@ -150,7 +153,7 @@
   			<p><input type="submit" value="Assign Album to Location"/></p>
 		</form>
 		</div>	
-			<div style="float:left; width:150; height:150px; background:grey; margin:10px;padding-left:10px; padding-right:10px;"> 
+		<div style="float:left; width:150; height:150px; background:grey; margin:10px;padding-left:10px; padding-right:10px;"> 
 		<form action="assignplaylisttolocation.php" method="post">
 			<p>Location: <select name="location_index">
   				<?php
@@ -171,5 +174,130 @@
   			<p><input type="submit" value="Assign Playlist to Location"/></p>
 		</form>
 		</div>	
+		
+		<div style="float:left; width:150; height:150px; background:grey; margin:10px;padding-left:10px; padding-right:10px;"> 
+		<form action="clearlocation.php" method="post">
+			<p>Location: <select name="location_index">
+  				<?php
+  				for($i=0;$i<$has->numberOfLocations();$i++){
+  					$name=$has->getLocation_index($i)->getName();	
+  					echo "<option value='$i'>$name</option>";
+  				}
+  				?>
+  			</select></p>
+  			<p><input type="submit" value="Clear Location"/></p>
+		</form>
+		<form action="clearalllocations.php" method="post">
+		<input type="submit" value="Clear All Locations">
+		</form>
+		</div>	
+		
+		<div style="float:left; width:150; height:150px; background:grey; margin:10px;padding-left:10px; padding-right:10px;"> 
+		<form action="changevolume.php" method="post">
+			<p>Location: <select name="location_index">
+  				<?php
+  				for($i=0;$i<$has->numberOfLocations();$i++){
+  					$name=$has->getLocation_index($i)->getName();
+  					echo "<option value='$i'>$name</option>";
+  				}
+  				?>
+  			</select></p>
+			<p>Volume: <input type="text" name="volume"/></p>
+			<p><input type="submit" value="Change Location Volume"/></p>
+		</form>
+		</div>
+		<div style="float:left; width:150; height:150px; background:grey; margin:10px;padding-left:10px; padding-right:10px;"> 
+		<form action="playpause.php" method="post">
+			<p>Location: <select name="location_index">
+  				<?php
+  				for($i=0;$i<$has->numberOfLocations();$i++){
+  					$name=$has->getLocation_index($i)->getName();	
+  					echo "<option value='$i'>$name</option>";
+  				}
+  				?>
+  			</select></p>
+			<input type="submit" value="Play/Pause"/>
+		</form>
+		<form action="playall.php" method="post">
+		<input type="submit" value="Play All">
+		</form>
+		
+		<form action="pauseall.php" method="post">
+		<input type="submit" value="Pause All">
+		</form>
+		</div>	
+		
+		<div style="float:left; min-width:500; height:180px; background:grey; margin:10px;padding-left:10px; padding-right:10px;"> 
+		<form action="mutelocation.php" method="post">
+		<p>Location: <select name="location_index">
+  				<?php
+  				for($i=0;$i<$has->numberOfLocations();$i++){
+  					$name=$has->getLocation_index($i)->getName();	
+  					echo "<option value='$i'>$name</option>";
+  				}
+  				?>
+  			</select></p>
+			<p><input type="submit" value="Mute/UnMute Location"/></p>
+		</form>
+		<form action="muteall.php" method="post">
+			<p><input type="submit" value="Mute All"/></p>
+		</form>
+		<form action="unmuteall.php" method="post">
+			<p><input type="submit" value="UnMute All"/></p>
+		</form>
+		</div>
+		<?php 
+		echo"<table style='width:100%'>";
+		echo "<tr>";
+		echo"<td>";
+			echo "Location:";
+		echo"<td>";
+		echo"<td>";
+			echo "Volume:";
+		echo"<td>";
+		echo"<td>";
+			echo "Whats Playing:";
+		echo"<td>";
+		echo"<td>";
+			echo "Play/Paused:";
+		echo"<td>";
+		echo"<tr>";
+		for($i=0;$i<$has->numberOfLocations();$i++){
+		echo "<tr>";
+			echo"<td>";	
+			$name=$has->getLocation_index($i)->getName();
+			echo "$name";
+			echo"<td>";
+			echo"<td>";
+			$volume=$has->getLocation_index($i)->getVolume();
+			echo "$volume";
+			echo"<td>";
+			echo"<td>";
+			if(!(is_null($has->getLocation_index($i)->getSong()))){
+				$song=$has->getLocation_index($i)->getSong()->getTitle();
+				echo "$song";
+			}
+			elseif(!(is_null($has->getLocation_index($i)->getAlbum()))){
+				$song=$has->getLocation_index($i)->getAlbum()->getTitle();
+				echo "$song";
+			}
+			elseif(!(is_null($has->getLocation_index($i)->getPlaylist()))){
+				$song=$has->getLocation_index($i)->getPlaylist()->getName();
+				echo "$song";
+			}
+			echo"<td>";
+			echo"<td>";
+			$playing=$has->getLocation_index($i)->getIsPlaying();
+			if($playing)
+				echo "Playing";
+			if(!$playing)
+				echo "Paused";
+			echo"<td>";
+			echo"<td>";
+				
+			echo"<td>";
+		echo"<tr>";
+		}
+		?>
 	</body>
 </html>

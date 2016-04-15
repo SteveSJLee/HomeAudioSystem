@@ -1,6 +1,6 @@
 <?php
 
-/*
+
 require_once 'persistence/PersistenceAudioSystem.php';
 require_once 'model/HAS.php';
 require_once 'model/Album.php';
@@ -9,18 +9,9 @@ require_once 'model/Playlist.php';
 require_once 'model/Location.php';
 require_once 'model/Song.php';
 require_once 'controller/InputValidator.php';
-*/
 
-// /*
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\controller\Controller.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\persistence\PersistenceAudioSystem.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\HAS.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Album.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Artist.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Playlist.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Location.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Song.php';
-// */
+
+
 
 class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 {
@@ -369,7 +360,7 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 		}
 	
 		//check error
-		$this->assertEquals("Location volument must be an Integer!", $error);
+		$this->assertEquals("Location volume must be a positive Integer!", $error);
 		// check file contents
 		$this->has = $this->persistence->loadDataFromStore();
 		$this->assertEquals(0, count($this->has->getAlbums()));
@@ -379,7 +370,7 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(0, count($this->has->getSongs()));
 	}
 	
-	/*
+	
 	public function testCreateLocationMaxVolume() {
 		$this->assertEquals(0, count($this->has->getArtists()));
 	
@@ -389,15 +380,15 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 		try {
 			$this->controller->createLocation($location_name, $location_volume);
 		} catch (Exception $e) {
-			// check that no error occurred
-			$this->fail();
+			$error = $e->getMessage();
 		}
 	
+		//check error
+		$this->assertEquals("Location volume must be below 100!", $error);
 		// check file contents
 		$this->has = $this->persistence->loadDataFromStore();
-		$this->assertEquals(1, count($this->has->getArtists()));
-		$this->assertEquals($artist_name, $this->has->getArtist_index(0)->getName());
 		$this->assertEquals(0, count($this->has->getAlbums()));
+		$this->assertEquals(0, count($this->has->getArtists()));
 		$this->assertEquals(0, count($this->has->getLocations()));
 		$this->assertEquals(0, count($this->has->getPlaylists()));
 		$this->assertEquals(0, count($this->has->getSongs()));
@@ -409,24 +400,25 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 		$location_name = "Kitchen";
 		$location_volume = "-1";
 	
+		$error = "";
 		try {
 			$this->controller->createLocation($location_name, $location_volume);
 		} catch (Exception $e) {
-			// check that no error occurred
-			$this->fail();
+			$error = $e->getMessage();
 		}
 	
+		//check error
+		$this->assertEquals("Location volume must be a positive Integer!", $error);
 		// check file contents
 		$this->has = $this->persistence->loadDataFromStore();
-		$this->assertEquals(1, count($this->has->getArtists()));
-		$this->assertEquals($artist_name, $this->has->getArtist_index(0)->getName());
 		$this->assertEquals(0, count($this->has->getAlbums()));
+		$this->assertEquals(0, count($this->has->getArtists()));
 		$this->assertEquals(0, count($this->has->getLocations()));
 		$this->assertEquals(0, count($this->has->getPlaylists()));
 		$this->assertEquals(0, count($this->has->getSongs()));
 	}
 	
-	*/
+	
 	
 	public function testCreatePlaylist() {
 		$this->assertEquals(0, count($this->has->getPlaylists()));
@@ -675,38 +667,6 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(0, count($this->has->getPlaylists()));
 		$this->assertEquals(0, count($this->has->getSongs()));
 	}
-	 
-	
-	/*
-	public function testMuteLocation() {
-		$this->assertEquals(0, count($this->has->getLocations()));
-		
-		$location_name = "Kitchen";
-		$location_volume = "50";
-		$newVolume = "75";
-	
-		try {
-			$this->controller->createLocation($location_name, $location_volume);
-			$this->has = $this->persistence->loadDataFromStore();
-				//utiliser index location au lieu de passer la location direct
-			$this->controller->muteLocation($this->has->getLocation_index(0), $newVolume, $location_volume);
-		} catch (Exception $e) {
-			$this->assertEquals("lol", $e);
-			// check that no error occurred
-			$this->fail();
-		}
-	
-		// check file contents
-		$this->has = $this->persistence->loadDataFromStore();
-		$this->assertEquals(0, count($this->has->getArtists()));
-		$this->assertEquals(0, count($this->has->getAlbums()));
-		$this->assertEquals(1, count($this->has->getLocations()));
-		$this->assertEquals($location_name, $this->has->getLocation_index(0)->getName());
-		$this->assertEquals($newVolume, $this->has->getLocation_index(0)->getVolume());
-		$this->assertEquals(0, count($this->has->getPlaylists()));
-		$this->assertEquals(0, count($this->has->getSongs()));
-	}
-	*/
 	
 	public function testAddSongToPlaylist() {
 		$this->assertEquals(0, count($this->has->getPlaylists()));
@@ -754,35 +714,6 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($song_duration, $this->has->getSong_index(0)->getDuration());
 		$this->assertEquals(1, count($this->has->getSongs()));
 	}
-	
-	/* Might not have to implement
-	public function testAddSongWrongToPlaylistWrong() {
-		$this->assertEquals(0, count($this->has->getLocations()));
-	
-		$song_title = null;
-		$song_duration = null;
-		$song_album_index = null;
-		$song_artist_index = null;
-	
-	
-		$error = "";
-		try {
-			$this->controller->addSongToPlaylist("", "");
-		} catch (Exception $e) {
-			$error = $e->getMessage();
-		}
-	
-		//check error
-		$this->assertEquals("Song must be selected! Playlist must be selected!", $error);
-		// check file contents
-		$this->has = $this->persistence->loadDataFromStore();
-		$this->assertEquals(0, count($this->has->getAlbums()));
-		$this->assertEquals(0, count($this->has->getArtists()));
-		$this->assertEquals(0, count($this->has->getLocations()));
-		$this->assertEquals(0, count($this->has->getPlaylists()));
-		$this->assertEquals(0, count($this->has->getSongs()));
-	}
-	*/
 	
 	public function testAssignSongToLocation() {
 		$this->assertEquals(0, count($this->has->getSongs()));
@@ -906,5 +837,173 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(0, count($this->has->getSongs()));
 	}
 	
+	public function testChangeVolume() {
+		$this->assertEquals(0, count($this->has->getLocations()));
 	
+		$location_name = "Kitchen";
+		$location_volume = "50";
+		$location_newVolume = "75";
+	
+		try {
+			$this->controller->createLocation($location_name, $location_volume);
+			$this->has = $this->persistence->loadDataFromStore();
+				
+			$this->controller->changeVolume($this->has->indexOfLocation($this->has->getLocation_index(0)), $location_newVolume);
+		} catch (Exception $e) {
+			// check that no error occurred
+			$this->fail();
+		}
+	
+		// check file contents
+		$this->has = $this->persistence->loadDataFromStore();
+		$this->assertEquals(0, count($this->has->getArtists()));
+		$this->assertEquals($location_name, $this->has->getLocation_index(0)->getName());
+		$this->assertEquals(0, count($this->has->getAlbums()));
+		$this->assertEquals($location_newVolume, $this->has->getLocation_index(0)->getVolume());
+		$this->assertEquals(1, count($this->has->getLocations()));
+		$this->assertEquals(0, count($this->has->getPlaylists()));
+		$this->assertEquals(0, count($this->has->getSongs()));
+	}
+	
+	public function testChangeVolumeMax() {
+		$this->assertEquals(0, count($this->has->getArtists()));
+	
+		$location_name = "Kitchen";
+		$location_volume = "50";
+		$location_newVolume = "101";
+	
+		try {
+			$this->controller->createLocation($location_name, $location_volume);
+			$this->has = $this->persistence->loadDataFromStore();
+				
+			$this->controller->changeVolume($this->has->indexOfLocation($this->has->getLocation_index(0)), $location_newVolume);
+		} catch (Exception $e) {
+			$error = $e->getMessage();
+		}
+	
+		//check error
+		$this->assertEquals("Location volume must be below 100!", $error);
+		// check file contents
+		$this->has = $this->persistence->loadDataFromStore();
+		$this->assertEquals(0, count($this->has->getAlbums()));
+		$this->assertEquals(0, count($this->has->getArtists()));
+		$this->assertEquals(1, count($this->has->getLocations()));
+		$this->assertEquals(0, count($this->has->getPlaylists()));
+		$this->assertEquals(0, count($this->has->getSongs()));
+	}
+	
+	public function testChangeVolumeMin() {
+		$this->assertEquals(0, count($this->has->getArtists()));
+	
+		$location_name = "Kitchen";
+		$location_volume = "50";
+		$location_newVolume = "-1";
+	
+		$error = "";
+		try {
+		$this->controller->createLocation($location_name, $location_volume);
+			$this->has = $this->persistence->loadDataFromStore();
+				
+			$this->controller->changeVolume($this->has->indexOfLocation($this->has->getLocation_index(0)), $location_newVolume);
+		} catch (Exception $e) {
+			$error = $e->getMessage();
+		}
+	
+		//check error
+		$this->assertEquals("Location volume must be a positive Integer!", $error);
+		// check file contents
+		$this->has = $this->persistence->loadDataFromStore();
+		$this->assertEquals(0, count($this->has->getAlbums()));
+		$this->assertEquals(0, count($this->has->getArtists()));
+		$this->assertEquals(1, count($this->has->getLocations()));
+		$this->assertEquals(0, count($this->has->getPlaylists()));
+		$this->assertEquals(0, count($this->has->getSongs()));
+	}
+	
+	public function testToggleMuteLocation() {
+		$this->assertEquals(0, count($this->has->getLocations()));
+	
+		$location_name = "Kitchen";
+		$location_volume = "50";
+	
+		try {
+			$this->controller->createLocation($location_name, $location_volume);
+			$this->has = $this->persistence->loadDataFromStore();
+	
+			$this->controller->toggleMuteLocation($this->has->indexOfLocation($this->has->getLocation_index(0)));
+		} catch (Exception $e) {
+			// check that no error occurred
+			$this->fail();
+		}
+	
+		// check file contents
+		$this->has = $this->persistence->loadDataFromStore();
+		$this->assertEquals(0, count($this->has->getArtists()));
+		$this->assertEquals($location_name, $this->has->getLocation_index(0)->getName());
+		$this->assertEquals(0, count($this->has->getAlbums()));
+		$this->assertEquals(0, $this->has->getLocation_index(0)->getVolume());
+		$this->assertEquals(1, count($this->has->getLocations()));
+		$this->assertEquals(0, count($this->has->getPlaylists()));
+		$this->assertEquals(0, count($this->has->getSongs()));
+	}
+	
+	public function testClearLocation() {
+		$this->assertEquals(0, count($this->has->getSongs()));
+		$this->assertEquals(0, count($this->has->getLocations()));
+	
+	
+		$song_title = "Jumpman";
+		$song_duration = "03:30";
+	
+		$artist_name = "Drake";
+	
+		$album_title = "If you read this it's too late";
+		$album_genre = "Hip Hop";
+		$album_releasedate = "02/02/2016";
+		
+		$playlist_name = "My Fav Playlist";
+	
+		$location_name = "Kitchen";
+		$location_volume = "50";
+	
+		try {
+	
+			$this->controller->createArtist($artist_name);
+			$this->controller->createAlbum($album_title, $album_genre, $album_releasedate);
+			$this->controller->createPlaylist($playlist_name);
+			$this->controller->createLocation($location_name, $location_volume);
+			$this->has = $this->persistence->loadDataFromStore();
+			$song_album_index = $this->has->indexOfAlbum($this->has->getAlbum_index(0));
+			$song_artist_index = $this->has->indexOfArtist($this->has->getArtist_index(0));
+	
+			$this->controller->createSong($song_title, $song_duration, $song_album_index, $song_artist_index);
+	
+			$this->has = $this->persistence->loadDataFromStore();
+			$song_index = $this->has->indexOfSong($this->has->getSong_index(0));
+			$location_index = $this->has->indexOfLocation($this->has->getLocation_index(0));
+			$playlist_index = $this->has->indexOfPlaylist($this->has->getPlaylist_index(0));
+			$album_index = $this->has->indexOfAlbum($this->has->getAlbum_index(0));
+				
+			$this->controller->assignPlaylistToLocation($playlist_index, $location_index);
+			$this->controller->assignAlbumToLocation($album_index, $location_index);
+			$this->controller->assignSongToLocation($song_index, $location_index);
+			$this->controller->clearLocation(0);
+				
+	
+		} catch (Exception $e) {
+			// check that no error occurred
+			$this->fail();
+		}
+	
+		// check file contents
+		$this->has = $this->persistence->loadDataFromStore();
+		$this->assertEquals(1, count($this->has->getArtists()));
+		$this->assertEquals(1, count($this->has->getAlbums()));
+		$this->assertEquals(1, count($this->has->getLocations()));
+		$this->assertEquals(1, count($this->has->getPlaylists()));
+		$this->assertEquals(0, count($this->has->getLocation_index(0)->getSong()));
+		$this->assertEquals(0, count($this->has->getLocation_index(0)->getPlaylist()));
+		$this->assertEquals(0, count($this->has->getLocation_index(0)->getAlbum()));
+		$this->assertEquals(1, count($this->has->getSongs()));
+	}
 }

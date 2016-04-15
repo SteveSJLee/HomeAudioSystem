@@ -12,6 +12,7 @@ $location_index=$_POST['location_index'];
 
 try {
 	$c->assignSongToLocation($song_index, $location_index);
+	$_SESSION["error"] = "";
 
 } catch (Exception $e) {
 

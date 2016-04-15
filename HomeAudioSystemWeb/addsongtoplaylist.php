@@ -8,6 +8,7 @@ $c = new Controller();
 
 try {
 	$c->addSongToPlaylist($_POST['song_index'], $_POST['playlist_index']);
+	$_SESSION["error"] = "";
 } catch (Exception $e) {
 
 	$_SESSION["error"] = $e->getMessage();

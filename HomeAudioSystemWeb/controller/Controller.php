@@ -1,6 +1,6 @@
 <?php
 
- /*
+ 
 require_once 'persistence/PersistenceAudioSystem.php';
 require_once 'model/HAS.php';
 require_once 'model/Album.php';
@@ -9,18 +9,8 @@ require_once 'model/Playlist.php';
 require_once 'model/Location.php';
 require_once 'model/Song.php';
 require_once 'controller/InputValidator.php';
- */
 
-// /*
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\persistence\PersistenceAudioSystem.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\HAS.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Album.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Artist.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Playlist.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Location.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\model\Song.php';
-require_once 'C:\Users\ArnoldK\Desktop\Group02\HomeAudioSystemWeb\controller\InputValidator.php';
-// */
+
 
 //2/19/2016
 
@@ -171,8 +161,11 @@ class Controller
 		if ($volume == null || strlen($volume) == 0){
 			$error .= "Location volume cannot be empty! ";
 		}
-		elseif (!ctype_digit($location_volume)){
-			$error .= "Location volument must be an Integer! ";
+		elseif (!ctype_digit($volume)){
+			$error .= "Location volume must be a positive Integer! ";
+		}
+		elseif ($volume > 100){
+			$error .= "Location volume must be below 100! ";
 		}
 	
 		if($error == ""){
@@ -354,29 +347,196 @@ class Controller
 			throw new Exception(trim($error));
 		}
 	}
-	public function play(){
+	public function playpause($location_index){
 		$pm = new PersistenceAudioSystem();
 		$has = $pm->loadDataFromStore();
-		for($i = 0;$i<count($has->getLocations());$i++){
-			if($has->getLocation_index($i)->getAlbum() != null){
-				if(!($has->getLocation(i)->getIsPlaying())){
-					$has->getLocation_index(i)->setIsPlaying(true);
-				}
-			}
-			if($has->getLocation_index($i)->getSong() != null){
-				if(!($has->getLocation(i)->getIsPlaying())){
-					$has->getLocation_index(i)->setIsPlaying(true);
-				}
-			}
-			if($has->getLocation_index($i)->getPLaylust != null){
-				if(!($has->getLocation(i)->getIsPlaying())){
-					$has->getLocation_index(i)->setIsPlaying(true);
-				}
+		
+		$error="";
+		
+		if($location_index == null){
+			$error .= "Location must be selected! ";
+		}
+		elseif(!in_array($has->getLocation_index($location_index), $has->getLocations())){
+			$error .= "Location does not exist! ";
+		}	
+		if((!(is_null($has->getLocation_index($location_index)->getAlbum())))
+				||(!(is_null($has->getLocation_index($location_index)->getSong())))
+				||(!(is_null($has->getLocation_index($location_index)->getPLaylist())))){
+				if(!($has->getLocation_index($location_index)->getIsPlaying())){
+					$has->getLocation_index($location_index)->setIsPlaying(true);		
+				}else{
+					$has->getLocation_index($location_index)->setIsPlaying(false);
 			}
 		}
 		
+		if($error==""){
+			$pm->writeDataToStore($has);
+		}
+		else {
+			throw new Exception(trim($error));
+		}
 	}
+	public function pauseAll(){
+		
+		$pm = new PersistenceAudioSystem();
+		$has = $pm->loadDataFromStore();
+		
+		$error="";
+		
+		for($i=0;$i<$has->numberOfLocations();$i++){
+		if((!(is_null($has->getLocation_index($i)->getAlbum())))
+				||(!(is_null($has->getLocation_index($i)->getSong())))
+				||(!(is_null($has->getLocation_index($i)->getPLaylist()))))
+					$has->getLocation_index($i)->setIsPlaying(false);	
+		}
+		
+		if($error==""){
+			$pm->writeDataToStore($has);
+		}
+		else {
+			throw new Exception(trim($error));
+		}
+		
+	}
+	public function playAll(){
 	
+		$pm = new PersistenceAudioSystem();
+		$has = $pm->loadDataFromStore();
+	
+		$error="";
+	
+	for($i=0;$i<$has->numberOfLocations();$i++){
+		if((!(is_null($has->getLocation_index($i)->getAlbum())))
+				||(!(is_null($has->getLocation_index($i)->getSong())))
+				||(!(is_null($has->getLocation_index($i)->getPLaylist()))))
+					$has->getLocation_index($i)->setIsPlaying(true);	
+		}
+		if($error==""){
+			$pm->writeDataToStore($has);
+		}
+		else {
+			throw new Exception(trim($error));
+		}
+	
+	}
+	public function clearLocation($location_index){
+		$pm = new PersistenceAudioSystem();
+		$has = $pm->loadDataFromStore();
+		
+		$error = "";
+		
+		$location=$has->getLocation_index($location_index);
+		
+		if($location == null){
+			$error .= "Location must be selected! ";
+		}
+		elseif(!in_array($location, $has->getLocations())){
+			$error .= "Location does not exist! ";
+		}
+		
+		if($error == ""){
+			$location->delete();
+				
+			// 4. Write all of the data
+			$pm->writeDataToStore($has);
+		} else {
+			throw new Exception(trim($error));
+		}
+	}
+	public function clearAllLocations(){
+		$pm = new PersistenceAudioSystem();
+		$has = $pm->loadDataFromStore();
+		
+		
+		$error = "";
+		
+		if($error == ""){
+			for($i=0;$i<$has->numberOfLocations();$i++){
+			$has->getLocation_index($i)->delete();
+			}
+			$pm->writeDataToStore($has);
+		} else {
+			throw new Exception(trim($error));
+		}
+	}
+	public function changeVolume($location_index, $volume){
+		$pm = new PersistenceAudioSystem();
+		$has = $pm->loadDataFromStore();
+		
+		$error = "";
+		
+		$volume = InputValidator::validate_input($volume);
+		$location=$has->getLocation_index($location_index);
+		
+		if($location == null){
+			$error .= "Location must be selected! ";
+		}
+		elseif(!in_array($location, $has->getLocations())){
+			$error .= "Location does not exist! ";
+		}
+		if ($volume == null || strlen($volume) == 0){
+			$error .= "Location volume cannot be empty! ";
+		}
+		elseif (!ctype_digit($volume)){
+			$error .= "Location volume must be a positive Integer! ";
+		}
+		elseif ($volume > 100){
+			$error .= "Location volume must be below 100! ";
+		}
+		
+		if($error == ""){
+			$location->setVolume($volume);
+		
+			// 4. Write all of the data
+			$pm->writeDataToStore($has);
+		} else {
+			throw new Exception(trim($error));
+		}
+		
+	}
+	public function muteAll(){
+		$pm = new PersistenceAudioSystem();
+		$has = $pm->loadDataFromStore();
+		
+		$error = "";
+		
+		for($i=0;$i<$has->numberOfLocations();$i++){
+			$has->getLocation_index($i)->setVolume('0');
+		}
+		
+		if($error == ""){
+			$pm->writeDataToStore($has);
+		} else {
+			throw new Exception(trim($error));
+		}
+	}
+	public function unmuteAll(){
+		$pm = new PersistenceAudioSystem();
+		$has = $pm->loadDataFromStore();
+	
+		$error = "";
+	
+		for($i=0;$i<$has->numberOfLocations();$i++){
+			$has->getLocation_index($i)->setVolume('30');
+		}
+	
+		if($error == ""){
+			$pm->writeDataToStore($has);
+		} else {
+			throw new Exception(trim($error));
+		}
+	}
+	public function toggleMuteLocation($location_index){
+		$pm = new PersistenceAudioSystem();
+		$has = $pm->loadDataFromStore();
+		if (strcmp(trim($has->getLocation_index($location_index)->getVolume()),'0')==0){
+			$has->getLocation_index($location_index)->setVolume('30');
+		}
+		else{
+			$has->getLocation_index($location_index)->setVolume('0');
+		}
+		$pm->writeDataToStore($has);
+	}
 }
 
 

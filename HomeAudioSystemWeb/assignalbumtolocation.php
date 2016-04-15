@@ -11,6 +11,7 @@ $location_index=$_POST['location_index'];
 try {
 
 	$c->assignAlbumToLocation($album_index, $location_index);
+	$_SESSION["error"] = "";
 
 } catch (Exception $e) {
 

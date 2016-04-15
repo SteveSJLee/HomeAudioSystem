@@ -8,6 +8,7 @@ $c = new Controller();
 
 try {
 	$c->createLocation($_POST['location_name'], $_POST['location_volume']);
+	$_SESSION["error"] = "";
 } catch (Exception $e) {
 	
 	$_SESSION["error"] = $e->getMessage();
