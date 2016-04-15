@@ -1,16 +1,14 @@
 <?php
 
- 
-require_once 'persistence/PersistenceAudioSystem.php';
-require_once 'model/HAS.php';
-require_once 'model/Album.php';
-require_once 'model/Artist.php';
-require_once 'model/Playlist.php';
-require_once 'model/Location.php';
-require_once 'model/Song.php';
-require_once 'controller/InputValidator.php';
-
-
+require_once __DIR__.'\..\persistence\PersistenceAudioSystem.php';
+require_once __DIR__.'\..\model\HAS.php';
+require_once __DIR__.'\..\model\Album.php';
+require_once __DIR__.'\..\model\Artist.php';
+require_once __DIR__.'\..\model\Playlist.php';
+require_once __DIR__.'\..\model\Location.php';
+require_once __DIR__.'\..\model\Song.php';
+require_once __DIR__.'\..\controller\InputValidator.php';
+require_once __DIR__.'\..\controller\Controller.php';
 
 //2/19/2016
 
@@ -185,36 +183,7 @@ class Controller
 			throw new Exception(trim($error));
 		}
 	}
-	public function muteLocation($location, $location_volume, $location_beforeMuted){
-		//Validate Input
-		$volume = InputValidator::validate_input($location_volume);
-		$beforeMuted = InputValidator::validate_input($location_beforeMuted);
-		
-		$pm = new PersistenceAudioSystem();
-		$has = $pm->loadDataFromStore();
 	
-		$error = "";
-		if($location == null){
-			$error .= "Location must be selected! ";
-		}
-		elseif(in_array($location, $has->getLocations()));{
-			$error .= "Location does not exist! ";
-		}
-		if (strval($volume) == null){
-			$error .= "Location volume cannot be empty! ";
-		}
-		
-	
-		if($error == ""){
-			$location->setVolume($volume);
-			$location->setBeforeMuted($beforeMuted);
-	
-			// 4. Write all of the data
-			$pm->writeDataToStore($has);
-		} else {
-			throw new Exception(trim($error));
-		}
-	}
 	public function addSongToPlaylist($song_index, $playlist_index){
 		//Validate Input
 		$pm = new PersistenceAudioSystem();
@@ -287,24 +256,23 @@ class Controller
 		$has = $pm->loadDataFromStore();
 	
 		$error = "";
-		
+	
+		if(is_null($album_index)){
+			$error .= "Album must be selected! ";
+		}else{
 		$album=$has->getAlbum_index($album_index);
 		$location=$has->getLocation_index($location_index);
-	
-		if($album == null){
-			$error .= "Album must be selected! ";
-		}
+		if(!$album->hasSongs())
+			$error .= "Album cannot be empty";
 		elseif(!in_array($album, $has->getAlbums())){
 			$error .= "Album does not exist! ";
-		}
-		elseif(!$album->hasSongs()){
-			$error .= "Album cannot be empty";
 		}
 		if($location == null){
 			$error .= "Location must be selected! ";
 		}
 		elseif(!in_array($location, $has->getLocations())){
 			$error .= "Location does not exist! ";
+		}
 		}
 	
 		if($error == ""){
@@ -324,23 +292,24 @@ class Controller
 	
 		$error = "";
 		
-		$playlist=$has->getPlaylist_index($playlist_index);
-		$location=$has->getLocation_index($location_index);
 	
-		if($playlist == null){
+		if(is_null($playlist_index)){
 			$error .= "Playlist must be selected! ";
 		}
+		else{
+		$playlist=$has->getPlaylist_index($playlist_index);
+		$location=$has->getLocation_index($location_index);
+		if(!$playlist->hasSongs())
+			$error .= "Playlist cannot be empty";
 		elseif(!in_array($playlist, $has->getPlaylists())){
 			$error .= "Playlist does not exist! ";
-		}
-		elseif(!$playlist->hasSongs()){
-			$error .= "Playlist cannot be empty";
 		}
 		if($location == null){
 			$error .= "Location must be selected! ";
 		}
 		elseif(!in_array($location, $has->getLocations())){
 			$error .= "Location does not exist! ";
+		}
 		}
 	
 		if($error == ""){
@@ -359,12 +328,12 @@ class Controller
 		
 		$error="";
 		
-		if($location_index == null){
+		if(is_null($location_index)){
 			$error .= "Location must be selected! ";
 		}
 		elseif(!in_array($has->getLocation_index($location_index), $has->getLocations())){
 			$error .= "Location does not exist! ";
-		}	
+		}else{	
 		if((!(is_null($has->getLocation_index($location_index)->getAlbum())))
 				||(!(is_null($has->getLocation_index($location_index)->getSong())))
 				||(!(is_null($has->getLocation_index($location_index)->getPLaylist())))){
@@ -373,6 +342,7 @@ class Controller
 				}else{
 					$has->getLocation_index($location_index)->setIsPlaying(false);
 			}
+		}
 		}
 		
 		if($error==""){
@@ -519,6 +489,7 @@ class Controller
 	public function unmuteAll(){
 		$pm = new PersistenceAudioSystem();
 		$has = $pm->loadDataFromStore();
+		
 	
 		$error = "";
 	
@@ -535,13 +506,29 @@ class Controller
 	public function toggleMuteLocation($location_index){
 		$pm = new PersistenceAudioSystem();
 		$has = $pm->loadDataFromStore();
-		if (strcmp(trim($has->getLocation_index($location_index)->getVolume()),'0')==0){
-			$has->getLocation_index($location_index)->setVolume('30');
+		
+		$error = "";
+		
+		if(!(is_null($location_index))){
+			$location=$has->getLocation_index($location_index);
+			if (strcmp(trim($has->getLocation_index($location_index)->getVolume()),'0')==0){
+				$has->getLocation_index($location_index)->setVolume('30');
+			}
+			else{
+				$has->getLocation_index($location_index)->setVolume('0');
+			}	
+			if(in_array($location, $has->getLocations()));{
+				$error .= "Location does not exist! ";
+			}
+		} else{
+			$error .= "Location must be selected! ";
 		}
-		else{
-			$has->getLocation_index($location_index)->setVolume('0');
+		
+		if($error=""){
+			$pm->writeDataToStore($has);
+		}else{
+			throw new Exception(trim($error));
 		}
-		$pm->writeDataToStore($has);
 	}
 }
 

@@ -1,14 +1,14 @@
 <?php
 
-require_once 'persistence/PersistenceAudioSystem.php';
-require_once 'model/HAS.php';
-require_once 'model/Album.php';
-require_once 'model/Artist.php';
-require_once 'model/Playlist.php';
-require_once 'model/Location.php';
-require_once 'model/Song.php';
-require_once 'controller/InputValidator.php';
-
+require_once __DIR__.'\..\persistence\PersistenceAudioSystem.php';
+require_once __DIR__.'\..\model\HAS.php';
+require_once __DIR__.'\..\model\Album.php';
+require_once __DIR__.'\..\model\Artist.php';
+require_once __DIR__.'\..\model\Playlist.php';
+require_once __DIR__.'\..\model\Location.php';
+require_once __DIR__.'\..\model\Song.php';
+require_once __DIR__.'\..\controller\InputValidator.php';
+require_once __DIR__.'\..\controller\Controller.php';
 
 
 class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
