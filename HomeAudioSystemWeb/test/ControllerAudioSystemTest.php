@@ -1,6 +1,5 @@
 <?php
 
-
 require_once 'persistence/PersistenceAudioSystem.php';
 require_once 'model/HAS.php';
 require_once 'model/Album.php';
@@ -9,7 +8,6 @@ require_once 'model/Playlist.php';
 require_once 'model/Location.php';
 require_once 'model/Song.php';
 require_once 'controller/InputValidator.php';
-
 
 
 
@@ -769,6 +767,15 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(0, count($this->has->getLocations()));
 		$this->assertEquals(0, count($this->has->getPlaylists()));
 			
+		$song_title = "Jumpman";
+		$song_duration = "03:30";
+		
+		$artist_name = "Drake";
+		
+		$album_title = "If you read this it's too late";
+		$album_genre = "Hip Hop";
+		$album_releasedate = "02/02/2016";
+		
 		$playlist_name = "My Fav Playlist";
 		
 		$location_name = "Kitchen";
@@ -777,6 +784,15 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 		try {
 			$this->controller->createLocation($location_name, $location_volume);
 			$this->controller->createPlaylist($playlist_name);
+			$this->controller->createArtist($artist_name);
+			$this->controller->createAlbum($album_title, $album_genre, $album_releasedate);
+			$this->has = $this->persistence->loadDataFromStore();
+			$song_album_index = $this->has->indexOfAlbum($this->has->getAlbum_index(0));
+			$song_artist_index = $this->has->indexOfArtist($this->has->getArtist_index(0));
+			
+			$this->controller->createSong($song_title, $song_duration, $song_album_index, $song_artist_index);
+			$this->controller->addSongToPlaylist(0, 0);
+				
 			
 			$this->has = $this->persistence->loadDataFromStore();
 			$playlist_index = $this->has->indexOfPlaylist($this->has->getPlaylist_index(0));
@@ -792,18 +808,23 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 	
 		// check file contents
 		$this->has = $this->persistence->loadDataFromStore();
-		$this->assertEquals(0, count($this->has->getArtists()));
-		$this->assertEquals(0, count($this->has->getAlbums()));
+		$this->assertEquals(1, count($this->has->getArtists()));
+		$this->assertEquals(1, count($this->has->getAlbums()));
 		$this->assertEquals(1, count($this->has->getLocations()));
 		$this->assertEquals(1, count($this->has->getPlaylists()));
 		$this->assertEquals($playlist_name, $this->has->getLocation_index(0)->getPlaylist()->getName());
-		$this->assertEquals(0, count($this->has->getSongs()));
+		$this->assertEquals(1, count($this->has->getSongs()));
 	}
 	
 	public function testAssignAlbumToLocation() {
 		$this->assertEquals(0, count($this->has->getLocations()));
 		$this->assertEquals(0, count($this->has->getAlbums()));
 	
+		$song_title = "Jumpman";
+		$song_duration = "03:30";
+		
+		$artist_name = "Drake";
+		
 		$album_title = "If you read this it's too late";
 		$album_genre = "Hip Hop";
 		$album_releasedate = "02/02/2016";
@@ -814,6 +835,13 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 		try {
 	
 			$this->controller->createAlbum($album_title, $album_genre, $album_releasedate);
+			$this->controller->createArtist($artist_name);
+			$this->has = $this->persistence->loadDataFromStore();
+			$song_album_index = $this->has->indexOfAlbum($this->has->getAlbum_index(0));
+			$song_artist_index = $this->has->indexOfArtist($this->has->getArtist_index(0));
+				
+			$this->controller->createSong($song_title, $song_duration, $song_album_index, $song_artist_index);
+			
 			$this->controller->createLocation($location_name, $location_volume);
 				
 			$this->has = $this->persistence->loadDataFromStore();
@@ -829,12 +857,12 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 	
 		// check file contents
 		$this->has = $this->persistence->loadDataFromStore();
-		$this->assertEquals(0, count($this->has->getArtists()));
+		$this->assertEquals(1, count($this->has->getArtists()));
 		$this->assertEquals(1, count($this->has->getAlbums()));
 		$this->assertEquals($album_title, $this->has->getLocation_index(0)->getAlbum()->getTitle());
 		$this->assertEquals(1, count($this->has->getLocations()));
 		$this->assertEquals(0, count($this->has->getPlaylists()));
-		$this->assertEquals(0, count($this->has->getSongs()));
+		$this->assertEquals(1, count($this->has->getSongs()));
 	}
 	
 	public function testChangeVolume() {
@@ -977,13 +1005,16 @@ class PersistenceAudioSystemTest extends PHPUnit_Framework_TestCase
 			$song_artist_index = $this->has->indexOfArtist($this->has->getArtist_index(0));
 	
 			$this->controller->createSong($song_title, $song_duration, $song_album_index, $song_artist_index);
-	
+				
 			$this->has = $this->persistence->loadDataFromStore();
 			$song_index = $this->has->indexOfSong($this->has->getSong_index(0));
 			$location_index = $this->has->indexOfLocation($this->has->getLocation_index(0));
 			$playlist_index = $this->has->indexOfPlaylist($this->has->getPlaylist_index(0));
 			$album_index = $this->has->indexOfAlbum($this->has->getAlbum_index(0));
 				
+			$this->controller->addSongToPlaylist($song_index, $playlist_index);
+			$this->has = $this->persistence->loadDataFromStore();
+			
 			$this->controller->assignPlaylistToLocation($playlist_index, $location_index);
 			$this->controller->assignAlbumToLocation($album_index, $location_index);
 			$this->controller->assignSongToLocation($song_index, $location_index);

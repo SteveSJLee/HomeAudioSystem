@@ -297,6 +297,9 @@ class Controller
 		elseif(!in_array($album, $has->getAlbums())){
 			$error .= "Album does not exist! ";
 		}
+		elseif(!$album->hasSongs()){
+			$error .= "Album cannot be empty";
+		}
 		if($location == null){
 			$error .= "Location must be selected! ";
 		}
@@ -329,6 +332,9 @@ class Controller
 		}
 		elseif(!in_array($playlist, $has->getPlaylists())){
 			$error .= "Playlist does not exist! ";
+		}
+		elseif(!$playlist->hasSongs()){
+			$error .= "Playlist cannot be empty";
 		}
 		if($location == null){
 			$error .= "Location must be selected! ";
