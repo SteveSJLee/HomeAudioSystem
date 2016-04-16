@@ -517,14 +517,18 @@ class Controller
 			else{
 				$has->getLocation_index($location_index)->setVolume('0');
 			}	
-			if(in_array($location, $has->getLocations()));{
-				$error .= "Location does not exist! ";
-			}
-		} else{
+//  			if(!in_array($location, $has->getLocations()));{
+//  				$error .= "Location does not exist! ";
+//  			}
+		} 
+		if($location == null){
 			$error .= "Location must be selected! ";
 		}
+		elseif(!in_array($location, $has->getLocations())){
+			$error .= "Location does not exist! ";
+		}
 		
-		if($error=""){
+		if($error == ""){
 			$pm->writeDataToStore($has);
 		}else{
 			throw new Exception(trim($error));
